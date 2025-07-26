@@ -13,10 +13,9 @@
     ./users.nix
     ./nvidia.nix
     ./gc.nix
+    ./sddm.nix
   ];
 
-  services.displayManager.sddm.enable = true;
-  services.xserver.enable = true;
   security.polkit.enable = true;
   xdg.portal = {
     enable = true;
