@@ -1,28 +1,25 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-./hyprland.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ./hardware-configuration.nix
+    ./hyprland.nix
+    ./nixPath.nix
+    ./users.nix
+  ];
 
-nix.nixPath = [
- "nixos-config=/home/alsesd/.config/nixos/configuration.nix"
-"nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-"/nix/var/nix/profiles/per-user/root/channels"
-];
-services.displayManager.sddm.enable = true;
-services.xserver.enable = true;
-security.polkit.enable = true;
-xdg.portal = {
-enable = true;
-extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
-};
+  services.displayManager.sddm.enable = true;
+  services.xserver.enable = true;
+  security.polkit.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [xdg-desktop-portal-hyprland];
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -66,12 +63,6 @@ extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.alsesd = {
-    isNormalUser = true;
-    description = "alsesd";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -79,18 +70,21 @@ extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  nixd
-  wget
-alejandra
-google-chrome
-git
-vscode
-kitty
-rofi-wayland
-waybar
-hyprlock
-hypridle
-hyprpolkitagent
+    nixd
+    wget
+    alejandra
+    google-chrome
+    git
+    vscode
+    kitty
+    rofi-wayland
+    waybar
+    hyprlock
+    hypridle
+    hyprpolkitagent
+    home-manager
+    discord
+    steam
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -119,5 +113,4 @@ hyprpolkitagent
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }
