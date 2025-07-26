@@ -63,8 +63,6 @@
     variant = "";
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
