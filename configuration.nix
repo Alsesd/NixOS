@@ -11,6 +11,7 @@
     ./hyprland.nix
     ./nixPath.nix
     ./users.nix
+    ./nvidia.nix
   ];
 
   services.displayManager.sddm.enable = true;
