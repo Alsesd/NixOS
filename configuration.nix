@@ -85,6 +85,7 @@
     discord
     steam
     xfce.thunar
+    fastfetch
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
