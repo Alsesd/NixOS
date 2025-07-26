@@ -12,6 +12,7 @@
     ./nixPath.nix
     ./users.nix
     ./nvidia.nix
+    ./gc.nix
   ];
 
   services.displayManager.sddm.enable = true;
@@ -86,6 +87,8 @@
     steam
     xfce.thunar
     fastfetch
+    gamescope
+    swww
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
