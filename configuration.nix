@@ -65,6 +65,9 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "archiver-3.5.1"
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -89,6 +92,7 @@
     gamescope
     swww
     pkgs.archiver
+    pkgs.ayugram-desktop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
