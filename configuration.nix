@@ -88,6 +88,7 @@
     fastfetch
     gamescope
     swww
+    pkgs.archiver
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
