@@ -14,6 +14,7 @@
     ./nvidia.nix
     ./gc.nix
     ./sddm.nix
+    ./autoupgrade.nix
   ];
 
   security.polkit.enable = true;
