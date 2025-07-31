@@ -15,6 +15,7 @@
     ./gc.nix
     ./sddm.nix
     ./autoupgrade.nix
+    ./virtualpc.nix
   ];
 
   security.polkit.enable = true;
@@ -28,7 +29,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -94,6 +95,8 @@
     swww
     pkgs.archiver
     pkgs.ayugram-desktop
+    file-roller
+    qbittorrent
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
