@@ -17,14 +17,14 @@
     ./sddm.nix
     ./autoupgrade.nix
     ./virtualpc.nix
-    ./home-manager/home.nix
+    ./home.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
   home-manager = {
     extraSpecialArgs = {inherit inputs;};
     users = {
-      alsesd = import ./home-manager/home.nix;
+      alsesd = import ./home.nix;
     };
   };
   security.polkit.enable = true;
