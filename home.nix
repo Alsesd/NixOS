@@ -6,6 +6,7 @@
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
   home.stateVersion = "25.05";
+  home-manager.backupFileExtension = "backup";
 
   home.packages = with pkgs; [
     pkgs.hello
