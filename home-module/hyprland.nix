@@ -9,7 +9,7 @@
     slurp
     swappy
     hyprpicker
-    wf-recorder
+    wf-recorderl
   ];
 
   wayland.windowManager.hyprland = {
