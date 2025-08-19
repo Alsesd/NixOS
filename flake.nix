@@ -35,6 +35,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.alsesd = import ./home.nix;
+            home-manager.backupFileExtension = "backup";
           }
         ];
       };
