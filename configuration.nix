@@ -16,6 +16,7 @@
     ./sddm.nix
     ./autoupgrade.nix
     ./virtualpc.nix
+    ./home.nix
   ];
 
   security.polkit.enable = true;
