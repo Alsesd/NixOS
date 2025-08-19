@@ -6,7 +6,7 @@
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
   home.stateVersion = "25.05";
-  home-manager.backupFileExtension = "backup";
+  #home-manager.backupFileExtension = "backup";
 
   home.packages = with pkgs; [
     pkgs.hello
@@ -114,24 +114,7 @@
       };
     };
 
-    # Firefox dark theme
-    firefox = {
-      enable = true;
-      profiles.default = {
-        settings = {
-          # Force dark theme
-          "ui.systemUsesDarkTheme" = 1;
-          "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
-
-          # Dark private browsing
-          "browser.theme.dark-private-browsing" = true;
-
-          # Dark developer tools
-          "devtools.theme" = "dark";
-
-          # Prefer dark content
-          "layout.css.prefers-color-scheme.content-override" = 0;
-        };
+ 
 
         userChrome = ''
           /* Dark scrollbars */
