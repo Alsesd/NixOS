@@ -106,7 +106,7 @@
     # VS Code dark theme
     vscode = {
       enable = true;
-      userSettings = {
+      profiles.default.userSettings = {
         "workbench.colorTheme" = "Default Dark Modern";
         "workbench.iconTheme" = "vs-minimal";
         "editor.theme" = "Default Dark Modern";
@@ -144,7 +144,7 @@
     # Kitty terminal dark theme
     kitty = {
       enable = true;
-      theme = "Tokyo Night"; # Popular dark theme
+      themeFile = "Tokyo Night"; # Popular dark theme
       settings = {
         background_opacity = "0.9";
         font_family = "FiraCode Nerd Font Mono";
