@@ -85,7 +85,7 @@
     vscode
     kitty
     rofi-wayland
-    waybar
+    #waybar
     hyprlock
     hypridle
     hyprpolkitagent
@@ -100,6 +100,10 @@
     file-roller
     qbittorrent
     obsidian
+    playerctl
+    pavucontrol
+    brightnessctl
+    networkmanager
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
