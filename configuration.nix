@@ -2,6 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
+  inputs,
   #config,
   pkgs,
   ...
@@ -16,9 +17,16 @@
     ./sddm.nix
     ./autoupgrade.nix
     ./virtualpc.nix
-    ./home.nix
+    ./home-manager/home.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
 
+  home-manager = {
+    extraSpecialArgs = {inherit inputs;};
+    users = {
+      alsesd = import ./home-manager/home.nix;
+    };
+  };
   security.polkit.enable = true;
   xdg.portal = {
     enable = true;
