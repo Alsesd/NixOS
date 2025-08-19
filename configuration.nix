@@ -70,6 +70,8 @@
   nixpkgs.config.permittedInsecurePackages = [
     "archiver-3.5.1"
   ];
+  #Flakes
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -96,6 +98,7 @@
     pkgs.ayugram-desktop
     file-roller
     qbittorrent
+    obsidian
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
