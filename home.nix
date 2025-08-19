@@ -114,17 +114,6 @@
       };
     };
 
- 
-
-        userChrome = ''
-          /* Dark scrollbars */
-          * {
-            scrollbar-color: #484848 #2b2b2b;
-          }
-        '';
-      };
-    };
-
     # Kitty terminal dark theme
     # kitty = {
     #  enable = true;
