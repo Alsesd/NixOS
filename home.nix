@@ -142,15 +142,15 @@
     };
 
     # Kitty terminal dark theme
-    kitty = {
-      enable = true;
-      themeFile = "Tokyo Night"; # Popular dark theme
-      settings = {
-        background_opacity = "0.9";
-        font_family = "FiraCode Nerd Font Mono";
-        font_size = 12;
-      };
-    };
+    # kitty = {
+    #  enable = true;
+    # themeFile = "Tokyo Night"; # Popular dark theme
+    #settings = {
+    # background_opacity = "0.9";
+    #font_family = "FiraCode Nerd Font Mono";
+    #font_size = 12;
+    #};
+    #};
 
     # Git with dark theme for delta (diff viewer)
     git = {
