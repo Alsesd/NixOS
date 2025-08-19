@@ -19,14 +19,26 @@
       monitor = [
         "eDP-1,1920x1080@60,0x0,1"
         "HDMI-A-4,1920x1080@144,1920x0,1"
-        ",highrr,auto,1"
-        ",highres,auto,1"
       ];
 
       # Environment variables
       env = [
         "XCURSOR_SIZE,24"
         "HYPRCURSOR_SIZE,24"
+        "XCURSOR_SIZE,24"
+        "HYPRCURSOR_SIZE,24"
+        "GDK_BACKEND,wayland,x11,*"
+        "QT_QPA_PLATFORM,wayland;xcb"
+        "CLUTTER_BACKEND,wayland"
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_DESKTOP,Hyprland"
+        "XDG_SESSION_TYPE,wayland"
+        "LIBVA_DRIVER_NAME,nvidia"
+        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        "NVD_BACKEND,direct"
+        "GSK_RENDERER,ngl"
+        "GBM_BACKEND,nvidia-drm"
+        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
       ];
 
       # Input configuration
@@ -60,10 +72,10 @@
         rounding = 10;
         active_opacity = 1.0;
         inactive_opacity = 1.0;
-        drop_shadow = true;
-        shadow_range = 4;
-        shadow_render_power = 3;
-        "col.shadow" = "rgba(1a1a1aee)";
+        #drop_shadow = true;
+        #shadow_range = 4;
+        #shadow_render_power = 3;
+        #"col.shadow" = "rgba(1a1a1aee)";
         blur = {
           enabled = true;
           size = 3;
