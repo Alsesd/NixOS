@@ -10,7 +10,7 @@
 
   colorScheme = nix-colors.colorSchemes.dracula;
 
-  programs.rofi = {
+  programms.rofi = {
     enable = true;
     theme = "dracula";
   };
