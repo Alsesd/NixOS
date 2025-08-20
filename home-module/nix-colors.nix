@@ -10,5 +10,12 @@
 
   colorScheme = nix-colors.colorSchemes.dracula;
 
-  enable = true;
+  programs.sddm = {
+    enable = true;
+    theme = "dracula";
+    programs.kitty = {
+      enable = true;
+      theme = "dracula";
+    };
+  };
 }
