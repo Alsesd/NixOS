@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  nix-colors,
   ...
 }: {
   imports = [
