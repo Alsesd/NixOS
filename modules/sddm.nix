@@ -4,7 +4,5 @@
     autoNumlock = true;
   };
   services.xserver.enable = true;
-  services.xserver.displayManager.sddm.theme = {
-    name = "pixel_sakura";
-  };
+  services.xserver.displayManager.sddm.theme = "pixel_sakura";
 }
