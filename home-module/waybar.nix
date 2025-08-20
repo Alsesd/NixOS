@@ -3,6 +3,8 @@
 , host
 , config
 , ...
+,  inputs.stylix.nixosModules.stylix
+
 }:
 let
   betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
