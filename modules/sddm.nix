@@ -15,8 +15,8 @@
         FormPosition = "left";
         Blur = "2.0";
       }
-      else if lib.hasSuffix "studio.png" config.stylix.image
-      then {
+      else lib.hasSuffix "studio.png" config.stylix.image
+       {
         Background = pkgs.fetchurl {
           url = "https://raw.githubusercontent.com/anotherhadi/nixy-wallpapers/refs/heads/main/wallpapers/studio.gif";
           sha256 = "sha256-qySDskjmFYt+ncslpbz0BfXiWm4hmFf5GPWF2NlTVB8=";
