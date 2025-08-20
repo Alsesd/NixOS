@@ -89,7 +89,6 @@
     hyprlock
     hypridle
     hyprpolkitagent
-    #home-manager
     discord
     steam
     xfce.thunar
@@ -100,7 +99,6 @@
     file-roller
     qbittorrent
     obsidian
-    pkgs.sddm-astronaut
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
