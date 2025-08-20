@@ -89,7 +89,7 @@
     hyprlock
     hypridle
     hyprpolkitagent
-    home-manager
+    #home-manager
     discord
     steam
     xfce.thunar
