@@ -2,12 +2,11 @@
   config,
   pkgs,
   inputs,
-  stylix,
   ...
 }: {
   imports = [
     ./home-module/waybar.nix
-    stylix.homeManagerModules.stylix
+    inputs.stylix.homeManagerModules.stylix
   ];
 
   #stylix.targets = {
