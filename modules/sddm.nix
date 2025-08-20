@@ -25,8 +25,5 @@
   services.xserver.enable = true;
   environment.systemPackages = with pkgs; [
     sddm-astronaut # Contains pixel_sakura theme
-    sddm-kcm # KDE configuration module for SDDM
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
   ];
 }
