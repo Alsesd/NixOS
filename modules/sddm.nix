@@ -65,7 +65,7 @@ in {
       enable = true;
       wayland.enable = true;
       theme = "sddm-astronaut-theme";
-      autonumlock = true;
+      autoNumlock = true;
     };
   };
 
