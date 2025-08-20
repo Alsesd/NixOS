@@ -9,12 +9,12 @@
     # inputs.stylix.homeManagerModules.stylix
   ];
 
-  stylix.targets = {
-    waybar.enable = false; # We have custom waybar config
-    kitty.enable = true;
-    rofi-wayland.enable = true;
-    vscode.enable = true;
-  };
+  #stylix.targets = {
+  #  waybar.enable = false; # We have custom waybar config
+  #  kitty.enable = true;
+  #  rofi-wayland.enable = true;
+  #  vscode.enable = true;
+  #};
 
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
