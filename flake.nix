@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url = "github:danth/stylix";
+    stylix.url = "github:nix-community/stylix";
 
     # Optional: Add nvf for better Neovim (we can add this later)
     # nvf.url = "github:notashelf/nvf";

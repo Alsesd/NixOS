@@ -53,7 +53,14 @@
     # Enable theming for various applications
     targets = {
       gtk.enable = true;
-      console.enable = true;
+      nixos-icons.enable = true;
+      plymouth.enable = true;
     };
+  };
+
+  # Enable Plymouth for beautiful boot screen
+  boot.plymouth = {
+    enable = true;
+    theme = "spinner";
   };
 }
