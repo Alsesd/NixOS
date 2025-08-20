@@ -6,6 +6,7 @@
   imports = [
     # ./home-module/hyprland.nix
     ./home-module/waybar.nix
+    ./home-module/stylix.nix
   ];
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
