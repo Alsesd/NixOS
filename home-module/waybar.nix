@@ -109,17 +109,17 @@ in
             };
             on-click = "sleep 0.1 && pavucontrol";
           };
-          "custom/exit" = {
-            tooltip = false;
-            format = "";
-            on-click = "sleep 0.1 && wlogout";
-          };
-          "custom/startmenu" = {
-            tooltip = false;
-            format = "";
-            # exec = "rofi -show drun";
-            on-click = "sleep 0.1 && rofi-launcher";
-          };
+          #"custom/exit" = {
+          #  tooltip = false;
+          #  format = "";
+          #  on-click = "sleep 0.1 && wlogout";
+          #};
+          #"custom/startmenu" = {
+          #  tooltip = false;
+          #  format = "";
+          # exec = "rofi -show drun";
+          #  on-click = "sleep 0.1 && rofi-launcher";
+          #};
           "custom/hyprbindings" = {
             tooltip = false;
             format = "󱕴";
