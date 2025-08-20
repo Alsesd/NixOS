@@ -36,7 +36,7 @@
   in {
     nixosConfigurations = {
       myNixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs nix-colors system;};
+        specialArgs = {inherit inputs system;};
 
         modules = [
           ./configuration.nix
@@ -50,7 +50,7 @@
             home-manager.backupFileExtension = "backup";
 
             # Pass inputs to home-manager
-            home-manager.extraSpecialArgs = {inherit inputs;};
+            home-manager.extraSpecialArgs = {inherit inputs nix-colors;};
           }
         ];
       };
