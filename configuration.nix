@@ -98,6 +98,7 @@
     file-roller
     qbittorrent
     obsidian
+    pkgs.base16-schemes
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
