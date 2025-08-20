@@ -13,6 +13,7 @@
       url = "github:nix-community/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-colors.url = "github:misterio77/nix-colors";
 
     # Optional: Add nvf for better Neovim (we can add this later)
     # nvf.url = "github:notashelf/nvf";
@@ -35,7 +36,7 @@
   in {
     nixosConfigurations = {
       myNixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs system;};
+        specialArgs = {inherit inputs system nix-colors;};
 
         modules = [
           ./configuration.nix
