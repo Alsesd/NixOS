@@ -9,10 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix = {
-      url = "github:nix-community/stylix/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-colors.url = "github:misterio77/nix-colors";
 
     # Optional: Add nvf for better Neovim (we can add this later)
@@ -23,7 +19,6 @@
     self,
     nixpkgs,
     home-manager,
-    stylix,
     nix-colors,
     ...
   } @ inputs: let
@@ -41,8 +36,6 @@
 
         modules = [
           ./configuration.nix
-          stylix.nixosModules.stylix
-          ./home-module/nix-colors.nix
           # Home Manager integration
           home-manager.nixosModules.home-manager
           {
