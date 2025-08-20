@@ -1,5 +1,5 @@
 {
-  description = "My favourite NixOS flake";
+  description = "My favourite NixOS flake with Stylix";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
@@ -8,13 +8,18 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     stylix.url = "github:danth/stylix/release-25.05";
+
+    # Optional: Add nvf for better Neovim (we can add this later)
+    # nvf.url = "github:notashelf/nvf";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    stylix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -31,13 +36,20 @@
 
         modules = [
           ./configuration.nix
+
+          # Stylix system module
+          stylix.nixosModules.stylix
+
+          # Home Manager integration
           home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.alsesd = import ./home.nix;
             home-manager.backupFileExtension = "backup";
+
+            # Pass inputs to home-manager
+            home-manager.extraSpecialArgs = {inherit inputs;};
           }
         ];
       };

@@ -1,13 +1,26 @@
-_: {
+# Create this as ./home-modules/stylix.nix
+{...}: {
   stylix.targets = {
-    waybar.enable = false;
-    rofi.enable = false;
-    hyprland.enable = false;
-    hyprlock.enable = false;
-    ghostty.enable = false;
-    qt = {
-      enable = true;
-      platform = "qtct";
-    };
+    # Enable most applications
+    alacritty.enable = true;
+    bat.enable = true;
+    btop.enable = true;
+    fzf.enable = true;
+    gtk.enable = true;
+    kitty.enable = true;
+
+    # Disable specific ones we want to configure manually (like ZaneyOS)
+    waybar.enable = false; # We'll use custom waybar config
+    rofi.enable = false; # We'll use custom rofi config
+    hyprland.enable = false; # We'll configure Hyprland manually
+    hyprlock.enable = false; # Manual hyprlock config
+
+    # Qt theming
+    qt.enable = true;
+
+    # Terminal and shell theming
+    fish.enable = true;
+    zsh.enable = true;
+    bash.enable = true;
   };
 }
