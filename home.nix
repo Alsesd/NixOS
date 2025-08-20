@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  stylix,
   ...
 }: {
   imports = [
