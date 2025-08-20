@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  import = [inputs.stylix.nixosModules.stylix];
+  imports = [inputs.stylix.nixosModules.stylix];
   stylix.base16Scheme = pkgs.base16-schemes.tokyo-night-moon;
   stylix.image = ./wallpaper.jpg;
 }
