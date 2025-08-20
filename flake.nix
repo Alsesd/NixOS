@@ -41,7 +41,7 @@
         modules = [
           ./configuration.nix
           stylix.nixosModules.stylix
-          nix-colors.homeManagerModules.default
+          
           # Home Manager integration
           home-manager.nixosModules.home-manager
           {
@@ -49,9 +49,16 @@
             home-manager.useUserPackages = true;
             home-manager.users.alsesd = import ./home.nix;
             home-manager.backupFileExtension = "backup";
+            nix-colors.homeManagerModules.default
 
             # Pass inputs to home-manager
-            home-manager.extraSpecialArgs = {inherit inputs nix-colors;};
+            home-manager.extraSpecialArgs = {inherit inputs ;};
+            homeConfigurations = {
+  "foo@bar" = home-manager.lib.homeManagerConfiguration {
+    # ...
+    extraSpecialArgs = { inherit nix-colors; };
+  };
+};
           }
         ];
       };
