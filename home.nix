@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ./home-modules/waybar.nix
   ];
 
   home.username = "alsesd";

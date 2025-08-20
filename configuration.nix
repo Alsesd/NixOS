@@ -86,7 +86,7 @@
     vscode
     kitty
     rofi-wayland
-    waybar
+    #waybar
     hyprlock
     hypridle
     hyprpolkitagent
