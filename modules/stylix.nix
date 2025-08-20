@@ -1,4 +1,5 @@
 {pkgs, ...}: {
-  stylix.base16Scheme = "${pkgs.base-schemes}/share/themes/tokyo-night-moon.yaml";
+  import = [inputs.stylix.nixosModules.stylix];
+  stylix.base16Scheme = pkgs.base16-schemes.tokyo-night-moon;
   stylix.image = ./wallpaper.jpg;
 }
