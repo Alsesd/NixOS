@@ -3,13 +3,12 @@
   host,
   ...
 }: let
-  stylix.image = "/home/alsesd/.config/nixos/modules/wallpaper/wallpaper.jpg
-  ";
+  inherit (import ./variables.nix) stylixImage;
 in {
   # Styling Options
   stylix = {
     enable = true;
-    image = stylix.image;
+    image = stylixImage;
     #base16Scheme = {
     # base00 = "282936";
     # base01 = "3a3c4e";
