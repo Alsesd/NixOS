@@ -16,7 +16,6 @@
     ./modules/gc.nix
     ./modules/sddm.nix
     ./modules/autoupgrade.nix
-    ./modules/virtualpc.nix
     ./modules/stylix.nix
   ];
 
