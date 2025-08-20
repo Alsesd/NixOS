@@ -8,16 +8,15 @@
   ...
 }: {
   imports = [
-    ./hardware-configuration.nix
-    ./hyprland.nix
-    ./nixPath.nix
-    ./users.nix
-    ./nvidia.nix
-    ./gc.nix
-    ./sddm.nix
-    ./autoupgrade.nix
-    ./virtualpc.nix
-    ./stylix.nix
+    ./modules/hardware-configuration.nix
+    ./modules/hyprland.nix
+    ./modules/nixPath.nix
+    ./modules/users.nix
+    ./modules/nvidia.nix
+    ./modules/gc.nix
+    ./modules/sddm.nix
+    ./modules/autoupgrade.nix
+    ./modules/virtualpc.nix
   ];
 
   security.polkit.enable = true;

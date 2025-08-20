@@ -9,8 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url = "github:nix-community/stylix/release-25.05";
-
     # Optional: Add nvf for better Neovim (we can add this later)
     # nvf.url = "github:notashelf/nvf";
   };
@@ -36,9 +34,6 @@
 
         modules = [
           ./configuration.nix
-
-          # Stylix system module
-          stylix.nixosModules.stylix
 
           # Home Manager integration
           home-manager.nixosModules.home-manager

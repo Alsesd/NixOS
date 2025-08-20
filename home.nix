@@ -5,10 +5,6 @@
   ...
 }: {
   imports = [
-    # We'll add these modules step by step
-    # ./home-modules/hyprland.nix
-    # ./home-modules/waybar.nix
-    ./home-modules/stylix.nix
   ];
 
   home.username = "alsesd";
