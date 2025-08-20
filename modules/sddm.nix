@@ -11,22 +11,23 @@
     # Or install and use a custom theme package
     #settings = {
     #  Theme = {
-        # Current working directory for theme files
-     #   CursorTheme = "Bibata-Modern-Ice";
-     #   CursorSize = 24;
+    # Current working directory for theme files
+    #   CursorTheme = "Bibata-Modern-Ice";
+    #   CursorSize = 24;
 
-        # Enable Qt theming
+    # Enable Qt theming
     #    EnableAvatars = true;
-     #   UserPicture = true;
-     # };
-   # };
-  #};
+    #   UserPicture = true;
+    # };
+    # };
+    #};
 
-  services.xserver.enable = true;
-  environment.systemPackages = with pkgs; [
-    sddm-astronaut # Contains pixel_sakura theme
-    kdePackages.sddm-kcm # KDE configuration module for SDDM
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
-  ];
+    services.xserver.enable = true;
+    environment.systemPackages = with pkgs; [
+      sddm-astronaut # Contains pixel_sakura theme
+      kdePackages.sddm-kcm # KDE configuration module for SDDM
+      libsForQt5.qt5.qtquickcontrols2
+      libsForQt5.qt5.qtgraphicaleffects
+    ];
+  };
 }
