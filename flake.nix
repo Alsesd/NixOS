@@ -41,6 +41,7 @@
         modules = [
           ./configuration.nix
           stylix.nixosModules.stylix
+          nix-colors.homeManagerModules.default
           # Home Manager integration
           home-manager.nixosModules.home-manager
           {
