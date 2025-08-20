@@ -5,8 +5,6 @@
   ...
 }: {
   stylix = {
-    enable = true;
-
     # Base16 theme - you can change this to any theme you like
     #base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
 

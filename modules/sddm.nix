@@ -9,18 +9,18 @@
     theme = "pixel_sakura";
 
     # Or install and use a custom theme package
-    settings = {
-      Theme = {
+    #settings = {
+    #  Theme = {
         # Current working directory for theme files
-        CursorTheme = "Bibata-Modern-Ice";
-        CursorSize = 24;
+     #   CursorTheme = "Bibata-Modern-Ice";
+     #   CursorSize = 24;
 
         # Enable Qt theming
-        EnableAvatars = true;
-        UserPicture = true;
-      };
-    };
-  };
+    #    EnableAvatars = true;
+     #   UserPicture = true;
+     # };
+   # };
+  #};
 
   services.xserver.enable = true;
   environment.systemPackages = with pkgs; [
