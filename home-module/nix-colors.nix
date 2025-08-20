@@ -5,6 +5,5 @@
 
   colorScheme = nix-colors.colorSchemes.dracula;
 
-  programs.colorScheme.name = "dracula";
-  programs.colorScheme.colors = nix-colors.colorSchemes.dracula.colors;
+  programs.colorScheme.enable = true;
 }
