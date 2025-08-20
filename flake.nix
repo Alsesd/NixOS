@@ -24,6 +24,7 @@
     nixpkgs,
     home-manager,
     stylix,
+    nix-colors
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -36,7 +37,7 @@
   in {
     nixosConfigurations = {
       myNixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs system;};
+        specialArgs = {inherit inputs nix-colors system;};
 
         modules = [
           ./configuration.nix
@@ -52,12 +53,7 @@
 
             # Pass inputs to home-manager
             home-manager.extraSpecialArgs = {inherit inputs;};
-            homeConfigurations = {
-              "foo@bar" = home-manager.lib.homeManagerConfiguration {
-                # ...
-                extraSpecialArgs = {inherit nix-colors;};
-              };
-            };
+           
           }
         ];
       };
