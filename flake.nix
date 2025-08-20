@@ -1,5 +1,5 @@
 {
-  description = "My favourite NixOS flake with Stylix";
+  description = "My favourite NixOS";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
@@ -17,7 +17,6 @@
     self,
     nixpkgs,
     home-manager,
-    stylix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
