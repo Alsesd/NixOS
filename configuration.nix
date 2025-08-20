@@ -16,7 +16,7 @@
     ./modules/gc.nix
     ./modules/sddm.nix
     ./modules/autoupgrade.nix
-    ./modules/stylix.nix
+    #./modules/stylix.nix
   ];
 
   security.polkit.enable = true;
