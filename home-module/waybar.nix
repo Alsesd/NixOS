@@ -8,7 +8,11 @@
     pavucontrol
     networkmanager
     brightnessctl
+    font-awesome
+    jetbrains-mono
+    (nerdfonts.override {fonts = ["JetBrainsMono" "FiraCode"];})
   ];
+  fonts.fontconfig.enable = true;
 
   programs.waybar = {
     enable = true;

@@ -17,7 +17,6 @@
     ./sddm.nix
     ./autoupgrade.nix
     ./virtualpc.nix
-    inputs.stylix.nixosModules.stylix
   ];
 
   security.polkit.enable = true;
