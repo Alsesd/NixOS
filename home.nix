@@ -6,9 +6,16 @@
 }: {
   imports = [
     ./home-module/waybar.nix
-    inputs.stylix.homeManagerModules.stylix
+    nix-colors.homeManagerModules.default
   ];
 
+  colorScheme = nix-colors.colorSchemes.dracula;
+
+  programs = {
+    vscode.enable = true;
+    kitty.enable = true;
+    rofi-wayland.enable = true;
+  };
   #stylix.targets = {
   #  waybar.enable = false; # We have custom waybar config
   #  kitty.enable = true;
