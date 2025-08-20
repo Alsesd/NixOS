@@ -11,10 +11,15 @@
     font-awesome
     jetbrains-mono
   ];
+
+  # Enable fontconfig
   fonts.fontconfig.enable = true;
 
   programs.waybar = {
     enable = true;
+    # Use Hyprland-enabled waybar
+    package = pkgs.waybar.override {withHyprland = true;};
+
     settings = {
       mainBar = {
         layer = "top";
@@ -24,9 +29,10 @@
 
         modules-left = [
           "hyprland/workspaces"
-          "hyprland/mode"
-          "hyprland/scratchpad"
-          "custom/media"
+          # Remove unsupported modules
+          # "hyprland/mode"
+          # "hyprland/scratchpad"
+          # Remove problematic custom/media for now
         ];
 
         modules-center = [
@@ -42,9 +48,9 @@
           "memory"
           "temperature"
           "backlight"
-          "keyboard-state"
+          # Remove keyboard-state due to permission issues
           "battery"
-          "battery#bat2"
+          # Remove battery#bat2 since BAT2 doesn't exist
           "clock"
           "tray"
         ];
@@ -65,28 +71,6 @@
             "focused" = "";
             "default" = "";
           };
-        };
-
-        "keyboard-state" = {
-          numlock = true;
-          capslock = true;
-          format = "{name} {icon}";
-          format-icons = {
-            locked = "";
-            unlocked = "";
-          };
-        };
-
-        "hyprland/mode" = {
-          format = "<span style=\"italic\">{}</span>";
-        };
-
-        "hyprland/scratchpad" = {
-          format = "{icon} {count}";
-          show-empty = false;
-          format-icons = ["" ""];
-          tooltip = true;
-          tooltip-format = "{app}: {title}";
         };
 
         mpd = {
@@ -165,16 +149,12 @@
           format-icons = ["" "" "" "" ""];
         };
 
-        "battery#bat2" = {
-          bat = "BAT2";
-        };
-
         network = {
           format-wifi = "{essid} ({signalStrength}%) ";
           format-ethernet = "{ipaddr}/{cidr} ";
           tooltip-format = "{ifname} via {gwaddr} ";
           format-linked = "{ifname} (No IP) ";
-          format-disconnected = "Disconnected ⚠";
+          format-disconnected = "Disconnected ⚠ ";
           format-alt = "{ifname}: {ipaddr}/{cidr}";
         };
 
@@ -195,18 +175,6 @@
             default = ["" "" ""];
           };
           on-click = "pavucontrol";
-        };
-
-        "custom/media" = {
-          format = "{icon} {}";
-          return-type = "json";
-          max-length = 40;
-          format-icons = {
-            spotify = "";
-            default = "🎜";
-          };
-          escape = true;
-          exec = "$HOME/.config/waybar/mediaplayer.py 2> /dev/null";
         };
       };
     };
@@ -417,22 +385,6 @@
           padding: 0 5px;
           margin: 0 5px;
           min-width: 16px;
-      }
-
-      #keyboard-state {
-          background: #97e1ad;
-          color: #000000;
-          padding: 0 0px;
-          margin: 0 5px;
-          min-width: 16px;
-      }
-
-      #keyboard-state > label {
-          padding: 0 5px;
-      }
-
-      #keyboard-state > label.locked {
-          background: rgba(0, 0, 0, 0.2);
       }
     '';
   };
