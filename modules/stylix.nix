@@ -8,7 +8,7 @@ in {
   # Styling Options
   stylix = {
     enable = true;
-    image = "./modules/wallpaper/wallpaper.img";
+    image = "/home/alsesd/.config/nixos/modules/wallpaper/wallpaper.img";
     #base16Scheme = {
     # base00 = "282936";
     # base01 = "3a3c4e";
