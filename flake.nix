@@ -9,6 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Optional: Add nvf for better Neovim (we can add this later)
     # nvf.url = "github:notashelf/nvf";
   };
@@ -17,6 +22,7 @@
     self,
     nixpkgs,
     home-manager,
+    stylix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -33,7 +39,7 @@
 
         modules = [
           ./configuration.nix
-
+          stylix.nixosModules.stylix
           # Home Manager integration
           home-manager.nixosModules.home-manager
           {
