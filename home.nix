@@ -8,13 +8,6 @@
     ./home-module/waybar.nix
   ];
 
-  stylix.targets = {
-    waybar.enable = true; # We have custom waybar config
-    kitty.enable = true;
-    rofi-wayland.enable = true;
-    vscode.enable = true;
-  };
-
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
   home.stateVersion = "25.05";
