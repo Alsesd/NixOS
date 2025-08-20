@@ -51,20 +51,16 @@
       size = 24;
     };
 
-    # What to theme (we'll be selective like ZaneyOS)
+    # What to theme at system level
     targets = {
-      # Enable most targets
+      # System-level targets only
       grub.enable = true;
       nixos-icons.enable = true;
       plymouth.enable = true;
       console.enable = true;
 
-      # Desktop environment targets
-      gtk.enable = true;
-
-      # We'll handle these manually for better control
+      # Keep GNOME disabled if not using it
       gnome.enable = false;
-      hyprland.enable = false; # We'll configure manually
     };
 
     # Transparency settings
