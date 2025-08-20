@@ -32,7 +32,7 @@
   in {
     nixosConfigurations = {
       myNixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs stylix system;};
+        specialArgs = {inherit inputs system;};
 
         modules = [
           ./configuration.nix
