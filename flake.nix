@@ -19,7 +19,6 @@
     self,
     nixpkgs,
     home-manager,
-    nix-colors,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -32,7 +31,7 @@
   in {
     nixosConfigurations = {
       myNixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs nix-colors system;};
+        specialArgs = {inherit inputs system;};
 
         modules = [
           ./configuration.nix

@@ -2,12 +2,11 @@
   config,
   pkgs,
   inputs,
-  nix-colors,
   ...
 }: {
   imports = [
     ./home-module/waybar.nix
-    nix-colors.homeManagerModules.default
+    inputs.nix-colors.homeManagerModules.default
   ];
 
   colorScheme = nix-colors.colorSchemes.dracula;
