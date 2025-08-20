@@ -41,6 +41,8 @@
               home-manager.useUserPackages = true;
               home-manager.users.alsesd = import ./home.nix;
               home-manager.backupFileExtension = "backup";
+
+              # Pass inputs to home-manager
               home-manager.extraSpecialArgs = {inherit inputs;};
             }
           ];
