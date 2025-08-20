@@ -6,7 +6,8 @@
 }: {
   imports = [
     ./home-module/waybar.nix
-    ./home-module/stylix.nix
+    #./home-module/stylix.nix
+    ./home-module/nix-colors.nix
   ];
 
   home.username = "alsesd";
@@ -31,30 +32,30 @@
 
   # Simplified - let Stylix handle most theming
   # Keep minimal manual config for compatibility
-  gtk = {
-    enable = true;
-    # Let Stylix handle theme selection
-    # Remove manual theme configuration
-  };
+  #gtk = {
+  #enable = true;
+  # Let Stylix handle theme selection
+  # Remove manual theme configuration
+  #};
 
-  qt = {
-    enable = true;
-    # Let Stylix handle Qt theming
-  };
+  #qt = {
+  #enable = true;
+  # Let Stylix handle Qt theming
+  #};
 
   # Clean up manual session variables - Stylix handles these
-  home.sessionVariables = {
-    # Keep any non-theme related variables
-    # Remove theme-related variables
-  };
+  #home.sessionVariables = {
+  # Keep any non-theme related variables
+  # Remove theme-related variables
+  #};
 
   # Simplified program configurations
-  programs = {
-    rofi = {
-      enable = true;
-      # Stylix will theme this automatically
-    };
-  };
+  #programs = {
+  #  rofi = {
+  #    enable = true;
+  #    # Stylix will theme this automatically
+  #  };
+  #};
 
   # Remove manual XDG theme configurations - Stylix handles these
   # Keep this minimal during transition
