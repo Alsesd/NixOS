@@ -13,7 +13,6 @@
     waybar.enable = false; # We have custom waybar config
     kitty.enable = true;
     rofi-wayland.enable = true;
-    gtk.enable = true;
     vscode.enable = true;
   };
 
