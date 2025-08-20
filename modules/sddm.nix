@@ -6,7 +6,7 @@
 
     # Let Stylix handle the theming, but you can still use a custom theme
     # Comment out the theme line to let Stylix theme SDDM
-    theme = "pixel_sakura";
+    # theme = "pixel_sakura";
 
     # Or install and use a custom theme package
     settings = {
