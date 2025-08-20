@@ -17,8 +17,6 @@
 
   programs.waybar = {
     enable = true;
-    # Use Hyprland-enabled waybar
-    package = pkgs.waybar.override {withHyprland = true;};
 
     settings = {
       mainBar = {
