@@ -9,7 +9,7 @@
     inputs.nix-colors.homeManagerModules.default
   ];
 
-  colorScheme = nix-colors.colorSchemes.dracula;
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
 
   programs = {
     vscode.enable = true;
