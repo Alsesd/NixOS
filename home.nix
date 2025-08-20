@@ -8,6 +8,12 @@
     ./home-module/waybar.nix
   ];
 
+  home-manager.sharedModules = [
+    {
+      stylix.targets.xyz.enable = false;
+    }
+  ];
+
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
   home.stateVersion = "25.05";
