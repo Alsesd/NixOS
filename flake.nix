@@ -20,6 +20,7 @@
     nixpkgs,
     home-manager,
     stylix,
+    inputs,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -36,7 +37,7 @@
 
         modules = [
           ./configuration.nix
-          input.stylix.nixosModules.stylix
+          inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
