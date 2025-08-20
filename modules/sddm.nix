@@ -36,26 +36,26 @@
         DropdownBackgroundColor = "#${foreground}";
         HighlightBackgroundColor = "#${textColor}";
       }
-      else {
-        FormPosition = "left";
-        Blur = "4.0";
-        Background = "${toString config.stylix.image}";
-        HeaderTextColor = "#${textColor}";
-        DateTextColor = "#${textColor}";
-        TimeTextColor = "#${textColor}";
-        LoginFieldTextColor = "#${textColor}";
-        PasswordFieldTextColor = "#${textColor}";
-        UserIconColor = "#${textColor}";
-        PasswordIconColor = "#${textColor}";
-        WarningColor = "#${textColor}";
-        LoginButtonBackgroundColor = "#${config.stylix.base16Scheme.base01}";
-        SystemButtonsIconsColor = "#${textColor}";
-        SessionButtonTextColor = "#${textColor}";
-        VirtualKeyboardButtonTextColor = "#${textColor}";
-        DropdownBackgroundColor = "#${config.stylix.base16Scheme.base01}";
-        HighlightBackgroundColor = "#${textColor}";
-        FormBackgroundColor = "#${config.stylix.base16Scheme.base01}";
-      };
+      #else {
+      #  FormPosition = "left";
+      #  Blur = "4.0";
+      # Background = "${toString config.stylix.image}";
+      # HeaderTextColor = "#${textColor}";
+      #  DateTextColor = "#${textColor}";
+      #  TimeTextColor = "#${textColor}";
+      #  LoginFieldTextColor = "#${textColor}";
+      #  PasswordFieldTextColor = "#${textColor}";
+      #  UserIconColor = "#${textColor}";
+      #  PasswordIconColor = "#${textColor}";
+      # WarningColor = "#${textColor}";
+      # LoginButtonBackgroundColor = "#${config.stylix.base16Scheme.base01}";
+      #  SystemButtonsIconsColor = "#${textColor}";
+      #  SessionButtonTextColor = "#${textColor}";
+      #  VirtualKeyboardButtonTextColor = "#${textColor}";
+      #  DropdownBackgroundColor = "#${config.stylix.base16Scheme.base01}";
+      #  HighlightBackgroundColor = "#${textColor}";
+      #  FormBackgroundColor = "#${config.stylix.base16Scheme.base01}";
+      #};
   };
 in {
   services.displayManager = {
