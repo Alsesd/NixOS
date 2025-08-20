@@ -36,7 +36,7 @@
   in {
     nixosConfigurations = {
       myNixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs system nix-colors;};
+        specialArgs = {inherit inputs system nix-colors};
 
         modules = [
           ./configuration.nix
