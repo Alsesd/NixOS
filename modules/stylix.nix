@@ -3,7 +3,7 @@
   host,
   ...
 }: let
-  stylixImage = "/home/alsesd/.config/nixos/wallpaper/wallpaper.jpg";
+  stylixImage = "./wallpaper/my-wallpaper.jpg";
 in {
   # Styling Options
   stylix = {
