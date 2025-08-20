@@ -42,7 +42,7 @@
         modules = [
           ./configuration.nix
           stylix.nixosModules.stylix
-
+          ./home-module/nix-colors.nix
           # Home Manager integration
           home-manager.nixosModules.home-manager
           {

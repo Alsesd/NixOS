@@ -7,7 +7,6 @@
   imports = [
     ./home-module/waybar.nix
     #./home-module/stylix.nix
-    ./home-module/nix-colors.nix
   ];
 
   home.username = "alsesd";
