@@ -10,8 +10,12 @@
 
   colorScheme = nix-colors.colorSchemes.dracula;
 
-  programms.rofi = {
-    enable = true;
-    theme = "dracula";
+  programs = {
+    kitty = {
+      enable = true;
+      settings = {
+        colorScheme = "Dracula";
+      };
+    };
   };
 }
