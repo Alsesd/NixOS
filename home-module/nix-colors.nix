@@ -10,5 +10,5 @@
 
   colorScheme = nix-colors.colorSchemes.dracula;
 
-  programs.enable = true;
+  enable = true;
 }
