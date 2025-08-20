@@ -14,7 +14,7 @@
   programs = {
     vscode.enable = true;
     kitty.enable = true;
-    rofi-wayland.enable = true;
+    rofi.enable = true;
   };
   #stylix.targets = {
   #  waybar.enable = false; # We have custom waybar config
