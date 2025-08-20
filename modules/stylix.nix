@@ -52,7 +52,6 @@
 
     # Enable theming for various applications
     targets = {
-      gnome.enable = true;
       gtk.enable = true;
       nixos-icons.enable = true;
       plymouth.enable = true;
