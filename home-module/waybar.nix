@@ -10,7 +10,8 @@
     brightnessctl
     font-awesome
     jetbrains-mono
-    (nerdfonts.override {fonts = ["JetBrainsMono" "FiraCode"];})
+    pkgs.nerd-fonts.JetBrainsMono
+    pkgs.nerd-fonts.FiraCode
   ];
   fonts.fontconfig.enable = true;
 

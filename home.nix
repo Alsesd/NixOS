@@ -119,20 +119,6 @@
     #};
     #};
 
-    # Git with dark theme for delta (diff viewer)
-    git = {
-      enable = true;
-      delta = {
-        enable = true;
-        options = {
-          features = "decorations";
-          syntax-theme = "Monokai Extended Dark";
-          plus-style = "syntax #003800";
-          minus-style = "syntax #3f0001";
-        };
-      };
-    };
-
     # Rofi dark theme
     rofi = {
       enable = true;
