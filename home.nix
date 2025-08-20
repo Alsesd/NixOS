@@ -108,16 +108,6 @@
 
   # Application-specific dark theme configurations
   programs = {
-    # VS Code dark theme
-    vscode = {
-      enable = true;
-      profiles.default.userSettings = {
-        "workbench.colorTheme" = "Default Dark Modern";
-        "workbench.iconTheme" = "vs-minimal";
-        "editor.theme" = "Default Dark Modern";
-      };
-    };
-
     # Kitty terminal dark theme
     # kitty = {
     #  enable = true;
