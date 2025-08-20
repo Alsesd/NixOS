@@ -9,20 +9,6 @@
     #theme = "pixel_sakura";
   };
 
-  # Or install and use a custom theme package
-  settings = {
-    Theme = {
-      # Current working directory for theme files
-      CursorTheme = "Bibata-Modern-Ice";
-      CursorSize = 24;
-
-      # Enable Qt theming
-      EnableAvatars = true;
-      UserPicture = true;
-    };
-  };
-  #};
-
   services.xserver.enable = true;
   environment.systemPackages = with pkgs; [
     sddm-astronaut # Contains pixel_sakura theme
