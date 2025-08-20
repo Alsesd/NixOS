@@ -6,8 +6,27 @@
 }: {
   imports = [
     ./home-module/waybar.nix
-    #./home-module/stylix.nix
+    inputs.stylix.homeManagerModules.stylix
   ];
+
+  stylix.targets = {
+    waybar.enable = false; # We have custom waybar config
+    kitty.enable = true;
+    rofi.enable = true;
+    gtk.enable = true;
+    firefox.enable = true;
+    vscode.enable = true;
+  };
+  hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        ignore_dbus_inhibit = false;
+        lock_cmd = "hyprlock";
+      };
+    };
+  };
 
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";

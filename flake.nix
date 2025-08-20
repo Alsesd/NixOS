@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-colors.url = "github:misterio77/nix-colors";
+    stylix.url = "github:danth/stylix";
 
     # Optional: Add nvf for better Neovim (we can add this later)
     # nvf.url = "github:notashelf/nvf";
@@ -19,7 +19,7 @@
     self,
     nixpkgs,
     home-manager,
-    nix-colors,
+    stylix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -32,11 +32,11 @@
   in {
     nixosConfigurations = {
       myNixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs nix-colors system;};
+        specialArgs = {inherit inputs system;};
 
         modules = [
           ./configuration.nix
-          # Home Manager integration
+          stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
