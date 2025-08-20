@@ -6,7 +6,7 @@
 }: {
   imports = [
     ./home-module/waybar.nix
-    # inputs.stylix.homeManagerModules.stylix
+    inputs.stylix.homeManagerModules.stylix
   ];
 
   #stylix.targets = {
