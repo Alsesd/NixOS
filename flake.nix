@@ -19,6 +19,7 @@
     self,
     nixpkgs,
     home-manager,
+    nix-colors,
     ...
   } @ inputs: let
     system = "x86_64-linux";
