@@ -6,7 +6,7 @@
   ...
 }: let
   betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
-  clock24h = true;
+  inherit (import ../../../hosts/${host}/variables.nix) clock24h;
 in
   with lib; {
     # Configure & Theme Waybar
@@ -17,22 +17,26 @@ in
         {
           layer = "top";
           position = "top";
+          margin-top = 6;
+          margin-left = 6;
+          margin-right = 6;
           modules-center = ["hyprland/workspaces"];
           modules-left = [
             "custom/startmenu"
-            "hyprland/window"
-            "pulseaudio"
             "cpu"
             "memory"
+            "temperature"
+            "disk"
+            "hyprland/window"
             "idle_inhibitor"
           ];
           modules-right = [
+            "pulseaudio"
+            "battery"
             "custom/hyprbindings"
             "custom/notification"
-            "custom/exit"
-            "battery"
-            "tray"
             "clock"
+            "tray"
           ];
 
           "hyprland/workspaces" = {
@@ -44,6 +48,14 @@ in
             };
             on-scroll-up = "hyprctl dispatch workspace e+1";
             on-scroll-down = "hyprctl dispatch workspace e-1";
+          };
+          "pulseaudio/slider" = {
+            min = 0;
+            max = 100;
+            orientation = "horizontal";
+          };
+          "temperature" = {
+            format = " {temperatureC}°C ";
           };
           "clock" = {
             format =
@@ -62,7 +74,8 @@ in
           };
           "memory" = {
             interval = 5;
-            format = " {}%";
+            icon-size = 20;
+            format = " {}%";
             tooltip = true;
           };
           "cpu" = {
@@ -71,7 +84,7 @@ in
             tooltip = true;
           };
           "disk" = {
-            format = " {free}";
+            format = "󱛟 {free}";
             tooltip = true;
           };
           "network" = {
@@ -111,6 +124,7 @@ in
               ];
             };
             on-click = "sleep 0.1 && pavucontrol";
+            scroll-step = 2;
           };
           "custom/exit" = {
             tooltip = false;
@@ -189,45 +203,47 @@ in
             border-radius: 0px;
             border: none;
             min-height: 0px;
+            margin: 0px;
           }
           window#waybar {
-            background: rgba(0,0,0,0);
+            background: #${config.lib.stylix.colors.base00};
+            padding: 2px;
+            border-radius: 4px;
           }
           #workspaces {
             color: #${config.lib.stylix.colors.base00};
-            background: #${config.lib.stylix.colors.base01};
-            margin: 4px 4px;
+            background: #${config.lib.stylix.colors.base00};
+            border: 2px solid #${config.lib.stylix.colors.base0B};
+            margin: 2px 4px;
             padding: 5px 5px;
-            border-radius: 16px;
+            border-radius: 4px;
           }
           #workspaces button {
             font-weight: bold;
             padding: 0px 5px;
             margin: 0px 3px;
             border-radius: 16px;
-            color: #${config.lib.stylix.colors.base00};
-            background: linear-gradient(45deg, #${config.lib.stylix.colors.base08}, #${config.lib.stylix.colors.base0D});
-            opacity: 0.5;
-            transition: ${betterTransition};
+            color: #${config.lib.stylix.colors.base0B};
+            background: #${config.lib.stylix.colors.base00};
+
           }
           #workspaces button.active {
             font-weight: bold;
             padding: 0px 5px;
             margin: 0px 3px;
-            border-radius: 16px;
+            border-radius: 4px;
             color: #${config.lib.stylix.colors.base00};
-            background: linear-gradient(45deg, #${config.lib.stylix.colors.base08}, #${config.lib.stylix.colors.base0D});
+            background: #${config.lib.stylix.colors.base0B};
             transition: ${betterTransition};
             opacity: 1.0;
             min-width: 40px;
           }
           #workspaces button:hover {
             font-weight: bold;
-            border-radius: 16px;
+            border-radius: 4px;
             color: #${config.lib.stylix.colors.base00};
-            background: linear-gradient(45deg, #${config.lib.stylix.colors.base08}, #${config.lib.stylix.colors.base0D});
+            background: #${config.lib.stylix.colors.base0B};
             opacity: 0.8;
-            transition: ${betterTransition};
           }
           tooltip {
             background: #${config.lib.stylix.colors.base00};
@@ -237,45 +253,52 @@ in
           tooltip label {
             color: #${config.lib.stylix.colors.base08};
           }
-          #window, #pulseaudio, #cpu, #memory, #idle_inhibitor {
+          #window, #pulseaudio, #temperature, #cpu, #memory, #idle_inhibitor, #disk {
             font-weight: bold;
-            margin: 4px 0px;
-            margin-left: 7px;
+            margin: 2px 0px;
+            margin-right: 7px;
             padding: 0px 18px;
             background: #${config.lib.stylix.colors.base00};
-            color: #${config.lib.stylix.colors.base08};
-            border-radius: 8px 8px 8px 8px;
+            color: #${config.lib.stylix.colors.base0B};
+            border: 2px solid #${config.lib.stylix.colors.base0B};
+            border-radius: 4px;
           }
           #idle_inhibitor {
           font-size: 28px;
           }
           #custom-startmenu {
-            color: #${config.lib.stylix.colors.base0B};
-            background: #${config.lib.stylix.colors.base02};
+            color: #${config.lib.stylix.colors.base00};
+            background: #${config.lib.stylix.colors.base0B};
             font-size: 22px;
-            margin: 0px;
             padding: 0px 5px 0px 5px;
-            border-radius: 16px 16px 16px 16px;
+            border-radius: 4px;
+            padding: 0px 8px;
+            margin: 0px;
+            margin-right:7px;
+
           }
           #custom-hyprbindings, #network, #battery,
-          #custom-notification, #tray, #custom-exit {
+          #custom-notification, #clock, #custom-exit {
             /* font-weight: bold; */
             font-size: 20px;
             background: #${config.lib.stylix.colors.base00};
-            color: #${config.lib.stylix.colors.base08};
-            margin: 4px 0px;
+            color: #${config.lib.stylix.colors.base0B};
+            margin: 2px 0px;
             margin-right: 7px;
-            border-radius: 8px 8px 8px 8px;
-            padding: 0px 18px;
+            border: 2px solid #${config.lib.stylix.colors.base0B};
+            border-radius: 4px;
+            padding: 0px 12px;
           }
-          #clock {
+          #tray{
             font-weight: bold;
             font-size: 16px;
-            color: #0D0E15;
-            background: linear-gradient(90deg, #${config.lib.stylix.colors.base0B}, #${config.lib.stylix.colors.base02});
             margin: 0px;
-            padding: 0px 5px 0px 5px;
-            border-radius: 16px 16px 16px 16px;
+            background: #${config.lib.stylix.colors.base0B};
+            color: #${config.lib.stylix.colors.base00};
+            border: 2px solid #${config.lib.stylix.colors.base0B};
+            padding: 0px 18px;
+            margin: 0px 0px;
+            border-radius: 4px;
           }
         ''
       ];
