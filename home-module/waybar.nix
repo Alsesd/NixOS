@@ -82,7 +82,7 @@ in
             format-ethernet = " {bandwidthDownOctets}";
             format-wifi = "{icon} {signalStrength}%";
             format-disconnected = "󰤮";
-            tooltip = false;
+            tooltip = true;
           };
           "tray" = {
             spacing = 12;
