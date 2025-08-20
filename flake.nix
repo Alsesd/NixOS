@@ -9,45 +9,45 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-colors.url = "github:nix-community/stylix";
-
-    # Optional: Add nvf for better Neovim (we can add this later)
-    # nvf.url = "github:notashelf/nvf";
-  };
-
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    stylix,
-    ...
-  } @ inputs: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      config = {
-        allowUnfree = true;
-      };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-  in {
-    nixosConfigurations = {
-      myNixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs system;};
 
-        modules = [
-          ./configuration.nix
-          inputs.stylix.nixosModules.stylix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.alsesd = import ./home.nix;
-            home-manager.backupFileExtension = "backup";
+    outputs = {
+      self,
+      nixpkgs,
+      home-manager,
+      stylix,
+      ...
+    } @ inputs: let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+      };
+    in {
+      nixosConfigurations = {
+        myNixos = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs system;};
 
-            # Pass inputs to home-manager
-            home-manager.extraSpecialArgs = {inherit inputs;};
-          }
-        ];
+          modules = [
+            ./configuration.nix
+            inputs.stylix.nixosModules.stylix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.alsesd = import ./home.nix;
+              home-manager.backupFileExtension = "backup";
+
+              # Pass inputs to home-manager
+              home-manager.extraSpecialArgs = {inherit inputs;};
+            }
+          ];
+        };
       };
     };
   };

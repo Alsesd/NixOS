@@ -6,16 +6,8 @@
 }: {
   imports = [
     ./home-module/waybar.nix
-    inputs.nix-colors.homeManagerModules.default
   ];
 
-  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
-
-  programs = {
-    vscode.enable = true;
-    kitty.enable = true;
-    rofi.enable = true;
-  };
   #stylix.targets = {
   #  waybar.enable = false; # We have custom waybar config
   #  kitty.enable = true;
