@@ -7,10 +7,10 @@
   imports = [
     ./home-module/waybar.nix
   ];
-  programs.rofi.enable = true;
-  programs.vscode.enable = true;
-  programs.kitty.enable = true;
-  programs.waybar.enable = true;
+  #programs.rofi.enable = true;
+  #rograms.vscode.enable = true;
+  #programs.kitty.enable = true;
+  #programs.waybar.enable = true;
 
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
