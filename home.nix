@@ -17,6 +17,7 @@
     (writeShellScriptBin "my-hello" ''
       echo "Hello, ${config.home.username}!"
     '')
+    waybar
 
     # Remove manual theme packages - Stylix will handle these
     # We'll keep them for now during transition
