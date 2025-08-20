@@ -12,7 +12,6 @@
     stylix = {
       url = "github:nix-community/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
-      stylixImage = "./modules/wallpaper/wallpaper.img";
     };
 
     # Optional: Add nvf for better Neovim (we can add this later)
