@@ -86,7 +86,6 @@
     vscode
     kitty
     rofi-wayland
-    #waybar
     hyprlock
     hypridle
     hyprpolkitagent
@@ -101,6 +100,7 @@
     file-roller
     qbittorrent
     obsidian
+    pkgs.sddm-astronaut
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
