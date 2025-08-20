@@ -35,7 +35,7 @@
         VirtualKeyboardButtonTextColor = "#${textColor}";
         DropdownBackgroundColor = "#${foreground}";
         HighlightBackgroundColor = "#${textColor}";
-      }
+      };
       #else {
       #  FormPosition = "left";
       #  Blur = "4.0";
@@ -56,7 +56,6 @@
       #  HighlightBackgroundColor = "#${textColor}";
       #  FormBackgroundColor = "#${config.stylix.base16Scheme.base01}";
       #};
-  };
 in {
   services.displayManager = {
     sddm = {
