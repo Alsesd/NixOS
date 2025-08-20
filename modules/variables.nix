@@ -69,7 +69,7 @@
   # This will set your color palette
   # Default background
   # Add new images to ~/zaneyos/wallpapers
-  stylixImage = ./wallpapers/wallpaper.jpg;
+  stylixImage = /home/alsesd/.config/nixos/wallpapers/wallpaper.jpg;
   #stylixImage = ../../wallpapers/AnimeGirlNightSky.jpg;
   #stylixImage = ../../wallpapers/Anime-Purple-eyes.png;
   #stylixImage = ../../wallpapers/Rainnight.jpg;
