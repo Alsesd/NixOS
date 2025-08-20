@@ -6,8 +6,8 @@
 }: {
   imports = [
     ./home-module/waybar.nix
+    ./home-module/stylix.nix
   ];
-  stylix.targets.xyz.enable = false;
 
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
