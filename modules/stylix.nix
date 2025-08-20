@@ -7,10 +7,10 @@
 }: {
   stylix = {
     # Base16 theme - you can change this to any theme you like
-    #base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
 
     # Or you can use a custom wallpaper and let Stylix generate colors from it
-    image = ./wallpaper/wallpaper.jpg;
+    #image = ./wallpaper/wallpaper.jpg;
 
     # Cursor theme
     cursor = {
