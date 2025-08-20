@@ -24,7 +24,7 @@
     nixpkgs,
     home-manager,
     stylix,
-    nix-colors
+    nix-colors,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -53,7 +53,6 @@
 
             # Pass inputs to home-manager
             home-manager.extraSpecialArgs = {inherit inputs;};
-           
           }
         ];
       };
