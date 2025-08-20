@@ -13,40 +13,38 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+  };
 
-    outputs = {
-      self,
-      nixpkgs,
-      home-manager,
-      ...
-    } @ inputs: let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config = {
-          allowUnfree = true;
-        };
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      inherit system;
+      config = {
+        allowUnfree = true;
       };
-    in {
-      nixosConfigurations = {
-        myNixos = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs system;};
+    };
+  in {
+    nixosConfigurations = {
+      myNixos = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs system;};
 
-          modules = [
-            ./configuration.nix
-            inputs.stylix.nixosModules.stylix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.alsesd = import ./home.nix;
-              home-manager.backupFileExtension = "backup";
-
-              # Pass inputs to home-manager
-              home-manager.extraSpecialArgs = {inherit inputs;};
-            }
-          ];
-        };
+        modules = [
+          ./configuration.nix
+          inputs.stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.alsesd = import ./home.nix;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = {inherit inputs;};
+          }
+        ];
       };
     };
   };
