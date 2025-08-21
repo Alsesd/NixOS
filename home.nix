@@ -9,7 +9,7 @@
   ];
 
   #programs.hyprland.enable = true;
-  programs.nixos-icons.enable = true;
+  #programs.nixos-icons.enable = true;
   programs.waybar.enable = true;
   programs.cava.enable = true;
   programs.rofi.enable = true;

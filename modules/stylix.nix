@@ -34,8 +34,8 @@
 
   # Opacity settings
   stylix.opacity = {
-    applications = 0.8;
-    terminal = 0.8;
+    applications = 0.75;
+    terminal = 0.7;
     desktop = 1.0;
     popups = 0.9;
   };
