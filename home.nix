@@ -6,6 +6,9 @@
 }: {
   imports = [
     ./home-module/waybar.nix
+    ./home-module/bash.nix
+    ./home-module/kitty.nix
+    ./home-module/fastfetch.nix
   ];
 
   #programs.hyprland.enable = true;
