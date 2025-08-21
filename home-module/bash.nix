@@ -12,7 +12,7 @@
       flake-check = "nix flake check";
       size = "du -ah --max-depth=1 | sort -h";
       ip-show = "curl ifconfig.me";
-      nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos";
+      nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos && reboot";
       nixos-test = "sudo nixos-rebuild test --upgrade --flake ~/.config/nixos/.#myNixos";
       ngc = "nix-collect-garbage";
       # Bluetooth
