@@ -44,8 +44,8 @@ in {
         splash = false;
 
         # Single wallpaper setup (we'll override this for dual monitor)
-        preload = ["eDP-1,${cfg.image_2}" "HDMI-A-4,${cfg.image}"];
-        wallpaper = ["eDP-1,${cfg.image_2}" "HDMI-A-4,${cfg.image}"];
+        preload = ["${cfg.image}" "~/.config/nixos/modules/wallpaper2.png"];
+        wallpaper = ["HDMI-A-4,${cfg.image}" "eDP-1,~/.config/nixos/modules/wallpaper2.png"];
       };
     };
   };

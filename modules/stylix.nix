@@ -10,7 +10,6 @@
 
     # Primary wallpaper - Stylix will use this for color scheme and default wallpaper
     image = ./wallpaper1.jpg;
-    image_2 = ./wallpaper2.png;
     polarity = "dark";
 
     # Font configuration
