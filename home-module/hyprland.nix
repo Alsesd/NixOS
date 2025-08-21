@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     wayland
     xwayland
@@ -10,23 +12,21 @@
     hypridle
     hyprlock
     xfce.thunar
-    hyprshot# Screenshot utility
+    hyprshot # Screenshot utility
     jq # JSON parser and manipulator
     grim # Screenshot tool
     slurp # Screenshot selector
     brightnessctl
   ];
-  
+
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-
       ### MONITORS
       #monitor = <name>, <resolution@refresh_rate>, <position>
-      monitor = [ 
+      monitor = [
         "eDP-1,1920x1080@60, 0x0, 1"
         "HDMI-A-4, 1920x1080@144, 1920x0, 1"
-      
       ];
 
       ### MY PROGRAMS
@@ -35,15 +35,15 @@
       "$fileManager" = "thunar";
       "$menu" = "rofi-wayland -show drun";
 
-      ### AUTOSTART 
-      exec-once = [ 
+      ### AUTOSTART
+      exec-once = [
         "waybar"
         "hyprpaper"
         "hypridle"
       ];
 
       ### ENVIRONMENT VARIABLES
-      env = [ 
+      env = [
         " GDK_BACKEND,wayland,x11,*
           QT_QPA_PLATFORM,wayland;xcb
           CLUTTER_BACKEND,wayland
@@ -56,15 +56,15 @@
           GSK_RENDERER,ngl
           GBM_BACKEND,nvidia-drm
           __GLX_VENDOR_LIBRARY_NAME,nvidia"
-            ];
+      ];
 
       ### LOOK AND FEEL
       general = {
         gaps_in = 5;
         gaps_out = 20;
         border_size = 2;
-        "col.active_border" = "rgb(9ca2ae)";
-        "col.inactive_border" = "rgb(0e1420)";
+        #"col.active_border" = "rgb(9ca2ae)";
+        #"col.inactive_border" = "rgb(0e1420)";
         resize_on_border = false;
         allow_tearing = false;
         layout = "dwindle";
@@ -76,7 +76,7 @@
           enabled = true;
           range = 4;
           render_power = 3;
-          color = "rgba(1a1a1aee)";
+          #color = "rgba(1a1a1aee)";
         };
         blur = {
           enabled = true;
@@ -89,7 +89,7 @@
       animations = {
         enabled = "yes, please :)";
 
-        bezier = [ 
+        bezier = [
           "easeOutQuint,0.23,1,0.32,1"
           "easeInOutCubic,0.65,0.05,0.36,1"
           "linear,0,0,1,1"
@@ -97,7 +97,7 @@
           "quick,0.15,0,0.1,1"
         ];
 
-        animation = [ 
+        animation = [
           "global, 1, 10, default"
           "border, 1, 5.39, easeOutQuint"
           "windows, 1, 4.79, easeOutQuint"
@@ -115,7 +115,6 @@
           "workspacesIn, 1, 1.21, almostLinear, fade"
           "workspacesOut, 1, 1.94, almostLinear, fade"
         ];
-
       };
 
       dwindle = {
@@ -131,7 +130,7 @@
         force_default_wallpaper = 0;
         disable_hyprland_logo = true;
       };
-  
+
       ### INPUT
       input = {
         kb_layout = "us, ru";
@@ -145,21 +144,17 @@
       };
 
       gestures = {
-            workspace_swipe = false;
-          };
+        workspace_swipe = false;
+      };
 
-      cursor = {
       no_hardware_cursors = true;
       enable_hyprcursor = true;
-      warp_on_change_workspace = 2;
-      no_warps = true ;
-      }
+      no_warps = true;
 
       ### KEYBINDINGS
 
-      let 
-        {mainMod = "SUPER";};
-      bind = [ 
+      "$mainMod" = "Super";
+      bind = [
         "$mainMod, Return, exec, $terminal"
         "$mainMod, D, exec, $menu"
         "$mainMod, B, exec, $browser "
@@ -202,33 +197,32 @@
         "$mainMod, mouse_up, workspace, e-1"
       ];
 
-      bindm = [ 
+      bindm = [
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
       ];
-      };
-#      bindel = [ 
-#        ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
-#        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
-#        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-#        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-#       ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
-#        ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-   #   ];
-
- #     bindl = [ 
- #       ", XF86AudioNext, exec, playerctl next"
- #       ", XF86AudioPause, exec, playerctl play-pause"
- #       ", XF86AudioPlay, exec, playerctl play-pause"
- #       ", XF86AudioPrev, exec, playerctl previous"
- #     ];
-
-      ### WINDOWS AND WORKSPACES
-
-      windowrulev2 = [ 
-        "suppressevent maximize, class:.*"
-        "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0 "
-      ];
-
     };
-  }
+    #      bindel = [
+    #        ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
+    #        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
+    #        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    #        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+    #       ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
+    #        ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+    #   ];
+
+    #     bindl = [
+    #       ", XF86AudioNext, exec, playerctl next"
+    #       ", XF86AudioPause, exec, playerctl play-pause"
+    #       ", XF86AudioPlay, exec, playerctl play-pause"
+    #       ", XF86AudioPrev, exec, playerctl previous"
+    #     ];
+
+    ### WINDOWS AND WORKSPACES
+
+    #windowrulev2 = [
+    #  "suppressevent maximize, class:.*"
+    #  "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0 "
+    #];
+  };
+}
