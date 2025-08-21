@@ -5,7 +5,7 @@
       mainBar = {
         layer = "top";
         position = "top";
-        height = 40;
+        height = 38;
         spacing = 0;
 
         modules-left = ["custom/info" "cpu" "memory"];
@@ -100,7 +100,7 @@
 
         clock = {
           interval = 1;
-          timezone = "Europe/Rome";
+          timezone = "time.timeZone";
           format = "<span color='#dcdfe1'>  </span> {:%H:%M} ";
           tooltip = true;
           tooltip-format = "{:L%A %d/%m/%Y}";
@@ -146,9 +146,10 @@
 
       /* Waybar */
       #waybar {
-        background-color: rgba(0, 0, 0, 0);
+        background-color: transparent;
         border: none;
         box-shadow: none;
+
       }
 
       /* Workspaces */
