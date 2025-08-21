@@ -179,10 +179,10 @@
         "$mainMod, F, fullscreen, "
         "$mainMod, shift, P, exec, hyprshot -m "
         "$SUPER_SHIFT, l, exec, hyprlock"
-        "$mainMod, h, movefocus, l"
-        "$mainMod, l, movefocus, r"
-        "$mainMod, k, movefocus, u"
-        "$mainMod, j, movefocus, d"
+        "$mainMod, left, movefocus, l"
+        "$mainMod, right, movefocus, r"
+        "$mainMod, up, movefocus, u"
+        "$mainMod, down, movefocus, d"
         "$mainMod, 1, workspace, 1"
         "$mainMod, 2, workspace, 2"
         "$mainMod, 3, workspace, 3"
@@ -193,6 +193,13 @@
         "$mainMod, 8, workspace, 8"
         "$mainMod, 9, workspace, 9"
         "$mainMod, 0, workspace, 10"
+
+        # Swap windows
+        "$mainMod ALT, left, swapwindow, l"
+        "$mainMod ALT, right, swapwindow, r"
+        "$mainMod ALT, up, swapwindow, u"
+        "$mainMod ALT, down, swapwindow, d"
+
         "$mainMod SHIFT, 1, movetoworkspace, 1"
         "$mainMod SHIFT, 2, movetoworkspace, 2"
         "$mainMod SHIFT, 3, movetoworkspace, 3"
@@ -207,6 +214,8 @@
         "$mainMod SHIFT, S, movetoworkspace, special:magic"
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
+        "$mainMod, tab, workspace, e+1"
+        "$mainMod, SHIFT, tab, workspace, e-1"
       ];
 
       bindm = [
