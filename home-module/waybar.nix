@@ -20,7 +20,7 @@
 
         modules-left = ["pulseaudio" "battery" "clock"];
         modules-center = ["hyprland/workspaces"];
-        modules-right = ["cpu" "custom/temperature" "memory" "network" "custom/info"];
+        modules-right = ["tray" "cpu" "memory" "network" "custom/info"];
 
         "custom/info" = {
           format = "     ";
@@ -110,7 +110,7 @@
 
         clock = {
           interval = 1;
-          timezone = "Europe/Rome";
+          timezone = "Europe/Kiev";
           format = "<span color='#dcdfe1'>  </span> {:%H:%M} ";
           tooltip = true;
           tooltip-format = "{:L%A %d/%m/%Y}";
@@ -167,8 +167,7 @@
             }
           /* Workspaces */
           #workspaces,
-          #window,
-          #tray{
+          #window{
             background-color: #323844;
             padding: 4px 6px;
             margin-top: 6px;
@@ -185,7 +184,7 @@
 
           #bluetooth,
           #clock,
-          #custom-info
+          #custom-info,
           #custom-power,
           #memory{
             background-color: #323844;
@@ -198,6 +197,7 @@
           }
 
           #network,
+          #tray,
           #custom-lock,
           #pulseaudio{
             background-color: #323844;
