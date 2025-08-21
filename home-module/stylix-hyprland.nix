@@ -44,8 +44,8 @@ in {
         splash = false;
 
         # Single wallpaper setup (we'll override this for dual monitor)
-        preload = ["${cfg.image}"];
-        wallpaper = [",${cfg.image}"];
+        preload = ["eDP-1,${cfg.image_2}" "HDMI-A-4,${cfg.image}"];
+        wallpaper = ["eDP-1,${cfg.image_2}" "HDMI-A-4,${cfg.image}"];
       };
     };
   };
