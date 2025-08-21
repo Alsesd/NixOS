@@ -7,11 +7,16 @@
   imports = [
     ./home-module/waybar.nix
   ];
-  programs.rofi.enable = true;
-  programs.kitty.enable = true;
-  programs.waybar.enable = true;
-  programs.ayugram-desktop = true;
 
+  stylix.targets.hyprland.enable = true;
+  stylix.targets.nixos-icons.enable = true;
+  stylix.targets.waybar.enable = true;
+  stylix.targets.cava.rainbow.enable = true;
+  stylix.targets.rofi.enable = true;
+  stylix.targets.kitty = {
+    enable = true;
+    variant256Colors = true;
+  };
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
   home.stateVersion = "25.05";

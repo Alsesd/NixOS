@@ -77,7 +77,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    nixd
     wget
     alejandra
     google-chrome
@@ -99,6 +98,8 @@
     qbittorrent
     obsidian
     pkgs.base16-schemes
+    pkgs.nixd
+    cava
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
