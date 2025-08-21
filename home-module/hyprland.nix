@@ -17,7 +17,10 @@
     slurp # Screenshot selector
     brightnessctl
   ];
-
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [xdg-desktop-portal-hyprland];
+  };
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
@@ -32,7 +35,7 @@
       "$terminal" = "kitty";
       "$browser" = "google-chrome-stable";
       "$fileManager" = "thunar";
-      "$menu" = "rofi-wayland -show drun";
+      "$menu" = "rofi -show drun";
 
       ### AUTOSTART
       exec-once = [
@@ -43,18 +46,18 @@
 
       ### ENVIRONMENT VARIABLES
       env = [
-        " GDK_BACKEND,wayland,x11,*
-          QT_QPA_PLATFORM,wayland;xcb
-          CLUTTER_BACKEND,wayland
-          XDG_CURRENT_DESKTOP,Hyprland
-          XDG_SESSION_DESKTOP,Hyprland
-          XDG_SESSION_TYPE,wayland
-          LIBVA_DRIVER_NAME,nvidia
-          __GLX_VENDOR_LIBRARY_NAME,nvidia
-          NVD_BACKEND,direct
-          GSK_RENDERER,ngl
-          GBM_BACKEND,nvidia-drm
-          __GLX_VENDOR_LIBRARY_NAME,nvidia"
+        "GDK_BACKEND,wayland,x11,*
+         QT_QPA_PLATFORM,wayland;xcb
+         CLUTTER_BACKEND,wayland
+         XDG_CURRENT_DESKTOP,Hyprland
+         XDG_SESSION_DESKTOP,Hyprland
+         XDG_SESSION_TYPE,wayland
+         LIBVA_DRIVER_NAME,nvidia
+         __GLX_VENDOR_LIBRARY_NAME,nvidia
+         NVD_BACKEND,direct
+         GSK_RENDERER,ngl
+         GBM_BACKEND,nvidia-drm
+         __GLX_VENDOR_LIBRARY_NAME,nvidia"
       ];
 
       ### LOOK AND FEEL
@@ -147,7 +150,6 @@
       };
 
       no_hardware_cursors = true;
-      enable_hyprcursor = true;
       no_warps = true;
 
       ### KEYBINDINGS

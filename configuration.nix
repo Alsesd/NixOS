@@ -9,7 +9,6 @@
 }: {
   imports = [
     ./modules/hardware-configuration.nix
-    ./modules/hyprland.nix
     ./modules/nixPath.nix
     ./modules/users.nix
     ./modules/nvidia.nix
@@ -20,10 +19,6 @@
   ];
 
   security.polkit.enable = true;
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [xdg-desktop-portal-hyprland];
-  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
