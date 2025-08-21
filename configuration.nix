@@ -83,13 +83,10 @@
     git
     vscode
     kitty
-    rofi-wayland
-    hyprlock
-    hypridle
-    hyprpolkitagent
+
     discord
     steam
-    xfce.thunar
+
     fastfetch
     gamescope
     swww

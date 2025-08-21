@@ -10,6 +10,7 @@
     ./home-module/kitty.nix
     ./home-module/fastfetch.nix
     ./home-module/starship.nix
+    ./home-module/hyprland.nix
   ];
 
   #programs.hyprland.enable = true;
