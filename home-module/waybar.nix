@@ -8,6 +8,7 @@
     pavucontrol # For pulseaudio right-click
     blueman # For bluetooth click
     wlogout # For power button
+    lm_sensors # For temperature
   ];
   programs.waybar = {
     enable = true;
@@ -20,7 +21,7 @@
 
         modules-left = ["pulseaudio" "battery" "clock"];
         modules-center = ["hyprland/workspaces"];
-        modules-right = ["tray" "cpu" "memory" "network" "custom/info"];
+        modules-right = ["" "" "custom/temperature" "cpu" "memory" "network" "custom/info"];
 
         "custom/info" = {
           format = "     ";
@@ -198,6 +199,7 @@
 
           #network,
           #tray,
+          #custom-temperature,
           #custom-lock,
           #pulseaudio{
             background-color: #323844;
@@ -209,7 +211,7 @@
             border-width: 0px;
           }
 
-          #custom-temperature,
+
           #custom-reboot,
           #battery,
           #backlight,
