@@ -17,12 +17,11 @@
     slurp # Screenshot selector
     brightnessctl
   ];
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [xdg-desktop-portal-hyprland];
-  };
+
   wayland.windowManager.hyprland = {
     enable = true;
+    withUWSM = true;
+    xwayland.enable = true;
     settings = {
       ### MONITORS
       #monitor = <name>, <resolution@refresh_rate>, <position>
