@@ -3,32 +3,29 @@
   pkgs,
   ...
 }: {
-  # Install all Hyprland-related packages
+  # Install Hyprland ecosystem packages (excluding hyprpaper - Stylix handles it)
   home.packages = with pkgs; [
     # Core Wayland/Hyprland
     wayland
     xwayland
 
-    # Hyprland ecosystem
+    # Hyprland ecosystem (hyprpaper excluded - managed by Stylix)
     rofi-wayland
     hyprpolkitagent
     hypridle
     hyprlock
     hyprshot
-    hyprpaper
 
     # File manager and utilities
     xfce.thunar
 
     # Screenshot and media tools
-    jq # JSON parser and manipulator
-    grim # Screenshot tool
-    slurp # Screenshot selector
-    brightnessctl # Brightness control
-
-    # Audio control (for media keys)
-    wireplumber # For wpctl commands
-    playerctl # For media control
+    jq
+    grim
+    slurp
+    brightnessctl
+    wireplumber
+    playerctl
   ];
 
   # Hyprland window manager configuration
@@ -38,7 +35,6 @@
 
     settings = {
       ### MONITORS
-      #monitor = <name>, <resolution@refresh_rate>, <position>
       monitor = [
         "eDP-1,1920x1080@60, 0x0, 1"
         "HDMI-A-4, 1920x1080@160, 1920x0, 1"
@@ -53,7 +49,7 @@
       ### AUTOSTART
       exec-once = [
         "waybar"
-        "hyprpaper"
+        "hyprpaper" # Stylix will configure this
         "hypridle"
       ];
 
@@ -70,19 +66,19 @@
         "NVD_BACKEND,direct"
         "GSK_RENDERER,ngl"
         "GBM_BACKEND,nvidia-drm"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
       ];
 
-      ### LOOK AND FEEL
+      ### LOOK AND FEEL - Stylix will handle colors automatically
       general = {
         gaps_in = 5;
         gaps_out = 20;
         border_size = 2;
-        #"col.active_border" = "rgb(9ca2ae)";
-        #"col.inactive_border" = "rgb(0e1420)";
         resize_on_border = false;
         allow_tearing = false;
         layout = "dwindle";
+        # Colors handled by Stylix:
+        # "col.active_border" will be set to colors.base0D
+        # "col.inactive_border" will be set to colors.base03
       };
 
       decoration = {
@@ -91,7 +87,7 @@
           enabled = true;
           range = 4;
           render_power = 3;
-          #color = "rgba(1a1a1aee)";
+          # shadow.color will be set by Stylix to colors.base00 with 99 alpha
         };
         blur = {
           enabled = true;
@@ -143,7 +139,8 @@
 
       misc = {
         force_default_wallpaper = 0;
-        disable_hyprland_logo = true;
+        # disable_hyprland_logo will be set by Stylix automatically
+        # background_color will be set by Stylix to colors.base00
       };
 
       ### INPUT
@@ -168,7 +165,6 @@
       };
 
       ### KEYBINDINGS
-
       "$mainMod" = "Super";
       bind = [
         "$mainMod, Return, exec, $terminal"
@@ -181,8 +177,8 @@
         "$mainMod, P, pseudo, # dwindle"
         "$mainMod, N, togglesplit, # dwindle"
         "$mainMod, F, fullscreen, "
-        "$mainMod, shift, S, exec, hyprshot -m region # Region screenshot"
-        "$SUPER_SHIFT, l, exec, hyprlock # Lock screen with Hyprlock"
+        "$mainMod, shift, S, exec, hyprshot -m region"
+        "$SUPER_SHIFT, l, exec, hyprlock"
         "$mainMod, h, movefocus, l"
         "$mainMod, l, movefocus, r"
         "$mainMod, k, movefocus, u"
@@ -217,60 +213,34 @@
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
       ];
-
-      # Keep exactly as commented in original - these are your media keys
-      #bindel = [
-      #  ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
-      #  ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
-      #  ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-      #  ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-      #  ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
-      #  ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-      #];
-
-      #bindl = [
-      #  ", XF86AudioNext, exec, playerctl next"
-      #  ", XF86AudioPause, exec, playerctl play-pause"
-      #  ", XF86AudioPlay, exec, playerctl play-pause"
-      #  ", XF86AudioPrev, exec, playerctl previous"
-      #];
-
-      ### WINDOWS AND WORKSPACES
-
-      #windowrulev2 = [
-      #  "suppressevent maximize, class:.*"
-      #  "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0 "
-      #];
     };
   };
 
-  # Services for Hyprland ecosystem
-  services = {
-    hypridle = {
-      enable = true;
-      settings = {
-        general = {
-          after_sleep_cmd = "hyprctl dispatch dpms on";
-          ignore_dbus_inhibit = false;
-          lock_cmd = "hyprlock";
-        };
-
-        listener = [
-          {
-            timeout = 900;
-            on-timeout = "hyprlock";
-          }
-          {
-            timeout = 1200;
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
-          }
-        ];
+  # Hypridle service
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        ignore_dbus_inhibit = false;
+        lock_cmd = "hyprlock";
       };
+
+      listener = [
+        {
+          timeout = 900;
+          on-timeout = "hyprlock";
+        }
+        {
+          timeout = 1200;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+      ];
     };
   };
 
-  # XDG Desktop Portal configuration for home-manager
+  # XDG Desktop Portal
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -278,4 +248,6 @@
     ];
     config.common.default = "hyprland";
   };
+
+  # DO NOT configure services.hyprpaper here - Stylix handles it
 }

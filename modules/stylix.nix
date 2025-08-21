@@ -1,31 +1,24 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{pkgs, ...}: {
   stylix = {
     enable = true;
 
+    # Enable home-manager integration
     homeManagerIntegration = {
       autoImport = true;
       followSystem = true;
     };
 
-    # You can uncomment this if you want to use a specific color scheme
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-lakeside.yaml";
-
+    # Primary wallpaper - Stylix will use this for color scheme and default wallpaper
     image = ./wallpaper1.jpg;
     polarity = "dark";
 
-    # Fixed hyprpaper configuration
-    targets.hyprpaper.enable = true;
-
-    cursor = {
-      package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Ice";
-      size = 18;
+    # Enable Hyprland target which includes hyprpaper support
+    targets = {
+      hyprland.enable = true;
+      hyprpaper.enable = true;
     };
 
+    # Font configuration
     fonts = {
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;
@@ -47,6 +40,14 @@
       };
     };
 
+    # Cursor configuration
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 18;
+    };
+
+    # Opacity settings
     opacity = {
       applications = 0.75;
       terminal = 0.7;
