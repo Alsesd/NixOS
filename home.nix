@@ -8,9 +8,9 @@
     ./home-module/waybar.nix
   ];
   programs.rofi.enable = true;
-  programs.vscode.enable = true;
   programs.kitty.enable = true;
   programs.waybar.enable = true;
+  programs.ayugram-desktop = true;
 
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
