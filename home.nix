@@ -13,11 +13,6 @@
     ./home-module/hyprland.nix
   ];
 
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-    xwayland.enable = true;
-  };
   home.username = "alsesd";
   home.homeDirectory = "/home/alsesd";
   home.stateVersion = "25.05";
