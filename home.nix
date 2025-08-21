@@ -18,7 +18,14 @@
   home.stateVersion = "25.05";
 
   home.packages = with pkgs; [
-    waybar
+    google-chrome
+    discord
+    ayugram-desktop
+    steam
+    gamescope
+    vscode
+    obsidian
+    qbittorrent
   ];
 
   xdg.configFile = {

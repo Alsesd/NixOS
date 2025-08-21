@@ -3,24 +3,39 @@
   pkgs,
   ...
 }: {
+  # Install all Hyprland-related packages
   home.packages = with pkgs; [
+    # Core Wayland/Hyprland
     wayland
     xwayland
+
+    # Hyprland ecosystem
     rofi-wayland
     hyprpolkitagent
     hypridle
     hyprlock
+    hyprshot
+    hyprpaper
+
+    # File manager and utilities
     xfce.thunar
-    hyprshot # Screenshot utility
+
+    # Screenshot and media tools
     jq # JSON parser and manipulator
     grim # Screenshot tool
     slurp # Screenshot selector
-    brightnessctl
+    brightnessctl # Brightness control
+
+    # Audio control (for media keys)
+    wireplumber # For wpctl commands
+    playerctl # For media control
   ];
 
+  # Hyprland window manager configuration
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
+
     settings = {
       ### MONITORS
       #monitor = <name>, <resolution@refresh_rate>, <position>
@@ -44,18 +59,18 @@
 
       ### ENVIRONMENT VARIABLES
       env = [
-        "GDK_BACKEND,wayland,x11,*
-         QT_QPA_PLATFORM,wayland;xcb
-         CLUTTER_BACKEND,wayland
-         XDG_CURRENT_DESKTOP,Hyprland
-         XDG_SESSION_DESKTOP,Hyprland
-         XDG_SESSION_TYPE,wayland
-         LIBVA_DRIVER_NAME,nvidia
-         __GLX_VENDOR_LIBRARY_NAME,nvidia
-         NVD_BACKEND,direct
-         GSK_RENDERER,ngl
-         GBM_BACKEND,nvidia-drm
-         __GLX_VENDOR_LIBRARY_NAME,nvidia"
+        "GDK_BACKEND,wayland,x11,*"
+        "QT_QPA_PLATFORM,wayland;xcb"
+        "CLUTTER_BACKEND,wayland"
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_DESKTOP,Hyprland"
+        "XDG_SESSION_TYPE,wayland"
+        "LIBVA_DRIVER_NAME,nvidia"
+        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        "NVD_BACKEND,direct"
+        "GSK_RENDERER,ngl"
+        "GBM_BACKEND,nvidia-drm"
+        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
       ];
 
       ### LOOK AND FEEL
@@ -147,8 +162,10 @@
         workspace_swipe = false;
       };
 
-      no_hardware_cursors = true;
-      no_warps = true;
+      cursor = {
+        no_hardware_cursors = true;
+        no_warps = true;
+      };
 
       ### KEYBINDINGS
 
@@ -200,28 +217,65 @@
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
       ];
+
+      # Keep exactly as commented in original - these are your media keys
+      #bindel = [
+      #  ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
+      #  ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
+      #  ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      #  ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+      #  ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
+      #  ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+      #];
+
+      #bindl = [
+      #  ", XF86AudioNext, exec, playerctl next"
+      #  ", XF86AudioPause, exec, playerctl play-pause"
+      #  ", XF86AudioPlay, exec, playerctl play-pause"
+      #  ", XF86AudioPrev, exec, playerctl previous"
+      #];
+
+      ### WINDOWS AND WORKSPACES
+
+      #windowrulev2 = [
+      #  "suppressevent maximize, class:.*"
+      #  "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0 "
+      #];
     };
-    #      bindel = [
-    #        ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
-    #        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
-    #        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-    #        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-    #       ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
-    #        ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-    #   ];
+  };
 
-    #     bindl = [
-    #       ", XF86AudioNext, exec, playerctl next"
-    #       ", XF86AudioPause, exec, playerctl play-pause"
-    #       ", XF86AudioPlay, exec, playerctl play-pause"
-    #       ", XF86AudioPrev, exec, playerctl previous"
-    #     ];
+  # Services for Hyprland ecosystem
+  services = {
+    hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+          ignore_dbus_inhibit = false;
+          lock_cmd = "hyprlock";
+        };
 
-    ### WINDOWS AND WORKSPACES
+        listener = [
+          {
+            timeout = 900;
+            on-timeout = "hyprlock";
+          }
+          {
+            timeout = 1200;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
+      };
+    };
+  };
 
-    #windowrulev2 = [
-    #  "suppressevent maximize, class:.*"
-    #  "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0 "
-    #];
+  # XDG Desktop Portal configuration for home-manager
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+    ];
+    config.common.default = "hyprland";
   };
 }
