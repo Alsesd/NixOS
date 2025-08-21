@@ -1,4 +1,10 @@
 {config, ...}: {
+  home.packages = with pkgs; [
+    waybar
+    pavucontrol # For pulseaudio right-click
+    blueman # For bluetooth click
+    wlogout # For power button
+  ];
   programs.waybar = {
     enable = true;
     settings = {
@@ -8,9 +14,9 @@
         height = 38;
         spacing = 0;
 
-        modules-left = ["custom/info" "cpu" "memory"];
+        modules-left = ["custom/info" "memory" "cpu" "custom/temperature"];
         modules-center = ["hyprland/workspaces"];
-        modules-right = ["network" "battery" "bluetooth" "pulseaudio" "clock" "custom/lock" "custom/power"];
+        modules-right = ["pulseaudio" "network" "bluetooth" "clock" "battery" "custom/power"];
 
         "custom/info" = {
           format = "     ";
