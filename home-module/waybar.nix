@@ -145,7 +145,7 @@
        }
 
        /* Waybar */
-      window#waybar {
+      #waybar {
          background-color: transparent;
          border: none;
          box-shadow: none;
@@ -232,20 +232,19 @@
        #custom-info:hover,
        /*#workspaces:hover,*/
        #window:hover {
-         background-color:transparent);
+         background-color: transparent;
        }
 
        #workspaces button:hover{
-         background-color: transparent);
+         background-color: transparent;
          padding: 2px 8px;
          margin: 0 2px;
          border-radius: 10px;
        }
 
        #workspaces button.active {
-         background-color: #151B27;
-         /*background-color: #AEB4C0;*/
-         color: #ffffff;
+         background-color: transparent;
+         color: #8b7575ff;
          padding: 2px 8px;
          margin: 0 2px;
          border-radius: 10px;
