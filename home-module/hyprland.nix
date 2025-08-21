@@ -157,7 +157,9 @@
 
       ### KEYBINDINGS
 
-      "$mainMod" = "SUPER";
+      let 
+        mainMod = "SUPER";
+      in {
 
       bind = [ 
         "$mainMod, Return, exec, $terminal"
@@ -206,7 +208,7 @@
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
       ];
-
+      };
       bindel = [ 
         ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
         ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%"
