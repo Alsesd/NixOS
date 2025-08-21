@@ -11,10 +11,14 @@
       followSystem = true;
     };
 
-    #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-lakeside.yaml";
+    # You can uncomment this if you want to use a specific color scheme
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-lakeside.yaml";
 
     image = ./wallpaper1.jpg;
     polarity = "dark";
+
+    # Fixed hyprpaper configuration
+    targets.hyprpaper.enable = true;
 
     cursor = {
       package = pkgs.bibata-cursors;
@@ -24,7 +28,7 @@
 
     fonts = {
       monospace = {
-        package = pkgs.nerd-fonts.jetbrains-mono; # Fixed syntax
+        package = pkgs.nerd-fonts.jetbrains-mono;
         name = "JetBrainsMono Nerd Font Mono";
       };
       sansSerif = {
