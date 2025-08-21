@@ -158,9 +158,7 @@
       ### KEYBINDINGS
 
       let 
-        mainMod = "SUPER";
-      in {
-
+        {mainMod = "SUPER";};
       bind = [ 
         "$mainMod, Return, exec, $terminal"
         "$mainMod, D, exec, $menu"
@@ -233,5 +231,4 @@
       ];
 
     };
-  };
-}
+  }
