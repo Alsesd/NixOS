@@ -41,7 +41,7 @@
       #monitor = <name>, <resolution@refresh_rate>, <position>
       monitor = [
         "eDP-1,1920x1080@60, 0x0, 1"
-        "HDMI-A-4, 1920x1080@144, 1920x0, 1"
+        "HDMI-A-4, 1920x1080@160, 1920x0, 1"
       ];
 
       ### MY PROGRAMS

@@ -13,9 +13,14 @@
 
     #stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-lakeside.yaml";
 
-    image = ./wallpaper.png;
-
+    image = ./wallpaper1.jpg;
     polarity = "dark";
+    extraHyprpaperOptions = {
+        wallpaper = [
+      "DP-1,./wallpaper2.png"
+      "HDMI-A-1,./wallpaper1.jpg"
+        ]
+    };
 
     cursor = {
       package = pkgs.bibata-cursors;

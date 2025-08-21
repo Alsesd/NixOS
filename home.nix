@@ -11,6 +11,7 @@
     ./home-module/fastfetch.nix
     ./home-module/starship.nix
     ./home-module/hyprland.nix
+    ./home-module/stylix_hyprland_hm.nix
   ];
 
   home.username = "alsesd";
