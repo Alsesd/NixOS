@@ -13,7 +13,7 @@
   };
   stylix.fonts = {
     monospace = {
-      package = pkgs.nerdfonts.JetBrainsMono;
+      package = pkgs.nerd-fonts.jetbrains-mono; # Fixed syntax
       name = "JetBrainsMono Nerd Font Mono";
     };
     sansSerif = {
@@ -24,5 +24,19 @@
       package = pkgs.dejavu_fonts;
       name = "DejaVu Serif";
     };
+    sizes = {
+      applications = 12;
+      terminal = 15;
+      desktop = 11;
+      popups = 10;
+    };
+  };
+
+  # Opacity settings
+  stylix.opacity = {
+    applications = 0.8;
+    terminal = 0.8;
+    desktop = 1.0;
+    popups = 0.9;
   };
 }
