@@ -5,20 +5,16 @@
       mainBar = {
         layer = "top";
         position = "top";
-        height = 36; # Reduced from 50
-        spacing = 2; # Reduced spacing
-        margin-top = 4;
-        margin-left = 8;
-        margin-right = 8;
+        height = 36;
+        spacing = 0;
 
         modules-left = ["custom/info" "cpu" "memory"];
         modules-center = ["hyprland/workspaces"];
-        modules-right = ["network" "battery" "bluetooth" "pulseaudio" "clock" "custom/lock" "custom/power"];
+        modules-right = ["network" "battery" "bluetooth" "pulseaudio" "hyprland/language" "clock" "custom/lock" "custom/power"];
 
         "custom/info" = {
-          format = "  "; # Smaller icon
-          on-click = "sh -c '\${TERMINAL:-kitty} sh -c \"fastfetch; echo; read -p \\\"Press enter to exit...\\\"\"'";
-          tooltip = "System Info";
+          format = "     ";
+          on-click = "sh -c '\${TERMINAL:-kitty} sh -c \"fastfetch; echo; read -p \\\"Premi invio per uscire...\\\"\"'";
         };
 
         "hyprland/workspaces" = {
@@ -26,36 +22,28 @@
           all-outputs = true;
           format = "{icon}";
           on-click = "activate";
-          format-icons = {
-            "1" = "1";
-            "2" = "2";
-            "3" = "3";
-            "4" = "4";
-            "5" = "5";
-            "default" = "";
-          };
         };
 
         "custom/lock" = {
-          format = " "; # Simpler icon
-          on-click = "hyprlock";
-          tooltip = "Lock Screen";
+          "format" = "<span color='#dcdfe1'>    </span>";
+          "on-click" = "hyprlock";
+          "tooltip" = true;
         };
 
         "custom/power" = {
-          format = " "; # Simpler icon
+          format = "<span color='#FF4040'>    </span>";
           on-click = "wlogout -b 5 -r 1";
-          tooltip = "Power Menu";
+          tooltip = true;
         };
 
         network = {
-          format-wifi = " {essid}";
-          format-ethernet = "󰈀 Wired";
-          tooltip-format = "Up: {bandwidthUpBytes} | Down: {bandwidthDownBytes}";
-          format-linked = "󱘖 No IP";
-          format-disconnected = "󰖪 Disconnected";
-          format-alt = " {signalStrength}%";
-          interval = 5; # Less frequent updates
+          format-wifi = "<span color='#00FFFF'> 󰖩  </span>{essid} ";
+          format-ethernet = "<span color='#7FFF00'>   </span>Wired ";
+          tooltip-format = "<span color='#FF1493'> 󰅧  </span>{bandwidthUpBytes}  <span color='#00BFFF'> 󰅢 </span>{bandwidthDownBytes}";
+          format-linked = "<span color='#FFA500'> 󱘖  </span>{ifname} (No IP) ";
+          format-disconnected = "<span color='#FF4040'>   </span>Disconnected ";
+          format-alt = "<span color='#00FFFF'> 󰖩  </span>{signalStrength}% ";
+          interval = 1;
         };
 
         battery = {
@@ -63,169 +51,240 @@
             warning = 30;
             critical = 15;
           };
-          format = "{icon} {capacity}%";
-          format-charging = "󱐋 {capacity}%";
-          interval = 30; # Less frequent updates
-          format-icons = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
+          format = "<span color='#28CD41'> {icon}  </span>{capacity}% ";
+          format-charging = " 󱐋 {capacity}% ";
+          interval = 1;
+          format-icons = ["" "" "" "" ""];
+          tooltip = true;
         };
 
         pulseaudio = {
-          format = "{icon} {volume}%";
-          format-muted = "󰖁 Muted";
+          format = "<span color='#dcdfe1'>{icon} </span>{volume}% ";
+          format-muted = "<span color='#dcdfe1'> 󰖁 </span>0% ";
           format-icons = {
-            headphone = "";
-            hands-free = "";
-            headset = "";
-            phone = "";
-            portable = "";
-            car = "";
-            default = ["" "" ""];
+            headphone = "<span color='#dcdfe1'>  </span>";
+            hands-free = "<span color='#dcdfe1'>  </span>";
+            headset = "<span color='#dcdfe1'>  </span>";
+            phone = "<span color='#dcdfe1'>  </span>";
+            portable = "<span color='#dcdfe1'>  </span>";
+            car = "<span color='#dcdfe1'>  </span>";
+            default = [
+              "<span color='#dcdfe1'>  </span>"
+              "<span color='#dcdfe1'>  </span>"
+              "<span color='#dcdfe1'>  </span>"
+            ];
           };
           on-click-right = "pavucontrol";
-          on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          on-click = "pactl -- set-sink-mute 0 toggle";
+          tooltip = true;
+        };
+
+        "custom/temperature" = {
+          exec = "sensors | awk '/^Package id 0:/ {print int($4)}'";
+          format = "<span color='#FFA500'> </span>{}°C ";
+          interval = 5;
+          tooltip = true;
+          tooltip-format = "Temperatura CPU : {}°C";
         };
 
         memory = {
-          format = " {used:0.1f}G";
-          tooltip-format = "RAM: {used:0.2f}G/{total:0.2f}G ({percentage}%)";
-          interval = 5;
+          format = "<span color='#dcdfe1'>   </span>{used:0.1f}G/{total:0.1f}G ";
+          tooltip = true;
+          tooltip-format = "Utilizzo RAM: {used:0.2f}G/{total:0.2f}G";
         };
 
         cpu = {
-          format = " {usage}%";
-          tooltip-format = "CPU Usage: {usage}%";
-          interval = 2;
+          format = "<span color='#dcdfe1'>   </span>{usage}% ";
+          tooltip = true;
         };
 
         clock = {
-          interval = 60; # Update every minute
-          timezone = "Europe/Kiev"; # Using Kiev for Ukraine
-          format = " {:%H:%M}";
-          tooltip-format = "{:%A, %B %d, %Y}";
+          interval = 1;
+          timezone = "Europe/Rome";
+          format = "<span color='#dcdfe1'>  </span> {:%H:%M} ";
+          tooltip = true;
+          tooltip-format = "{:L%A %d/%m/%Y}";
+        };
+
+        "hyprland/language" = {
+          format = "<span color='#dcdfe1'> ⌨ </span>{short} ";
+          tooltip = true;
+          tooltip-format = "Keyboard Layout: {long}";
+        };
+
+        tray = {
+          icon-size = 17;
+          spacing = 6;
+        };
+
+        backlight = {
+          device = "intel_backlight";
+          format = "<span color='#FFD700'>{icon}</span>{percent}% ";
+          tooltip = true;
+          format-icons = [
+            "<span color='#696969'> 󰃞 </span>"
+            "<span color='#A9A9A9'> 󰃝 </span>"
+            "<span color='#FFFF66'> 󰃟 </span>"
+            "<span color='#FFD700'> 󰃠 </span>"
+          ];
         };
 
         bluetooth = {
           on-click = "blueman-manager";
-          format = " {status}";
-          format-connected = " {device_alias}";
-          format-connected-battery = " {device_alias} {device_battery_percentage}%";
-          tooltip-format = "{num_connections} connected";
+          format = "<span color='#00BFFF'>  </span>{status} ";
+          format-connected = "<span color='#00BFFF'>  </span>{device_alias} ";
+          format-connected-battery = "<span color='#00BFFF'>  </span>{device_alias} {device_battery_percentage}% ";
+          tooltip-format = "{controller_alias}\t{controller_address}\n\n{num_connections} connected";
+          tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}";
+          tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+          tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
         };
       };
     };
 
     style = ''
       * {
-        font-family: "JetBrainsMono Nerd Font", monospace;
-        font-weight: 500;
-        font-size: 13px;
-        min-height: 0;
-        border: none;
-        border-radius: 0;
+        font-family: "CaskaydiaCove Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Free Solid";
+        font-weight: bold;
+        font-size: 14px;
       }
 
+      /* Waybar - Fixed gray stripe */
       window#waybar {
         background-color: transparent;
         border: none;
         box-shadow: none;
       }
 
-      /* Main container styling */
-      .modules-left,
-      .modules-center,
-      .modules-right {
-        background: rgba(22, 27, 29, 0.9);
-        border-radius: 12px;
-        margin: 4px;
-        padding: 2px 8px;
-        border: 1px solid rgba(126, 162, 180, 0.2);
-      }
-
-      /* Individual modules */
+      /* Workspaces */
       #workspaces,
-      #custom-info,
-      #cpu,
-      #memory,
-      #network,
-      #battery,
-      #bluetooth,
-      #pulseaudio,
-      #clock,
-      #custom-lock,
-      #custom-power {
-        background: transparent;
-        color: #7ea2b4;
-        padding: 2px 6px;
-        margin: 0 2px;
-        border-radius: 6px;
-        transition: all 0.2s ease;
+      #window,
+      #tray{
+        background-color: @base01;
+        color: @base05;
+        padding: 4px 6px;
+        margin-top: 4px;
+        margin-left: 6px;
+        margin-right: 6px;
+        border-radius: 10px;
+        border-width: 0px;
       }
 
-      /* Hover effects */
-      #custom-info:hover,
-      #cpu:hover,
-      #memory:hover,
-      #network:hover,
-      #battery:hover,
+      #custom-info {
+        font-size: 16px;
+        color: @base0D;
+      }
+
+      #clock,
+      #custom-power,
+      #memory{
+        background-color: @base01;
+        color: @base05;
+        margin-top: 4px;
+        margin-right: 6px;
+        padding: 4px 2px;
+        border-radius: 0 10px 10px 0;
+        border-width: 0px;
+      }
+
+      #network,
+      #custom-lock,
+      #custom-info{
+        background-color: @base01;
+        color: @base05;
+        margin-top: 4px;
+        margin-left: 6px;
+        padding: 4px 2px;
+        border-radius: 10px 0 0 10px;
+        border-width: 0px;
+      }
+
+      #custom-reboot,
+      #bluetooth,
+      #battery,
+      #pulseaudio,
+      #backlight,
+      #custom-temperature,
+      #memory,
+      #cpu,
+      #custom-info,
+      #language{
+        background-color: @base01;
+        color: @base05;
+        margin-top: 4px;
+        padding: 4px 2px;
+        border-width: 0px;
+      }
+
+      #custom-temperature.critical,
+      #pulseaudio.muted {
+        color: @base08;
+        padding-top: 0;
+      }
+
       #bluetooth:hover,
+      #network:hover,
+      #backlight:hover,
+      #battery:hover,
       #pulseaudio:hover,
+      #custom-temperature:hover,
+      #memory:hover,
+      #cpu:hover,
       #clock:hover,
       #custom-lock:hover,
-      #custom-power:hover {
-        background: rgba(126, 162, 180, 0.1);
-        color: #398bc6;
+      #custom-reboot:hover,
+      #custom-power:hover,
+      #custom-info:hover,
+      #language:hover,
+      #window:hover {
+        background-color: @base02;
+        color: @base07;
       }
 
-      /* Workspaces specific styling */
-      #workspaces {
-        padding: 0;
-        margin: 0;
+      #workspaces button:hover{
+        background-color: @base02;
+        padding: 2px 8px;
+        margin: 0 2px;
+        border-radius: 10px;
+      }
+
+      #workspaces button.active {
+        background-color: @base0D;
+        color: @base00;
+        padding: 2px 8px;
+        margin: 0 2px;
+        border-radius: 10px;
       }
 
       #workspaces button {
         background: transparent;
-        color: #7ea2b4;
-        padding: 4px 8px;
-        margin: 0 1px;
         border: none;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-      }
-
-      #workspaces button:hover {
-        background: rgba(126, 162, 180, 0.1);
-        color: #398bc6;
-      }
-
-      #workspaces button.active {
-        background: rgba(57, 139, 198, 0.3);
-        color: #398bc6;
+        color: @base04;
+        padding: 2px 8px;
+        margin: 0 2px;
         font-weight: bold;
+      }
+
+      #window {
+        font-weight: 500;
+        font-style: italic;
       }
 
       /* Status-specific colors */
       #battery.warning {
-        color: #8a8a0f;
+        color: @base0A;
       }
 
       #battery.critical {
-        color: #d22d72;
-      }
-
-      #pulseaudio.muted {
-        color: #d22d72;
-      }
-
-      #network.disconnected {
-        color: #d22d72;
+        color: @base08;
       }
 
       #custom-power {
-        color: #d22d72;
+        color: @base08;
       }
 
       #custom-lock {
-        color: #568c3b;
+        color: @base0B;
       }
     '';
   };
