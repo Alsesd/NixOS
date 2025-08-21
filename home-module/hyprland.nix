@@ -136,7 +136,7 @@
       input = {
         kb_layout = "us, ru";
         kb_options = "grp:alt_shift_toggle";
-        numlock_by_default = true
+        numlock_by_default = true;
         follow_mouse = 0;
         sensitivity = 0;
         touchpad = {
@@ -148,11 +148,11 @@
             workspace_swipe = false;
           };
 
-      cursor {
-      no_hardware_cursors = true
-      enable_hyprcursor = true
-      warp_on_change_workspace = 2
-      no_warps = true 
+      cursor = {
+      no_hardware_cursors = true;
+      enable_hyprcursor = true;
+      warp_on_change_workspace = 2;
+      no_warps = true ;
       }
 
       ### KEYBINDINGS
