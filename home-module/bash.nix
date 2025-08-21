@@ -14,6 +14,7 @@
       ip-show = "curl ifconfig.me";
       nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos";
       nixos-test = "sudo nixos-rebuild test --upgrade --flake ~/.config/nixos/.#myNixos";
+      ngc = "nix-collect-garbage";
       # Bluetooth
       auricolari-bt = "bluetoothctl connect B8:F8:BE:60:54:BE";
       dualsense-ps5 = "bluetoothctl connect 4C:B9:9B:10:B8:F9";
