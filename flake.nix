@@ -13,8 +13,6 @@
       url = "github:nix-community/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nixai.url = "github:olafkfreund/nix-ai-help";
   };
 
   outputs = {
