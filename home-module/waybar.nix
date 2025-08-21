@@ -1,16 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
-  # Add required packages for waybar
-  home.packages = with pkgs; [
-    waybar
-    pavucontrol # For pulseaudio right-click
-    blueman # For bluetooth click
-    wlogout # For power button
-  ];
-
+{config, ...}: {
   programs.waybar = {
     enable = true;
     settings = {
@@ -25,35 +13,35 @@
         modules-right = ["network" "battery" "bluetooth" "pulseaudio" "clock" "custom/lock" "custom/power"];
 
         "custom/info" = {
-          format = "     ";
+          format = "     ";
           on-click = "sh -c '\${TERMINAL:-kitty} sh -c \"fastfetch; echo; read -p \\\"Premi invio per uscire...\\\"\"'";
         };
 
         "hyprland/workspaces" = {
           disable-scroll = false;
-          all-outputs = true;
+          all-outputs = false;
           format = "{icon}";
           on-click = "activate";
         };
 
         "custom/lock" = {
-          "format" = "<span color='#dcdfe1'>    </span>";
+          "format" = "<span color='#dcdfe1'>    </span>";
           "on-click" = "hyprlock";
           "tooltip" = true;
         };
 
         "custom/power" = {
-          format = "<span color='#FF4040'>    </span>";
+          format = "<span color='#FF4040'>    </span>";
           on-click = "wlogout -b 5 -r 1";
           tooltip = true;
         };
 
         network = {
           format-wifi = "<span color='#00FFFF'> 󰖩  </span>{essid} ";
-          format-ethernet = "<span color='#7FFF00'>   </span>Wired ";
+          format-ethernet = "<span color='#7FFF00'>   </span>Wired ";
           tooltip-format = "<span color='#FF1493'> 󰅧  </span>{bandwidthUpBytes}  <span color='#00BFFF'> 󰅢 </span>{bandwidthDownBytes}";
           format-linked = "<span color='#FFA500'> 󱘖  </span>{ifname} (No IP) ";
-          format-disconnected = "<span color='#FF4040'>   </span>Disconnected ";
+          format-disconnected = "<span color='#FF4040'>   </span>Disconnected ";
           format-alt = "<span color='#00FFFF'> 󰖩  </span>{signalStrength}% ";
           interval = 1;
         };
@@ -66,7 +54,7 @@
           format = "<span color='#28CD41'> {icon}  </span>{capacity}% ";
           format-charging = " 󱐋 {capacity}% ";
           interval = 1;
-          format-icons = ["" "" "" "" ""];
+          format-icons = ["" "" "" "" ""];
           tooltip = true;
         };
 
@@ -74,16 +62,16 @@
           format = "<span color='#dcdfe1'>{icon} </span>{volume}% ";
           format-muted = "<span color='#dcdfe1'> 󰖁 </span>0% ";
           format-icons = {
-            headphone = "<span color='#dcdfe1'>  </span>";
-            hands-free = "<span color='#dcdfe1'>  </span>";
-            headset = "<span color='#dcdfe1'>  </span>";
-            phone = "<span color='#dcdfe1'>  </span>";
-            portable = "<span color='#dcdfe1'>  </span>";
-            car = "<span color='#dcdfe1'>  </span>";
+            headphone = "<span color='#dcdfe1'>  </span>";
+            hands-free = "<span color='#dcdfe1'>  </span>";
+            headset = "<span color='#dcdfe1'>  </span>";
+            phone = "<span color='#dcdfe1'>  </span>";
+            portable = "<span color='#dcdfe1'>  </span>";
+            car = "<span color='#dcdfe1'>  </span>";
             default = [
-              "<span color='#dcdfe1'>  </span>"
-              "<span color='#dcdfe1'>  </span>"
-              "<span color='#dcdfe1'>  </span>"
+              "<span color='#dcdfe1'>  </span>"
+              "<span color='#dcdfe1'>  </span>"
+              "<span color='#dcdfe1'>  </span>"
             ];
           };
           on-click-right = "pavucontrol";
@@ -93,27 +81,27 @@
 
         "custom/temperature" = {
           exec = "sensors | awk '/^Package id 0:/ {print int($4)}'";
-          format = "<span color='#FFA500'> </span>{}°C ";
+          format = "<span color='#FFA500'> </span>{}°C ";
           interval = 5;
           tooltip = true;
-          tooltip-format = "Temperatura CPU : {}°C";
+          tooltip-format = "CPU Temp : {}°C";
         };
 
         memory = {
-          format = "<span color='#dcdfe1'>   </span>{used:0.1f}G/{total:0.1f}G ";
+          format = "<span color='#dcdfe1'>   </span>{used:0.1f}G/{total:0.1f}G ";
           tooltip = true;
           tooltip-format = "Utilizzo RAM: {used:0.2f}G/{total:0.2f}G";
         };
 
         cpu = {
-          format = "<span color='#dcdfe1'>   </span>{usage}% ";
+          format = "<span color='#dcdfe1'>   </span>{usage}% ";
           tooltip = true;
         };
 
         clock = {
           interval = 1;
           timezone = "Europe/Rome";
-          format = "<span color='#dcdfe1'>  </span> {:%H:%M} ";
+          format = "<span color='#dcdfe1'>  </span> {:%H:%M} ";
           tooltip = true;
           tooltip-format = "{:L%A %d/%m/%Y}";
         };
@@ -137,9 +125,9 @@
 
         bluetooth = {
           on-click = "blueman-manager";
-          format = "<span color='#00BFFF'>  </span>{status} ";
-          format-connected = "<span color='#00BFFF'>  </span>{device_alias} ";
-          format-connected-battery = "<span color='#00BFFF'>  </span>{device_alias} {device_battery_percentage}% ";
+          format = "<span color='#00BFFF'>  </span>{status} ";
+          format-connected = "<span color='#00BFFF'>  </span>{device_alias} ";
+          format-connected-battery = "<span color='#00BFFF'>  </span>{device_alias} {device_battery_percentage}% ";
           tooltip-format = "{controller_alias}\t{controller_address}\n\n{num_connections} connected";
           tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}";
           tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
@@ -156,16 +144,11 @@
         color: #dcdfe1;
       }
 
-      /* Waybar - Fixed background transparency */
+      /* Waybar */
       #waybar {
-        background: rgba(0, 0, 0, 0.0);
+        background-color: rgba(0, 0, 0, 0.0);
         border: none;
         box-shadow: none;
-      }
-
-      window#waybar {
-        background: rgba(0, 0, 0, 0.0);
-        border: none;
       }
 
       /* Workspaces */
