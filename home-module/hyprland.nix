@@ -6,7 +6,6 @@
   home.packages = with pkgs; [
     wayland
     xwayland
-    waybar
     rofi-wayland
     hyprpolkitagent
     hypridle

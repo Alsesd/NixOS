@@ -82,12 +82,8 @@
     google-chrome
     git
     vscode
-    kitty
-
     discord
     steam
-
-    fastfetch
     gamescope
     swww
     pkgs.ayugram-desktop
