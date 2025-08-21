@@ -11,7 +11,7 @@
   #programs.hyprland.enable = true;
   programs.nixos-icons.enable = true;
   programs.waybar.enable = true;
-  programs.cava-rainbow.enable = true;
+  programs.cava.enable = true;
   programs.rofi.enable = true;
   programs.kitty.enable = true;
   home.username = "alsesd";
