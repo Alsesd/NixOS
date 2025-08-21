@@ -12,16 +12,10 @@
       flake-check = "nix flake check";
       size = "du -ah --max-depth=1 | sort -h";
       ip-show = "curl ifconfig.me";
-      nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos && reboot";
+      nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos";
       nixos-test = "sudo nixos-rebuild test --upgrade --flake ~/.config/nixos/.#myNixos";
       ngc = "nix-collect-garbage";
-      # Bluetooth
-      auricolari-bt = "bluetoothctl connect B8:F8:BE:60:54:BE";
-      dualsense-ps5 = "bluetoothctl connect 4C:B9:9B:10:B8:F9";
-      disconnetti-bt = "bluetoothctl disconnect";
-      # Wifi
-      mostra-connessioni = "nmcli device wifi list";
-      hotspot-telefono = "nmcli device wifi connect Light3r";
+      ngc-all = "sudo nix-collect-garbage -d";
     };
     bashrcExtra = ''
       eval "$(starship init bash)"
