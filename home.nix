@@ -9,6 +9,7 @@
     ./home-module/bash.nix
     ./home-module/kitty.nix
     ./home-module/fastfetch.nix
+    ./home-module/starship.nix
   ];
 
   #programs.hyprland.enable = true;
