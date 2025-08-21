@@ -99,7 +99,7 @@
     obsidian
     pkgs.base16-schemes
     pkgs.nixd
-    cava
+    cava-rainbow
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
