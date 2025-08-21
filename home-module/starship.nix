@@ -3,60 +3,29 @@
     enable = true;
     enableBashIntegration = true;
     settings = {
-      #"$schema" = "https://starship.rs/config-schema.json";
-
-      format = "[](nord0)\$os\$username\[@](bg:nord0 fg:nord4)\$hostname\[](bg:nord1 fg:nord0)\$directory\[](fg:nord1 bg:nord2)\$git_branch\$git_status\[](fg:nord2 bg:nord3)\$c\$rust\$golang\$nodejs\$php\$java\$kotlin\$haskell\$python\[ ](fg:nord3)\$line_break$character";
-
-      #[](fg:nord3 bg:nord10)\
-      #$docker_context\
-
-      palette = "nord";
-
-      palettes.nord = {
-        # Dark to light gray
-        nord0 = "#2E3440";
-        nord1 = "#3B4252";
-        nord2 = "#434C5E";
-        nord3 = "#4C566A";
-        # Light gray to white
-        nord4 = "#D8DEE9";
-        nord5 = "#E5E9F0";
-        nord6 = "#ECEFF4";
-        # Light blue to blue
-        nord7 = "#8FBCBB";
-        nord8 = "#88C0D0";
-        nord9 = "#81A1C1";
-        nord10 = "#5E81AC";
-        # Mixed colors (red, orange, yellow, green purple)
-        nord11 = "#BF616A";
-        nord12 = "#D08770";
-        nord13 = "#EBCB8B";
-        nord14 = "#A2BE8A";
-        nord15 = "#B48EAD";
-      };
+      format = "[](base00)\$os\$username\[@](bg:base00 fg:base05)\$hostname\[](bg:base01 fg:base00)\$directory\[](fg:base01 bg:base02)\$git_branch\$git_status\[](fg:base02 bg:base03)\$c\$rust\$golang\$nodejs\$php\$java\$kotlin\$haskell\$python\$nix_shell\[ ](fg:base03)\$line_break$character";
 
       os = {
-        style = "bg:nord0 fg:nord10";
+        style = "bg:base00 fg:base0D";
         disabled = false;
-
         symbols = {
-          #NixOS = "";
+          NixOS = " ";
           Windows = "󰍲";
           Ubuntu = "󰕈";
-          SUSE = "";
+          SUSE = "";
           Raspbian = "󰐿";
           Mint = "󰣭";
-          Macos = "";
-          Manjaro = "";
+          Macos = "";
+          Manjaro = "";
           Linux = "󰌽";
           Gentoo = "󰣨";
           Fedora = "󰣛";
-          Alpine = "";
-          Amazon = "";
-          Android = "";
+          Alpine = "";
+          Amazon = "";
+          Android = "";
           Arch = "󰣇";
           Artix = "󰣇";
-          CentOS = "";
+          CentOS = "";
           Debian = "󰣚";
           Redhat = "󱄛";
           RedHatEnterprise = "󱄛";
@@ -65,114 +34,129 @@
 
       username = {
         show_always = true;
-        style_user = "bg:nord0 fg:nord4";
-        style_root = "bg:nord0 fg:nord4";
+        style_user = "bg:base00 fg:base05";
+        style_root = "bg:base00 fg:base08";
         format = "[$user]($style)";
       };
 
       hostname = {
         ssh_only = false;
-        ssh_symbol = " ";
+        ssh_symbol = " ";
         trim_at = ".";
         format = "[$hostname$ssh_symbol ]($style)";
-        style = "bg:nord0 fg:nord4";
+        style = "bg:base00 fg:base05";
       };
 
       directory = {
-        style = "bg:nord1 fg:nord4";
+        style = "bg:base01 fg:base05";
         format = "[ $path ]($style)";
         read_only = " 󰌾 ";
-        read_only_style = "bg:nord1 fg:nord11";
+        read_only_style = "bg:base01 fg:base08";
         truncation_length = 3;
         truncation_symbol = "…/";
-
         substitutions = {
           "Documents" = "󰈙 ";
-          "Downloads" = " ";
+          "Downloads" = " ";
           "Music" = "󰝚 ";
-          "Pictures" = " ";
+          "Pictures" = " ";
           "Developer" = "󰲋 ";
+          ".config" = " ";
+          "nixos" = " ";
         };
       };
 
       git_branch = {
-        symbol = "";
-        style = "bg:nord2 fg:nord4";
+        symbol = "";
+        style = "bg:base02 fg:base05";
         format = "[ $symbol $branch ]($style)";
       };
 
       git_status = {
-        style = "bg:nord2 fg:nord4";
+        style = "bg:base02 fg:base05";
         format = "[$all_status$ahead_behind ]($style)";
       };
 
-      # Programming languages
+      # Programming languages with base16 colors
+      nix_shell = {
+        symbol = " ";
+        style = "bg:base03 fg:base0D";
+        format = "[ $symbol ($name) ]($style)";
+      };
+
       nodejs = {
-        symbol = "";
-        style = "bg:nord3 fg:nord4";
+        symbol = "";
+        style = "bg:base03 fg:base0B";
         format = "[ $symbol ($version) ]($style)";
       };
 
       c = {
-        symbol = " ";
-        style = "bg:nord3 fg:nord4";
+        symbol = " ";
+        style = "bg:base03 fg:base05";
         format = "[ $symbol ($version) ]($style)";
       };
 
       rust = {
-        symbol = "";
-        style = "bg:nord3 fg:nord4";
+        symbol = "";
+        style = "bg:base03 fg:base09";
         format = "[ $symbol ($version) ]($style)";
       };
 
       golang = {
-        symbol = " ";
-        style = "bg:nord3 fg:nord4";
+        symbol = " ";
+        style = "bg:base03 fg:base0D";
         format = "[ $symbol ($version) ]($style)";
       };
 
       php = {
-        symbol = "";
-        style = "bg:nord3 fg:nord4";
+        symbol = "";
+        style = "bg:base03 fg:base0E";
         format = "[ $symbol ($version) ]($style)";
       };
 
       java = {
-        symbol = " ";
-        style = "bg:nord3 fg:nord4";
+        symbol = " ";
+        style = "bg:base03 fg:base09";
         format = "[ $symbol ($version) ]($style)";
       };
 
       kotlin = {
-        symbol = "";
-        style = "bg:nord3 fg:nord4";
+        symbol = "";
+        style = "bg:base03 fg:base0E";
         format = "[ $symbol ($version) ]($style)";
       };
 
       haskell = {
-        symbol = "";
-        style = "bg:nord3 fg:nord4";
+        symbol = "";
+        style = "bg:base03 fg:base0F";
         format = "[ $symbol ($version) ]($style)";
       };
 
       python = {
-        symbol = "";
-        style = "bg:nord3 fg:nord4";
+        symbol = "";
+        style = "bg:base03 fg:base0A";
         format = "[ $symbol ($version) ]($style)";
-      };
-
-      docker_context = {
-        symbol = "";
-        style = "bg:nord4";
-        format = "[[ $symbol( $context) ]]($style)";
       };
 
       line_break.disabled = false;
 
       character = {
         disabled = false;
-        success_symbol = "[](bold fg:nord14)";
-        error_symbol = "[](bold fg:nord11)";
+        success_symbol = "[➜](bold fg:base0B)";
+        error_symbol = "[➜](bold fg:base08)";
+        vimcmd_symbol = "[](bold fg:base0A)";
+      };
+
+      # Additional modules that might be useful for your setup
+      cmd_duration = {
+        min_time = 2000;
+        format = "took [$duration](bold fg:base0A)";
+      };
+
+      time = {
+        disabled = false;
+        time_format = "%R";
+        style = "bg:base03 fg:base05";
+        format = "[ ♰ $time ]($style)";
       };
     };
   };

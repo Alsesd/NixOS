@@ -32,7 +32,10 @@
       export PATH="~/.scripts/hypr:$PATH"
     '';
     initExtra = ''
-      . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+      # Only source hm-session-vars.sh if it exists
+      if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+      fi
     '';
   };
 }
