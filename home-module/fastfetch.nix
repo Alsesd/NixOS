@@ -3,104 +3,202 @@
   pkgs,
   ...
 }: let
-  # Atelier Lakeside colors to match your Stylix theme
-  lakeside_bg = "#161b1d"; # Dark background
-  lakeside_fg = "#7ea2b4"; # Light blue-gray text
-  lakeside_blue = "#398bc6"; # Blue accent
-  lakeside_green = "#568c3b"; # Green accent
-  lakeside_yellow = "#8a8a0f"; # Yellow accent
-  lakeside_red = "#d22d72"; # Red/pink accent
-  lakeside_orange = "#935c25"; # Orange accent
+  nord9 = "#81A1C1";
+  nord10 = "#5E81AC";
+  nord11 = "#BF616A";
+  nord13 = "#EBCB8B";
+  nord14 = "#A3BE8C";
 in {
   programs.fastfetch = {
     enable = true;
     package = pkgs.fastfetch;
     settings = {
+      "$schema" = "https:#github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
+
       logo = {
-        source = "nixos_small";
-        height = 8;
-        width = 20;
+        source = "nixos";
+        height = 15;
+        width = 30;
         padding = {
-          top = 2;
-          left = 2;
+          top = 10;
+          left = 3;
         };
       };
 
       modules = [
+        "break"
         {
-          type = "title";
-          format = "{#${lakeside_blue}}┌─ {#${lakeside_fg}}System Info {#${lakeside_blue}}─┐";
-        }
-        {
-          type = "os";
-          key = "{#${lakeside_green}}├ OS";
-          keyColor = lakeside_green;
+          type = "custom";
+          format = "┌──────────────────────Hardware──────────────────────┐";
         }
         {
           type = "host";
-          key = "{#${lakeside_green}}├ Host";
-          keyColor = lakeside_green;
-        }
-        {
-          type = "kernel";
-          key = "{#${lakeside_green}}├ Kernel";
-          keyColor = lakeside_green;
-        }
-        {
-          type = "uptime";
-          key = "{#${lakeside_green}}└ Uptime";
-          keyColor = lakeside_green;
-        }
-        "break"
-        {
-          type = "title";
-          format = "{#${lakeside_yellow}}┌─ {#${lakeside_fg}}Hardware {#${lakeside_yellow}}─┐";
+          key = " PC";
+          keyColor = nord14;
         }
         {
           type = "cpu";
-          key = "{#${lakeside_yellow}}├ CPU";
-          keyColor = lakeside_yellow;
+          key = "│ ├";
+          showPeCoreCount = true;
+          keyColor = nord14;
         }
         {
           type = "gpu";
-          key = "{#${lakeside_yellow}}├ GPU";
-          keyColor = lakeside_yellow;
+          key = "│ ├󰍛";
+          keyColor = nord14;
         }
         {
           type = "memory";
-          key = "{#${lakeside_yellow}}├ RAM";
-          keyColor = lakeside_yellow;
+          key = "│ ├󰍛";
+          keyColor = nord14;
+        }
+        {
+          type = "swap";
+          key = "│ ├󰓡";
+          keyColor = nord14;
         }
         {
           type = "disk";
-          key = "{#${lakeside_yellow}}└ Disk";
-          keyColor = lakeside_yellow;
+          key = "│ ├";
+          keyColor = nord14;
+        }
+        {
+          type = "display";
+          key = "│ ├󰍹";
+          keyColor = nord14;
+        }
+        {
+          type = "sound";
+          key = "└ └󰓃";
+          keyColor = nord14;
+        }
+        {
+          type = "custom";
+          format = "└────────────────────────────────────────────────────┘";
         }
         "break"
         {
-          type = "title";
-          format = "{#${lakeside_red}}┌─ {#${lakeside_fg}}Environment {#${lakeside_red}}─┐";
+          type = "custom";
+          format = "┌──────────────────────Software──────────────────────┐";
         }
         {
-          type = "wm";
-          key = "{#${lakeside_red}}├ WM";
-          keyColor = lakeside_red;
+          type = "os";
+          key = " OS";
+          keyColor = nord13;
         }
         {
-          type = "terminal";
-          key = "{#${lakeside_red}}├ Term";
-          keyColor = lakeside_red;
+          type = "command";
+          text = "echo \${USER}@\${HOSTNAME}";
+          key = "│ ├";
+          keyColor = nord13;
         }
         {
-          type = "shell";
-          key = "{#${lakeside_red}}├ Shell";
-          keyColor = lakeside_red;
+          type = "kernel";
+          key = "│ ├";
+          keyColor = nord13;
+        }
+        {
+          type = "gpu";
+          key = "│ ├󰍛";
+          format = "{3}";
+          keyColor = nord13;
         }
         {
           type = "packages";
-          key = "{#${lakeside_red}}└ Pkgs";
-          keyColor = lakeside_red;
+          key = "└ └󰏖";
+          keyColor = nord13;
         }
+        "break"
+        {
+          type = "de";
+          key = " DE";
+          keyColor = nord9;
+        }
+        {
+          type = "wm";
+          key = " WM";
+          keyColor = nord9;
+        }
+        {
+          type = "lm";
+          key = "│ ├";
+          keyColor = nord9;
+        }
+        {
+          type = "terminal";
+          key = "│ ├";
+          keyColor = nord9;
+        }
+        {
+          type = "shell";
+          key = "└ └";
+          keyColor = nord9;
+        }
+        {
+          type = "custom";
+          format = "└────────────────────────────────────────────────────┘";
+        }
+        "break"
+        {
+          type = "custom";
+          format = "┌───────────────────────Themes───────────────────────┐";
+        }
+
+        {
+          type = "theme";
+          key = "󰉼 Theme";
+          keyColor = nord10;
+        }
+        {
+          type = "wmtheme";
+          key = "│ ├󰉼";
+          keyColor = nord10;
+        }
+        {
+          type = "icons";
+          key = "│ ├";
+          keyColor = nord10;
+        }
+        {
+          type = "cursor";
+          key = "│ ├󰆿";
+          keyColor = nord10;
+        }
+        {
+          type = "font";
+          key = "│ ├";
+          keyColor = nord10;
+        }
+        {
+          type = "terminalfont";
+          key = "└ └";
+          keyColor = nord10;
+        }
+        {
+          type = "custom";
+          format = "└────────────────────────────────────────────────────┘";
+        }
+        "break"
+        {
+          type = "custom";
+          format = "┌────────────────────Uptime / Age────────────────────┐";
+        }
+        {
+          type = "command";
+          key = "  OS Age";
+          keyColor = nord11;
+          text = "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days";
+        }
+        {
+          type = "uptime";
+          key = "  Uptime";
+          keyColor = nord11;
+        }
+        {
+          type = "custom";
+          format = "└────────────────────────────────────────────────────┘";
+        }
+        "break"
       ];
     };
   };

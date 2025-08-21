@@ -79,6 +79,12 @@
           tooltip = true;
         };
 
+        "hyprland/language" = {
+          format = "<span color='#dcdfe1'> ⌨ </span>{short} ";
+          tooltip = true;
+          tooltip-format = "Keyboard Layout: {long}";
+        };
+
         "custom/temperature" = {
           exec = "sensors | awk '/^Package id 0:/ {print int($4)}'";
           format = "<span color='#FFA500'> </span>{}°C ";
@@ -104,12 +110,6 @@
           format = "<span color='#dcdfe1'>  </span> {:%H:%M} ";
           tooltip = true;
           tooltip-format = "{:L%A %d/%m/%Y}";
-        };
-
-        "hyprland/language" = {
-          format = "<span color='#dcdfe1'> ⌨ </span>{short} ";
-          tooltip = true;
-          tooltip-format = "Keyboard Layout: {long}";
         };
 
         tray = {
@@ -146,7 +146,8 @@
       * {
         font-family: "CaskaydiaCove Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Free Solid";
         font-weight: bold;
-        font-size: 14px;
+        font-size: 16px;
+        color: #dcdfe1;
       }
 
       /* Waybar - Fixed gray stripe */
@@ -160,10 +161,9 @@
       #workspaces,
       #window,
       #tray{
-        background-color: @base01;
-        color: @base05;
+        background-color: #323844;
         padding: 4px 6px;
-        margin-top: 4px;
+        margin-top: 6px;
         margin-left: 6px;
         margin-right: 6px;
         border-radius: 10px;
@@ -171,17 +171,17 @@
       }
 
       #custom-info {
-        font-size: 16px;
-        color: @base0D;
+        font-size: 18px;
+        color: #5178C4;
       }
 
       #clock,
       #custom-power,
       #memory{
-        background-color: @base01;
-        color: @base05;
-        margin-top: 4px;
+        background-color: #323844;
+        margin-top: 6px;
         margin-right: 6px;
+        /*margin-bottom: 4px;*/
         padding: 4px 2px;
         border-radius: 0 10px 10px 0;
         border-width: 0px;
@@ -190,10 +190,10 @@
       #network,
       #custom-lock,
       #custom-info{
-        background-color: @base01;
-        color: @base05;
-        margin-top: 4px;
+        background-color: #323844;
+        margin-top: 6px;
         margin-left: 6px;
+        /*margin-bottom: 4px;*/
         padding: 4px 2px;
         border-radius: 10px 0 0 10px;
         border-width: 0px;
@@ -209,21 +209,22 @@
       #cpu,
       #custom-info,
       #language{
-        background-color: @base01;
-        color: @base05;
-        margin-top: 4px;
+        background-color: #323844;
+        margin-top: 6px;
+        /*margin-bottom: 4px;*/
         padding: 4px 2px;
         border-width: 0px;
       }
 
       #custom-temperature.critical,
       #pulseaudio.muted {
-        color: @base08;
+        color: #FF0000;
         padding-top: 0;
       }
 
       #bluetooth:hover,
       #network:hover,
+      /*#tray:hover,*/
       #backlight:hover,
       #battery:hover,
       #pulseaudio:hover,
@@ -236,21 +237,22 @@
       #custom-power:hover,
       #custom-info:hover,
       #language:hover,
+      /*#workspaces:hover,*/
       #window:hover {
-        background-color: @base02;
-        color: @base07;
+        background-color: rgba(70, 75, 90, 0.9);
       }
 
       #workspaces button:hover{
-        background-color: @base02;
+        background-color: rgba(97, 175, 239, 0.2);
         padding: 2px 8px;
         margin: 0 2px;
         border-radius: 10px;
       }
 
       #workspaces button.active {
-        background-color: @base0D;
-        color: @base00;
+        background-color: #151B27;
+        /*background-color: #AEB4C0;*/
+        color: #ffffff;
         padding: 2px 8px;
         margin: 0 2px;
         border-radius: 10px;
@@ -259,7 +261,7 @@
       #workspaces button {
         background: transparent;
         border: none;
-        color: @base04;
+        color: #888888;
         padding: 2px 8px;
         margin: 0 2px;
         font-weight: bold;
@@ -268,23 +270,6 @@
       #window {
         font-weight: 500;
         font-style: italic;
-      }
-
-      /* Status-specific colors */
-      #battery.warning {
-        color: @base0A;
-      }
-
-      #battery.critical {
-        color: @base08;
-      }
-
-      #custom-power {
-        color: @base08;
-      }
-
-      #custom-lock {
-        color: @base0B;
       }
     '';
   };
