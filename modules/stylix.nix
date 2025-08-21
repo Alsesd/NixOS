@@ -12,12 +12,6 @@
     image = ./wallpaper1.jpg;
     polarity = "dark";
 
-    # Enable Hyprland target which includes hyprpaper support
-    targets = {
-      hyprland.enable = true;
-      hyprpaper.enable = true;
-    };
-
     # Font configuration
     fonts = {
       monospace = {

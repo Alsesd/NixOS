@@ -63,6 +63,7 @@
     nixd # Nix language server
     base16-schemes
     cava
+    tree
   ];
   system.stateVersion = "25.05"; # Did you read the comment?
 }

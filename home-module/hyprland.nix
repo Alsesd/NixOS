@@ -37,7 +37,7 @@
       ### MONITORS
       monitor = [
         "eDP-1,1920x1080@60, 0x0, 1"
-        "HDMI-A-4, 1920x1080@160, 1920x0, 1"
+        "HDMI-A-4, 1920x1080@144, 1920x0, 1"
       ];
 
       ### MY PROGRAMS
@@ -177,7 +177,7 @@
         "$mainMod, P, pseudo, # dwindle"
         "$mainMod, N, togglesplit, # dwindle"
         "$mainMod, F, fullscreen, "
-        "$mainMod, shift, S, exec, hyprshot -m region"
+        "$mainMod, shift, P, exec, hyprshot -m "
         "$SUPER_SHIFT, l, exec, hyprlock"
         "$mainMod, h, movefocus, l"
         "$mainMod, l, movefocus, r"
