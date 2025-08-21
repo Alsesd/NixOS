@@ -20,7 +20,7 @@
 
         modules-left = ["pulseaudio" "battery" "clock"];
         modules-center = ["hyprland/workspaces"];
-        modules-right = ["cpu" "custom/temperature" "memory" "network" "bluetooth"];
+        modules-right = ["cpu" "custom/temperature" "memory" "network" "custom/info"];
 
         "custom/info" = {
           format = "     ";
@@ -185,6 +185,7 @@
 
           #bluetooth,
           #clock,
+          #custom-info
           #custom-power,
           #memory{
             background-color: #323844;
@@ -198,8 +199,7 @@
 
           #network,
           #custom-lock,
-          #pulseaudio,
-          #custom-info{
+          #pulseaudio{
             background-color: #323844;
             margin-top: 6px;
             margin-left: 6px;
