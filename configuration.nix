@@ -98,7 +98,7 @@
     qbittorrent
     obsidian
     pkgs.base16-schemes
-    pkgs.nixd
+    #pkgs.nixd
     cava-rainbow
   ];
 
