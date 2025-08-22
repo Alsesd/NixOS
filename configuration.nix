@@ -29,8 +29,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use latest kernel.
-  #boot.kernelPackages = pkgs.linuxPackages_default;
+  boot.kernelPackages = pkgs.linuxKernel.kernels.linux_zen;
 
   networking.hostName = "nixos";
 

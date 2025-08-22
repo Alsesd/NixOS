@@ -172,7 +172,7 @@
         "$mainMod, P, pseudo, # dwindle"
         "$mainMod, N, togglesplit, # dwindle"
         "$mainMod, F, fullscreen, 1 "
-        "$mainMod, shift, P, exec, hyprshot -m "
+        #"$mainMod, shift, P, exec, hyprshot -m "
         "$SUPER_SHIFT, l, exec, hyprlock"
         "$mainMod, left, movefocus, l"
         "$mainMod, right, movefocus, r"
@@ -217,8 +217,8 @@
         "$mainMod SHIFT, S, movetoworkspace, special:magic"
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
-        "$mainMod, tab, workspace, e+1"
-        "$mainMod, SHIFT, tab, workspace, e-1"
+        #"$mainMod, tab, workspace, e+1"
+        #"$mainMod, SHIFT, tab, workspace, e-1"
       ];
 
       bindm = [
