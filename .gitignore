@@ -1,4 +1,5 @@
-./result
+/result/
 .version-suffix
 flake.lock
-./hypr
+/hypr/
+/vscode/

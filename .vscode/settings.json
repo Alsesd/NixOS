@@ -1,0 +1,10 @@
+{
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "explorer.excludeGitIgnore": true,
+    "scm.defaultViewMode": "tree",
+    "files.exclude": {
+        "**/.vscode/": true,
+        "**/result/": true
+    }
+}

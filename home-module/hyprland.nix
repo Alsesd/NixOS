@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Install Hyprland ecosystem packages (excluding hyprpaper - Stylix handles it)
   home.packages = with pkgs; [
     # Core Wayland/Hyprland
