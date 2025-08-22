@@ -10,7 +10,6 @@
     hyprpolkitagent
     hypridle
     hyprlock
-    hyprshot
 
     # File manager and utilities
     xfce.thunar
