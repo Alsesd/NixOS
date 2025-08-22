@@ -1,0 +1,4 @@
+./result
+.version-suffix
+flake.lock
+./hypr

@@ -176,7 +176,7 @@
         "$mainMod, space, togglefloating,"
         "$mainMod, P, pseudo, # dwindle"
         "$mainMod, N, togglesplit, # dwindle"
-        "$mainMod, F, fullscreen, "
+        "$mainMod, F, fullscreen, 1 "
         "$mainMod, shift, P, exec, hyprshot -m "
         "$SUPER_SHIFT, l, exec, hyprlock"
         "$mainMod, left, movefocus, l"
@@ -195,10 +195,18 @@
         "$mainMod, 0, workspace, 10"
 
         # Swap windows
+
         "$mainMod ALT, left, swapwindow, l"
         "$mainMod ALT, right, swapwindow, r"
         "$mainMod ALT, up, swapwindow, u"
         "$mainMod ALT, down, swapwindow, d"
+
+        # Resize windows
+
+        "$mainMod SHIFT, left, resizeactive,-50 0"
+        "$mainMod SHIFT, right, resizeactive,50 0"
+        "$mainMod SHIFT, up, resizeactive,0 -50"
+        "$mainMod SHIFT, down, resizeactive,0 50"
 
         "$mainMod SHIFT, 1, movetoworkspace, 1"
         "$mainMod SHIFT, 2, movetoworkspace, 2"
