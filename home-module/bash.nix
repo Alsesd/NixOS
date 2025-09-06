@@ -13,7 +13,7 @@
       size = "du -ah --max-depth=1 | sort -h";
       ip-show = "curl ifconfig.me";
       nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos";
-      nixos-test = "sudo nixos-rebuild test --upgrade --flake ~/.config/nixos/.#myNixos";
+      nixos-build = "sudo nixos-rebuild build --upgrade --flake ~/.config/nixos/.#myNixos";
       ngc = "nix-collect-garbage";
       ngc-all = "sudo nix-collect-garbage -d";
     };
