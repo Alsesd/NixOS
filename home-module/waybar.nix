@@ -20,7 +20,7 @@
         spacing = 0;
 
         modules-left = ["pulseaudio" "battery" "clock"];
-        modules-center = ["hyprland/workspaces"];
+        modules-center = ["niri/workspaces"];
         modules-right = ["" "" "custom/temperature" "cpu" "memory" "network" "custom/info"];
 
         "custom/info" = {
@@ -28,7 +28,7 @@
           on-click = "sh -c '\${TERMINAL:-kitty} sh -c \"fastfetch; echo; read -p \\\"Premi invio per uscire...\\\"\"'";
         };
 
-        "hyprland/workspaces" = {
+        "niri/workspaces" = {
           disable-scroll = false;
           all-outputs = false;
           format = "{icon}";

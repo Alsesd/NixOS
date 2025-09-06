@@ -4,9 +4,8 @@
     ./home-module/bash.nix
     ./home-module/kitty.nix
     ./home-module/fastfetch.nix
+    ./home-module/hyprpaper.nix
     ./home-module/starship.nix
-    ./home-module/hyprland.nix
-    ./home-module/stylix-hyprland.nix
   ];
 
   home.username = "alsesd";

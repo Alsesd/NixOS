@@ -3,5 +3,5 @@
     enable = true;
     autoNumlock = true;
   };
-  services.xserver.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
 }

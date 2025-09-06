@@ -13,14 +13,14 @@
 
       # Preload both wallpapers
       preload = [
-        "~/.config/nixos/modules/wallpaper1.jpg" # Primary wallpaper (also used by Stylix for colors)
+        "~/.config/nixos/modules/wallpaper1.png" # Primary wallpaper (also used by Stylix for colors)
         "~/.config/nixos/modules/wallpaper2.png" # Secondary wallpaper
       ];
 
       # Set different wallpaper for each monitor
       wallpaper = [
         "eDP-1,~/.config/nixos/modules/wallpaper2.png" # Laptop screen
-        "HDMI-A-4,~/.config/nixos/modules/wallpaper1.jpg" # External monitor
+        "HDMI-A-4,~/.config/nixos/modules/wallpaper1.png" # External monitor
       ];
     };
   };

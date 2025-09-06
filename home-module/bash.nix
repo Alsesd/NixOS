@@ -12,9 +12,16 @@
       flake-check = "nix flake check";
       size = "du -ah --max-depth=1 | sort -h";
       ip-show = "curl ifconfig.me";
-      nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos";
+
+      #Main system build
       nixos-build = "sudo nixos-rebuild build --upgrade --flake ~/.config/nixos/.#myNixos";
-      ngc = "nix-collect-garbage";
+      nixos-test = "sudo nixos-rebuild test --upgrade --flake ~/.config/nixos/.#myNixos";
+      nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos";
+
+      #Test system build
+      test-build = "sudo nixos-rebuild build -I nixos-config=/home/alsesd/test/configuration.nixe --flake ./test/#myNixos";
+      test-test = "sudo nixos-rebuild test -I nixos-config=/home/alsesd/test/configuration.nix --flake ./test/#myNixos";
+      test-switch = "sudo nixos-rebuild switch -I nixos-config=/home/alsesd/test/configuration.nix --flake ./test/#myNixos";
       ngc-all = "sudo nix-collect-garbage -d";
     };
     bashrcExtra = ''

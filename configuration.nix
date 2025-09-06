@@ -9,20 +9,22 @@
 }: {
   imports = [
     ./modules/hardware-configuration.nix
-    ./modules/nixPath.nix
     ./modules/users.nix
     ./modules/nvidia.nix
     ./modules/gc.nix
     ./modules/sddm.nix
-    ./modules/autoupgrade.nix
+    ./modules/xwayland.nix
     ./modules/stylix.nix
-    ./modules/hyprland.nix
+    ./modules/autoupgrade.nix
   ];
 
   security.polkit.enable = true;
+  programs.niri.enable = true;
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [xdg-desktop-portal-hyprland];
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+    ];
   };
 
   # Bootloader.
@@ -63,6 +65,10 @@
     base16-schemes
     cava
     tree
+    niri
+    xwayland-satellite
+    fuzzel
+    xfce.thunar
   ];
   system.stateVersion = "25.05"; # Did you read the comment?
 }
