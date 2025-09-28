@@ -21,6 +21,7 @@
     vscode
     obsidian
     qbittorrent
+    vlc
   ];
 
   xdg.configFile = {

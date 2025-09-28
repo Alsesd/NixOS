@@ -18,6 +18,7 @@
     ./modules/autoupgrade.nix
   ];
 
+  powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
   programs.niri.enable = true;
   xdg.portal = {
