@@ -54,6 +54,7 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "archiver-3.5.1"
+    "ventoy-1.1.07"
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -70,6 +71,9 @@
     xwayland-satellite
     fuzzel
     xfce.thunar
+    ventoy-full
+    python3
+    slack
   ];
   system.stateVersion = "25.05"; # Did you read the comment?
   environment.variables = {
