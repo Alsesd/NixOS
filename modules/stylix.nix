@@ -48,5 +48,19 @@
       desktop = 1.0;
       popups = 0.9;
     };
+
+    # Icon theme configuration
+    iconTheme = {
+      enable = true;
+      package = pkgs.papirus-icon-theme;
+      dark = "Papirus-Dark";
+      light = "Papirus-Light";
+    };
+
+    # GTK theme settings
+    targets.gtk.enable = true;
   };
+
+  # Configure GTK settings
+  programs.dconf.enable = true;
 }
