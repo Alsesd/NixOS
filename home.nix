@@ -18,7 +18,6 @@
     ayugram-desktop
     steam
     gamescope
-    vscode
     obsidian
     qbittorrent
     vlc

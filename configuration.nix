@@ -17,7 +17,14 @@
     ./modules/stylix.nix
     ./modules/autoupgrade.nix
   ];
-
+  services.gvfs.enable = true;
+  programs.xfconf.enable = true;
+  programs.thunar.enable = true;
+  xdg.mime.defaultApplications = {
+    "inode/directory" = ["thunar.desktop"];
+  };
+  programs.nix-ld.enable = true;
+  programs.nix-ld.package = pkgs.nix-ld-rs; # or pkgs.nix-ld
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
   programs.niri.enable = true;
@@ -25,6 +32,7 @@
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
+      xdg-desktop-portal-hyprland
     ];
   };
 
@@ -74,6 +82,8 @@
     ventoy-full
     python3
     slack
+    xdg-utils
+    vscode
   ];
   system.stateVersion = "25.05"; # Did you read the comment?
   environment.variables = {
