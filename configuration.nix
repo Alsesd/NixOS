@@ -51,8 +51,7 @@
     ventoy-full
     python3
     xdg-utils
-   
-    # Create a wrapper for file manager
+    mako
     (pkgs.writeShellScriptBin "xdg-file-manager" ''
       exec ${pkgs.xfce.thunar}/bin/thunar "$@"
     '')
