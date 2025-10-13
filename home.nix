@@ -21,6 +21,11 @@
     obsidian
     qbittorrent
     vlc
+    vscode
+    papirus-icon-theme # Popular, complete icon theme
+    adwaita-icon-theme # GNOME icons (fallback)
+    hicolor-icon-theme # Base icon theme (required)
+    slack
   ];
 
   xdg.configFile = {

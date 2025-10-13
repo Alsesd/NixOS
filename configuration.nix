@@ -50,13 +50,8 @@
     xfce.thunar-archive-plugin # Add this for archive support
     ventoy-full
     python3
-    slack
     xdg-utils
-    vscode
-     papirus-icon-theme  # Popular, complete icon theme
-    adwaita-icon-theme  # GNOME icons (fallback)
-    hicolor-icon-theme  # Base icon theme (required)
-
+   
     # Create a wrapper for file manager
     (pkgs.writeShellScriptBin "xdg-file-manager" ''
       exec ${pkgs.xfce.thunar}/bin/thunar "$@"
