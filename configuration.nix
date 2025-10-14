@@ -52,6 +52,9 @@
     python3
     xdg-utils
     mako
+    networkmanager
+    usbutils
+    bluez
     (pkgs.writeShellScriptBin "xdg-file-manager" ''
       exec ${pkgs.xfce.thunar}/bin/thunar "$@"
     '')

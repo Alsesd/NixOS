@@ -6,6 +6,7 @@
     ./home-module/fastfetch.nix
     ./home-module/hyprpaper.nix
     ./home-module/starship.nix
+    ./home-module/eww.nix
   ];
 
   home.username = "alsesd";
