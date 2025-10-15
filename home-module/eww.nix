@@ -1,15 +1,16 @@
 {pkgs, ...}: {
-  imports = [
-    ./eww-widgets/tray/tray.nix
-    ./eww-widgets/tray/toggle-tray-script.nix
-    ./eww-widgets/tray/scss.nix
-  ];
   # Add eww to your packages
   home.packages = with pkgs; [
     eww
     jq
   ];
+  imports = [
+    ./eww-widgets/tray/scss.nix
+    ./eww-widgets/tray/tray.nix
+    ./eww-widgets/tray/toggle-tray-script.nix
+  ];
 
+  # Main eww configuration file
   xdg.configFile."eww/eww.yuck".text = ''
     ;; Include the tray module at the beginning
     (include "./tray.yuck")
@@ -18,6 +19,7 @@
     (defvar tray-visible false)
   '';
 
+  # Main SCSS file with global styles and imports
   xdg.configFile."eww/eww.scss".text = ''
     /* Import tray styles */
     @import "./tray.scss";

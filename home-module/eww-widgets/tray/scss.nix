@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  # Separate tray SCSS file
   xdg.configFile."eww/tray.scss".text = ''
     .tray-container {
       background-color: rgba(50, 56, 68, 0.4);

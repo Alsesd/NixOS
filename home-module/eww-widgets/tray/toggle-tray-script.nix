@@ -1,4 +1,4 @@
-  {pkgs, ...}: {
+{pkgs, ...}: {
   home.file.".local/bin/toggle-tray".text = ''
     #!/usr/bin/env bash
 
@@ -13,4 +13,4 @@
   '';
 
   home.file.".local/bin/toggle-tray".executable = true;
-  }
+}
