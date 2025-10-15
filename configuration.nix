@@ -60,8 +60,6 @@
     '')
   ];
 
-  programs.nix-ld.enable = true;
-  programs.nix-ld.package = pkgs.nix-ld-rs;
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
   programs.niri.enable = true;
@@ -70,7 +68,6 @@
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
     ];
     config.common.default = "*";
   };
