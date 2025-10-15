@@ -5,15 +5,16 @@
     jq
   ];
   imports = [
-    ./eww-widgets/tray/scss.nix
-    ./eww-widgets/tray/tray.nix
-    ./eww-widgets/tray/toggle-tray-script.nix
+    ./tray/scss.nix
+    ./tray/tray.nix
+    ./bar/bar.nix
   ];
 
   # Main eww configuration file
   xdg.configFile."eww/eww.yuck".text = ''
     ;; Include the tray module at the beginning
-    (include "./tray.yuck")
+    (include "./tray.yuck"
+    include "./bar.yuck")
 
     ;; Variables
     (defvar tray-visible false)

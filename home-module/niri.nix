@@ -2,6 +2,7 @@
   home.packages = with pkgs; [
     niri
     fuzzel
+    dunst
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
@@ -9,9 +10,11 @@
     file-roller
     papirus-icon-theme # Popular, complete icon theme
     adwaita-icon-theme # GNOME icons (fallback)
-    hicolor-icon-theme # Base icon theme (required)
+    hicolor-icon-theme
+    swayidle
+    swaylock
+    swayimg # Base icon theme (required)
   ];
-  programs.niri.enable = true;
 
   xdg.configFile."niri/config.kdl".text = ''
         // This config is in the KDL format: https://kdl.dev
@@ -100,9 +103,6 @@
         default-column-width { proportion 0.5; }
         // If you leave the brackets empty, the windows themselves will decide their initial width.
         // default-column-width {}
-
-        prefer-no-csd
-
         // You can change how the focus ring looks.
         focus-ring {
             // Uncomment this line to disable the focus ring.

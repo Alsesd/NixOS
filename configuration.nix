@@ -18,16 +18,14 @@
 
   programs.xfconf.enable = true;
   programs.thunar.enable = true;
-
+  programs.niri.enable = true;
   # File manager configuration
   xdg.mime.defaultApplications = {
     "inode/directory" = ["thunar.desktop"];
   };
 
-  # Set default file manager for xdg-open
   environment.sessionVariables = {
     DEFAULT_FILE_MANAGER = "thunar";
-    # Add this to help VSCode and other apps find the file manager
     FILE_MANAGER = "thunar";
   };
 
@@ -43,18 +41,14 @@
     ventoy-full
     python3
     xdg-utils
-    mako
     networkmanager
     usbutils
+    udiskie
     pkgs.mesa
-    (pkgs.writeShellScriptBin "xdg-file-manager" ''
-      exec ${pkgs.xfce.thunar}/bin/thunar "$@"
-    '')
   ];
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
-  programs.niri.enable = true;
 
   xdg.portal = {
     enable = true;
@@ -67,7 +61,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
