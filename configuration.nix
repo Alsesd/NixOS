@@ -16,6 +16,7 @@
     ./modules/autoupgrade.nix
   ];
 
+  services.gvfs.enable = true;
   programs.xfconf.enable = true;
   programs.thunar.enable = true;
   programs.niri.enable = true;
@@ -45,7 +46,16 @@
     usbutils
     udiskie
     pkgs.mesa
+    xfce.thunar
+    xfce.thunar-volman
+    xfce.thunar-archive-plugin
+    (pkgs.writeShellScriptBin "xdg-file-manager" ''
+      exec ${pkgs.xfce.thunar}/bin/thunar "$@"
+    '')
   ];
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.package = pkgs.nix-ld-rs;
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
@@ -55,6 +65,7 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
     ];
+    config.common.default = "*";
   };
 
   # Bootloader.

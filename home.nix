@@ -1,13 +1,17 @@
 {pkgs, ...}: {
   imports = [
-    ./home-module/waybar.nix
     ./home-module/bash.nix
     ./home-module/kitty.nix
     ./home-module/fastfetch.nix
-    ./home-module/hyprpaper.nix
+
     ./home-module/starship.nix
     ./home-module/eww-widgets/eww.nix
-    ./home-module/niri.nix
+
+    ./home-module/niri/niri.nix
+    ./home-module/niri/hyprpaper.nix
+    ./home-module/niri/waybar.nix
+    ./home-module/niri/dunst.nix
+    ./home-module/niri/swayidle.nix
   ];
 
   home.username = "alsesd";

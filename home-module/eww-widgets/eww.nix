@@ -8,14 +8,14 @@
     ./tray/scss.nix
     ./tray/tray.nix
     ./tray/tray-script.nix
-    ./bar/bar.nix
+    # ./bar/bar.nix
   ];
 
   # Main eww configuration file
   xdg.configFile."eww/eww.yuck".text = ''
     ;; Include the tray module at the beginning
     (include "./tray.yuck")
-    (include "./bar.yuck")
+    ;;(include "./bar.yuck")
 
 
     ;; Variables
@@ -26,6 +26,7 @@
   xdg.configFile."eww/eww.scss".text = ''
     /* Import tray styles */
     @import "./tray.scss";
+    ;;@import "./bar.scss";
 
     /* Global styles */
     * {
