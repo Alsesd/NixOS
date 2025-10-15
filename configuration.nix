@@ -16,7 +16,7 @@
     ./modules/stylix.nix
     ./modules/autoupgrade.nix
 
-    
+    ./scripts/active.nix
   ];
 
   services.gvfs.enable = true;
@@ -52,9 +52,7 @@
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
-    (pkgs.writeShellScriptBin "xdg-file-manager" ''
-      exec ${pkgs.xfce.thunar}/bin/thunar "$@"
-    '')
+    
   ];
 
   programs.nix-ld.enable = true;

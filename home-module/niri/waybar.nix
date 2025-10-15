@@ -25,7 +25,7 @@
 
         "custom/info" = {
           format = "     ";
-          on-click = "~/.local/bin/toggle-tray";
+          on-click = "toggle-tray";
           tooltip = true;
           tooltip-format = "Toggle System Tray";
         };

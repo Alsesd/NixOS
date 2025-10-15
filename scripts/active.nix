@@ -1,5 +1,6 @@
-{...}: {
+{pkgs, ...}: {
   imports = [
-    ./tray-script.nix
+    ./toggle-tray.nix #Open tray widget on active monitor
+    ./xdg-file-manager.nix #Thunar as default file manager
   ];
 }

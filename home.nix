@@ -11,9 +11,9 @@
     ./home-module/niri/hyprpaper.nix
     ./home-module/niri/waybar.nix
     ./home-module/niri/mako.nix
-    ./home-module/niri/swayidle.nix
+    #./home-module/niri/swayidle.nix
 
-    ./scripts/active.nix
+    
   ];
 
   home.username = "alsesd";
