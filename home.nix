@@ -4,7 +4,7 @@
     ./terminal/kitty.nix
     ./terminal/fastfetch.nix
     ./terminal/starship.nix
-    
+
     ./home-module/eww-widgets/eww.nix
 
     ./home-module/niri/niri.nix
@@ -12,6 +12,8 @@
     ./home-module/niri/waybar.nix
     ./home-module/niri/mako.nix
     ./home-module/niri/swayidle.nix
+
+    ./scripts/active.nix
   ];
 
   home.username = "alsesd";

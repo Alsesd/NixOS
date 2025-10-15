@@ -1,4 +1,4 @@
-{}: {
+{...}: {
   imports = [
     ./tray-script.nix
   ];

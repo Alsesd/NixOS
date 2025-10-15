@@ -16,7 +16,7 @@
     ./modules/stylix.nix
     ./modules/autoupgrade.nix
 
-    ./scripts/active.nix
+    
   ];
 
   services.gvfs.enable = true;
