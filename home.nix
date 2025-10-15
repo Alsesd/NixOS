@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    ./terminal/bash.nix
+    ./home-module/bash.nix
     ./terminal/kitty.nix
     ./terminal/fastfetch.nix
     ./terminal/starship.nix
