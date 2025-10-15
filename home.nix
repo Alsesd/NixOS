@@ -6,7 +6,7 @@
     ./home-module/fastfetch.nix
     ./home-module/hyprpaper.nix
     ./home-module/starship.nix
-    ./home-module/eww.nix
+    ./home-module/eww-widgets/eww.nix
     ./home-module/niri.nix
   ];
 
