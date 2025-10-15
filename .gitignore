@@ -1,9 +1,0 @@
-/result/
-.version-suffix
-flake.lock
-/hypr/
-/vscode/
-/modules/*.png
-/modules/*.jpeg
-
-.gitignore
