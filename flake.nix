@@ -32,6 +32,7 @@
         specialArgs = {inherit inputs system;};
         modules = [
           ./configuration.nix
+          ./system_info/hardware-configuration.nix
           inputs.stylix.nixosModules.stylix
           # Импортируем модуль NixOS для niri
           home-manager.nixosModules.home-manager
