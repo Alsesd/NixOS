@@ -17,6 +17,7 @@
     (include "./tray.yuck")
     (include "./bar.yuck")
 
+
     ;; Variables
     (defvar tray-visible false)
   '';

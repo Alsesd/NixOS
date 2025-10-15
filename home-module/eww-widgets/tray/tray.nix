@@ -1,7 +1,22 @@
 {pkgs, ...}: {
-
   xdg.configFile."eww/tray.yuck".text = ''
     ;; Tray widget content
+      ;; Window definition for tray popup
+    (defwindow tray-popup
+    :window-type "popup"
+      :monitor "1"
+      :geometry (geometry
+        :x "12px"
+        :y "12px"
+        :width "250px"
+        :height "60px"
+        :anchor "top right")
+      :stacking "overlay"
+      :exclusive false
+      :focusable false
+      (tray-widget))
+
+
     (defwidget tray-widget []
       (eventbox
         :onclick "eww close tray-popup"
@@ -17,19 +32,6 @@
             :prepend-new false
             :class "tray-systray"))))
 
-    ;; Window definition for tray popup
-    (defwindow tray-popup
-    :window-type "popup"
-      :monitor "1"
-      :geometry (geometry
-        :x "12px"
-        :y "12px"
-        :width "250px"
-        :height "60px"
-        :anchor "top right")
-      :stacking "overlay"
-      :exclusive false
-      :focusable false
-      (tray-widget))
+
   '';
 }
