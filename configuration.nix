@@ -16,7 +16,6 @@
     ./modules/autoupgrade.nix
   ];
 
-  services.gvfs.enable = true;
   programs.xfconf.enable = true;
   programs.thunar.enable = true;
 
@@ -55,6 +54,7 @@
     networkmanager
     usbutils
     jq
+    pkgs.mesa
     (pkgs.writeShellScriptBin "xdg-file-manager" ''
       exec ${pkgs.xfce.thunar}/bin/thunar "$@"
     '')
@@ -69,7 +69,6 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
     ];
-    config.common.default = "*";
   };
 
   # Bootloader.
