@@ -54,7 +54,6 @@
     mako
     networkmanager
     usbutils
-    bluez
     jq
     (pkgs.writeShellScriptBin "xdg-file-manager" ''
       exec ${pkgs.xfce.thunar}/bin/thunar "$@"

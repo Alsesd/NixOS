@@ -28,10 +28,6 @@
     ;; Tray widget content
     (defwidget tray-widget []
       (eventbox
-        ;; REMOVED: :onhoverlost "eww close tray-popup"
-        ;; The menu's failure to close often requires a forced kill/close
-        ;; of the parent window. The simplest method is a single click,
-        ;; so we keep the :onclick to close the window.
         :onclick "eww close tray-popup"
         (box
           :class "tray-container"

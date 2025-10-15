@@ -59,7 +59,7 @@
           interval = 2;
           timeout = 10;
           on-click = "nmcli device wifi rescan";
-          on-click-right = "nmcli radio wifi on";
+          on-click-right = "kitty nmtui";
         };
 
         battery = {
