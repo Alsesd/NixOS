@@ -2,6 +2,7 @@
   # Add eww to your packages
   home.packages = with pkgs; [
     eww
+    jq
   ];
 
   # Create eww configuration files
@@ -11,6 +12,7 @@
 
     ;; Window definition for tray popup
     (defwindow tray-popup
+    :window-type "popup"
       :monitor "1"
       :geometry (geometry
         :x "12px"
@@ -20,13 +22,17 @@
         :anchor "top right")
       :stacking "overlay"
       :exclusive false
-      :focusable false
+      :focusable false  ;; Correctly set to false, crucial for Wayland menus
       (tray-widget))
 
     ;; Tray widget content
     (defwidget tray-widget []
       (eventbox
-        :onhoverlost "eww close tray-popup"
+        ;; REMOVED: :onhoverlost "eww close tray-popup"
+        ;; The menu's failure to close often requires a forced kill/close
+        ;; of the parent window. The simplest method is a single click,
+        ;; so we keep the :onclick to close the window.
+        :onclick "eww close tray-popup"
         (box
           :class "tray-container"
           :orientation "h"
@@ -91,13 +97,16 @@
     }
   '';
 
-  # Create toggle script
   home.file.".local/bin/toggle-tray".text = ''
     #!/usr/bin/env bash
-    if grep -q "\*tray-popup" | eww active-windows; then
-      eww open tray-popup
-    else
+
+    MONITOR_ID=$(niri msg --json focused-output 2>/dev/null | jq -r '.model')
+
+    # Логіка Toggle
+    if eww active-windows | grep -q "tray-popup"; then
       eww close tray-popup
+    else
+      eww open tray-popup --screen "$MONITOR_ID"
     fi
   '';
 
