@@ -53,7 +53,6 @@
     mako
     networkmanager
     usbutils
-    jq
     pkgs.mesa
     (pkgs.writeShellScriptBin "xdg-file-manager" ''
       exec ${pkgs.xfce.thunar}/bin/thunar "$@"
