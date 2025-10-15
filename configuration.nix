@@ -35,18 +35,11 @@
   environment.systemPackages = with pkgs; [
     wget
     git
-    file-roller
     alejandra # Nix formatter
     nixd # Nix language server
     base16-schemes
     cava
     tree
-    niri
-    xwayland-satellite
-    fuzzel
-    xfce.thunar
-    xfce.thunar-volman # Add this for better device management
-    xfce.thunar-archive-plugin # Add this for archive support
     ventoy-full
     python3
     xdg-utils
