@@ -3,8 +3,4 @@
     mako
     libnotify
   ];
-  programs = {
-    mako.enable = true;
-    libnotify.enable = true;
-  };
 }

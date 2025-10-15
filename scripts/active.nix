@@ -1,0 +1,5 @@
+{}: {
+  imports = [
+    ./tray-script.nix
+  ];
+}

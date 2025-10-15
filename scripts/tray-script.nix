@@ -1,3 +1,4 @@
+#Open tray widget on active monitor
 {...}: {
   home.file.".local/bin/toggle-tray".text = ''
     #!/usr/bin/env bash

@@ -6,7 +6,6 @@
   home.packages = with pkgs; [
     swayidle
     swaylock
-    swaylock-effects
     sway
   ];
   services = {
@@ -14,10 +13,10 @@
       enable = true;
       package = pkgs.swayidle;
       timeouts = [
-        #{
-         # timeout = 180;
-        #  command = "${libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
-        #}
+        {
+          timeout = 180;
+          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
+        }
 
         {
           timeout = 185;

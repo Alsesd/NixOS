@@ -6,14 +6,17 @@
   ...
 }: {
   imports = [
-    ./modules/hardware-configuration.nix
-    ./modules/users.nix
-    ./modules/nvidia.nix
+    ./system_info/hardware-configuration.nix
+    ./system_info/users.nix
+    ./system_info/nvidia.nix
+
     ./modules/gc.nix
     ./modules/sddm.nix
     ./modules/xwayland.nix
     ./modules/stylix.nix
     ./modules/autoupgrade.nix
+
+    ./scripts/active.nix
   ];
 
   services.gvfs.enable = true;

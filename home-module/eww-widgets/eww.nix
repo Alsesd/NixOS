@@ -7,7 +7,6 @@
   imports = [
     ./tray/scss.nix
     ./tray/tray.nix
-    ./tray/tray-script.nix
     # ./bar/bar.nix
   ];
 

@@ -1,10 +1,10 @@
 {pkgs, ...}: {
   imports = [
-    ./home-module/bash.nix
-    ./home-module/kitty.nix
-    ./home-module/fastfetch.nix
-
-    ./home-module/starship.nix
+    ./terminal/bash.nix
+    ./terminal/kitty.nix
+    ./terminal/fastfetch.nix
+    ./terminal/starship.nix
+    
     ./home-module/eww-widgets/eww.nix
 
     ./home-module/niri/niri.nix
