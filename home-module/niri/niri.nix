@@ -7,10 +7,9 @@
     papirus-icon-theme # Popular, complete icon theme
     adwaita-icon-theme # GNOME icons (fallback)
     hicolor-icon-theme
-    swayimg # Base icon theme (required)
+    swayimg
+    swaybg # Base icon theme (required)
   ];
-  
-
   xdg.configFile."niri/config.kdl".text = ''
             // This config is in the KDL format: https://kdl.dev
         // "/-" comments out the following node.
