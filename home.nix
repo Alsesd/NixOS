@@ -11,7 +11,6 @@
     ./home-module/niri/waybar.nix
     ./home-module/niri/mako.nix
 
-    ./home-module/sddm.nix
   ];
 
   home.username = "alsesd";
