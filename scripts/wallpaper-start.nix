@@ -2,18 +2,15 @@
   wallpaper-start = pkgs.writeShellScriptBin "wallpaper-start" ''
         #!/usr/bin/env bash
 
-    w_eDP="$HOME/.config/nixos/utility/wallpaper1.png"
-    w_HDMA="$HOME/.config/nixos/utility/wallpaper2.png"
+    w_eDP="$HOME/.config/nixos/utility/wallpaper2.png"
+    w_HDMI="$HOME/.config/nixos/utility/wallpaper1.png"
 
         # Function to set wallpaper using swaybg
-        set_wallpaper(w_eDP, w_HDMA) {
-        swaybg -o "eDP-1" -i "$w_eDP" -m fill &&
-        swaybg -o "HDMI-A-1" -i "$w_HDMA" -m fill
+        
+        swaybg -o "eDP-1" -i "$w_eDP" -m fill &
+        swaybg -o "HDMI-A-4" -i "$w_HDMI" -m fill
         }
 
-         # Initial wallpaper setup
-        w_eDP="$HOME/.config/nixos/utility/wallpaper1.png"
-        w_HDMA="$HOME/.config/nixos/utility/wallpaper2.png"
 
         wait
   '';
