@@ -15,7 +15,7 @@
     ./modules/xwayland.nix
     ./modules/stylix.nix
     ./modules/autoupgrade.nix
-    ./modules/ly.nix
+    ./modules/lightdm.nix
 
     ./scripts/active.nix
   ];
