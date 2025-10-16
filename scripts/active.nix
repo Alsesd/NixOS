@@ -5,5 +5,6 @@
     ./plug.nix #Ventoy plugson script
     ./wallpaper-start.nix #Set wallpaper on active monitor
   ];
-  systemd.user.services.wallpaper-start.enable = true;
+
+  systemd.user.services.wallpaper-start.enable = true; #in wallpaper-start.nix
 }

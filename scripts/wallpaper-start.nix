@@ -7,9 +7,7 @@
         # Function to set wallpaper using swaybg
 
         swaybg -o "eDP-1" -i "$w_eDP" -m fill &
-        swaybg -o "HDMI-A-4" -i "$w_HDMI" -m fill
-        }
-
+        swaybg -o "HDMI-A-4" -i "$w_HDMI" -m fill &
 
         wait
   '';
@@ -25,7 +23,7 @@ in {
     wantedBy = ["default.target"];
     after = ["graphical-session.target"];
     serviceConfig = {
-      ExecStart = "${wallpaper-start}";
+      ExecStart = "wallpaper-start";
       Restart = "on-failure";
       RestartSec = 2;
     };
