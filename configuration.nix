@@ -10,6 +10,7 @@
     ./system_info/users.nix
     ./system_info/nvidia.nix
     ./system_info/genv.nix
+    ./system_info/sddm.nix 
 
     ./utility/gc.nix
     ./utility/xwayland.nix

@@ -220,7 +220,7 @@
 
             hot-corners {
                 off
-     
+         
             }
         }
         // Add lines like this to spawn processes at startup.
@@ -230,6 +230,8 @@
 
         // This line starts waybar, a commonly used bar for Wayland compositors.
         spawn-at-startup "waybar"
+        spawn-at-startup "set-wallpapers"
+        spawn-at-startup "xwayland-satellite" ":0"
 
         // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
         // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -245,7 +247,7 @@
     // This option will also fix border/focus ring drawing behind some semitransparent windows.
     // After enabling or disabling this, you need to restart the apps for this to take effect.
      prefer-no-csd
-   
+       
         // You can change the path where screenshots are saved.
         // A ~ at the front will be expanded to the home directory.
         // The path is formatted with strftime(3) to give you the screenshot date and time.
