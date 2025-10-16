@@ -44,8 +44,7 @@
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
-
-  services.xserver.displayManager.lightdm.enable = true;
+  services.displayManager.ly.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
