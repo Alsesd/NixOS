@@ -24,27 +24,18 @@ in {
     set-wallpapers
     pkgs.swaybg
   ];
-
-  # User service for wallpapers (runs after login)
   systemd.user.services.wallpaper-session = {
-    Unit = {
-      Description = "Set wallpapers for Niri session";
-      After = ["graphical-session.target" "niri.service"];
-      PartOf = ["graphical-session.target"];
-    };
-
-    Service = {
+    description = "Set wallpapers for Niri session";
+    wantedBy = ["graphical-session.target"];
+    partOf = ["graphical-session.target"];
+    after = ["graphical-session.target" "niri.service"];
+    serviceConfig = {
       Type = "forking";
       ExecStart = "${set-wallpapers}/bin/set-wallpapers";
       Restart = "on-failure";
       RestartSec = 3;
     };
-
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
   };
-
   # Also add to Niri autostart as backup
   # This will be configured in niri.nix
 }
