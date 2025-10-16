@@ -9,6 +9,7 @@
     ./system_info/hardware-configuration.nix
     ./system_info/users.nix
     ./system_info/nvidia.nix
+    ./system_info/genv.nix
 
     ./modules/gc.nix
     ./modules/sddm.nix
@@ -19,19 +20,12 @@
     ./scripts/active.nix
   ];
 
-  services.gvfs.enable = true;
-  programs.xfconf.enable = true;
-  programs.thunar.enable = true;
+  
   programs.niri.enable = true;
-  # File manager configuration
-  xdg.mime.defaultApplications = {
-    "inode/directory" = ["thunar.desktop"];
-  };
+  
+ 
 
-  environment.sessionVariables = {
-    DEFAULT_FILE_MANAGER = "thunar";
-    FILE_MANAGER = "thunar";
-  };
+ 
 
   # Create a wrapper script for xdg-open to handle directories
   environment.systemPackages = with pkgs; [
@@ -55,19 +49,12 @@
     
   ];
 
-  programs.nix-ld.enable = true;
-  programs.nix-ld.package = pkgs.nix-ld-rs;
+  
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-    ];
-    config.common.default = "*";
-  };
+ 
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -78,19 +65,7 @@
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
-  time.timeZone = "Europe/Kyiv";
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "uk_UA.UTF-8";
-    LC_IDENTIFICATION = "uk_UA.UTF-8";
-    LC_MEASUREMENT = "uk_UA.UTF-8";
-    LC_MONETARY = "uk_UA.UTF-8";
-    LC_NAME = "uk_UA.UTF-8";
-    LC_NUMERIC = "uk_UA.UTF-8";
-    LC_PAPER = "uk_UA.UTF-8";
-    LC_TELEPHONE = "uk_UA.UTF-8";
-    LC_TIME = "uk_UA.UTF-8";
-  };
+  
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
@@ -102,17 +77,5 @@
 
   system.stateVersion = "25.05";
 
-  environment.variables = {
-    GDK_BACKEND = "wayland,x11,*";
-    QT_QPA_PLATFORM = "wayland;xcb";
-    CLUTTER_BACKEND = "wayland";
-    XDG_CURRENT_DESKTOP = "niri";
-    XDG_SESSION_DESKTOP = "niri";
-    XDG_SESSION_TYPE = "wayland";
-    LIBVA_DRIVER_NAME = "nvidia";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    NVD_BACKEND = "direct";
-    GSK_RENDERER = "ngl";
-    GBM_BACKEND = "nvidia-drm";
-  };
+  
 }
