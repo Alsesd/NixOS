@@ -28,7 +28,6 @@
     vlc
     vscode
     slack
-    hyprpaper
   ];
 
   xdg.configFile = {
