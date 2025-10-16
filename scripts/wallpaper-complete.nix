@@ -1,24 +1,21 @@
 {pkgs, ...}: let
-  # Define wallpaper paths
-  wallpaper-edp = ./utility/wallpaper2.png;
-  wallpaper-hdmi = ./utility/wallpaper1.png;
-
   # Create the wallpaper script
   set-wallpapers = pkgs.writeShellScriptBin "set-wallpapers" ''
-    #!/usr/bin/env bash
+        #!/usr/bin/env bash
 
-    # Kill any existing swaybg instances
-    ${pkgs.procps}/bin/pkill -9 swaybg || true
+        # Kill any existing swaybg instances
+        ${pkgs.procps}/bin/pkill -9 swaybg || true
 
-    # Check if outputs exist
-    if ! ${pkgs.niri}/bin/niri msg outputs &>/dev/null; then
-        echo "Niri not ready, waiting..."
-        sleep 2
-    fi
+        # Check if outputs exist
+        if ! ${pkgs.niri}/bin/niri msg outputs &>/dev/null; then
+            echo "Niri not ready, waiting..."
+            sleep 2
+        fi
 
-    # Set wallpapers for both monitors
-    ${pkgs.swaybg}/bin/swaybg -o "eDP-1" -i ${wallpaper-edp} -m fill &
-    ${pkgs.swaybg}/bin/swaybg -o "HDMI-A-4" -i ${wallpaper-hdmi} -m fill &
+        # Set wallpapers for both monitors
+    ${pkgs.swaybg}/bin/swaybg -o "eDP-1" -i "/home/alsesd/.config/nixos/utility/wallpaper2.png" -m fill &
+        ${pkgs.swaybg}/bin/swaybg -o "HDMI-A-4" -i "/home/alsesd/.config/nixos/utility/wallpaper1.png" -m fill &
+
 
   '';
 in {
