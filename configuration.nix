@@ -15,6 +15,7 @@
     ./utility/xwayland.nix
     ./utility/stylix.nix
     ./utility/autoupgrade.nix
+    ./utility/niri-session.nix
 
     ./scripts/active.nix
   ];

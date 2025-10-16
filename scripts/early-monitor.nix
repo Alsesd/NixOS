@@ -1,64 +1,92 @@
 {pkgs, ...}: let
-  # Скрипт для включения HDMI монитора через drm
-  enable-hdmi = pkgs.writeShellScriptBin "enable-hdmi" ''
+  # Конфигурация Niri специально для greeter
+  niri-greeter-config = pkgs.writeText "niri-greeter.kdl" ''
+    output "HDMI-A-4" {
+        mode "1920x1080@144.001"
+        position x=1920 y=0
+    }
+    output "eDP-1" {
+        mode "1920x1080@60.030"
+        position x=0 y=0
+    }
+  '';
+
+  # Скрипт для настройки мониторов через kernel mode setting
+  setup-monitors = pkgs.writeShellScriptBin "setup-monitors" ''
     #!/usr/bin/env bash
 
-    # Ждём пока появятся DRM устройства
-    for i in {1..30}; do
-      if [ -d /sys/class/drm ]; then
-        echo "DRM devices found"
+    # Проверяем наличие niri
+    if ! command -v niri &> /dev/null; then
+      echo "Niri not found, skipping monitor setup"
+      exit 0
+    fi
+
+    # Экспортируем конфигурацию для greeter
+    export NIRI_CONFIG="${niri-greeter-config}"
+
+    # Ждём инициализации DRM
+    for i in {1..20}; do
+      if [ -d /sys/class/drm ] && [ -n "$(ls /sys/class/drm/card*/card*/status 2>/dev/null)" ]; then
+        echo "DRM initialized"
         break
       fi
       sleep 0.5
     done
 
-    # Включаем все HDMI выходы через sysfs
-    for card in /sys/class/drm/card*/card*/status; do
-      if [ -f "$card" ]; then
-        connector=$(dirname "$card")
-        connector_name=$(basename "$connector")
+    # Пытаемся запустить niri в фоне для настройки мониторов
+    ${pkgs.niri}/bin/niri msg outputs 2>/dev/null || {
+      echo "Starting niri daemon for monitor setup..."
+      WAYLAND_DISPLAY=wayland-greeter ${pkgs.niri}/bin/niri --session &
+      NIRI_PID=$!
+      sleep 2
 
-        # Проверяем если это HDMI
-        if [[ "$connector_name" == *"HDMI"* ]]; then
-          echo "Found HDMI connector: $connector_name"
-
-          # Пытаемся включить
-          if [ -f "$connector/enabled" ]; then
-            echo on > "$connector/enabled" 2>/dev/null || true
-          fi
-        fi
-      fi
-    done
-
-    # Также пробуем через niri, если он уже запущен
-    if command -v niri &> /dev/null; then
+      # Настраиваем мониторы
       ${pkgs.niri}/bin/niri msg output HDMI-A-4 on 2>/dev/null || true
-    fi
+      ${pkgs.niri}/bin/niri msg output HDMI-A-4 mode 1920x1080@144.001 2>/dev/null || true
+      ${pkgs.niri}/bin/niri msg output eDP-1 on 2>/dev/null || true
 
-    echo "HDMI monitor enable attempted"
+      # Не убиваем niri - пусть работает для greeter
+    }
+
+    echo "Monitor setup completed"
   '';
 in {
-  environment.systemPackages = [enable-hdmi];
+  environment.systemPackages = [setup-monitors];
 
-  # Системный сервис который запускается ДО display-manager
-  systemd.services.enable-hdmi-early = {
-    description = "Enable HDMI monitor before login screen";
-    wantedBy = ["multi-user.target"];
+  # Сервис для настройки мониторов перед display-manager
+  systemd.services.setup-monitors-early = {
+    description = "Setup monitors before login screen";
+    wantedBy = ["display-manager.service"];
     before = ["display-manager.service"];
-    after = ["systemd-udev-settle.service"];
+    after = ["systemd-udev-settle.service" "systemd-logind.service"];
 
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${enable-hdmi}/bin/enable-hdmi";
+      ExecStart = "${setup-monitors}/bin/setup-monitors";
       RemainAfterExit = true;
-      # Запускаем с привилегиями root для доступа к /sys
       User = "root";
+      Environment = [
+        "XDG_RUNTIME_DIR=/run"
+        "WAYLAND_DISPLAY=wayland-greeter"
+      ];
     };
   };
 
-  # Также добавляем udev правило для автоматического включения
-  services.udev.extraRules = ''
-    # Автоматически включать HDMI при подключении
-    ACTION=="change", SUBSYSTEM=="drm", RUN+="${enable-hdmi}/bin/enable-hdmi"
+  # Настройка environment для SDDM чтобы использовать оба монитора
+  environment.etc."sddm.conf.d/monitors.conf".text = ''
+    [General]
+    # Используем правильную переменную для настройки мониторов
+    DisplayCommand=${pkgs.writeShellScript "sddm-display-setup" ''
+      # Настройка мониторов для SDDM
+      ${pkgs.niri}/bin/niri msg output HDMI-A-4 on || true
+      ${pkgs.niri}/bin/niri msg output eDP-1 on || true
+    ''}
   '';
+
+  # Также настраиваем logind для использования обоих мониторов
+  services.logind = {
+    lidSwitch = "ignore";
+    lidSwitchDocked = "ignore";
+    lidSwitchExternalPower = "ignore";
+  };
 }
