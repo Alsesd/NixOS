@@ -11,11 +11,10 @@
     ./system_info/nvidia.nix
     ./system_info/genv.nix
 
-    ./modules/gc.nix
-    ./modules/xwayland.nix
-    ./modules/stylix.nix
-    ./modules/autoupgrade.nix
-    ./modules/lightdm.nix
+    ./utility/gc.nix
+    ./utility/xwayland.nix
+    ./utility/stylix.nix
+    ./utility/autoupgrade.nix
 
     ./scripts/active.nix
   ];
@@ -45,6 +44,8 @@
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
+
+  services.xserver.displayManager.lightdm.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
