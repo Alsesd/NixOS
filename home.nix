@@ -10,7 +10,7 @@
     ./home-module/niri/niri.nix
     ./home-module/niri/waybar.nix
     ./home-module/niri/mako.nix
-
+    ./home-module/niri/kanshi.nix
   ];
 
   home.username = "alsesd";
