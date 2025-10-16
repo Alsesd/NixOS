@@ -1,20 +1,14 @@
-inputs: {
+{
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (lib) mkIf mkOption mapAttrsToList concatStrings boolToString types mkEnableOption;
 
   # Config
   cfg = config.services.displayManager.sddm.sugarCandyNix;
-  mkTranslationOption = name: example:
-    mkOption {
-      default = "";
-      inherit example;
-      description = "Add a translation for ${name}.";
-      type = types.str;
-    };
 
   # Theme configuration generator
   mkThemeConf = settings: let
@@ -351,33 +345,6 @@ in {
         description = "Header can be empty to not display any greeting at all. Keep it short.";
         type = types.str;
       };
-
-      TranslatePlaceholderUsername = mkTranslationOption "the username placeholder" "Nom d'utilisateur";
-
-      TranslatePlaceholderPassword = mkTranslationOption " the password placeholder" "Mot de passe";
-
-      TranslateShowPassword = mkTranslationOption "show password" "Afficher le mot de passe";
-
-      TranslateLogin = mkTranslationOption "login" "Connexion";
-
-      TranslateLoginFailedWarning = mkTranslationOption "the login failed warning" "Echec de l'authentication";
-
-      TranslateCapslockWarning = mkTranslationOption "the caps lock warning" "Verr. Maj. actif";
-
-      TranslateSession = mkTranslationOption "the session button" "Session";
-
-      TranslateSuspend = mkTranslationOption "the suspend button" "Suspendre";
-
-      TranslateHibernate =
-        mkTranslationOption "the hibernate button"
-        "Hibernation";
-
-      TranslateReboot = mkTranslationOption "the reboot button" "Redémarrer";
-
-      TranslateShutdown = mkTranslationOption "the shutdown button" "Arrêt";
-
-      TranslateVirtualKeyboardButton = mkTranslationOption "the virtual
-      keyboard button" "Clavier virtuel";
     };
   };
 
