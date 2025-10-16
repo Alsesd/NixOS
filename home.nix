@@ -1,9 +1,9 @@
 {pkgs, ...}: {
   imports = [
-    ./home-module/bash.nix
-    ./home-module/kitty.nix
-    ./terminal/fastfetch.nix
-    ./terminal/starship.nix
+    ./home-module/terminal/bash.nix
+    ./home-module/terminal/kitty.nix
+    ./home-module/terminal/fastfetch.nix
+    ./home-module/terminal/starship.nix
 
     ./home-module/eww-widgets/eww.nix
 
