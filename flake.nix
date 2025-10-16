@@ -53,15 +53,10 @@
     # ⬇️ ADD THIS BLOCK (purely additive)
     packages.${system} = sddm-sugar-candy-nix.packages.${system};
     overlays = sddm-sugar-candy-nix.overlays;
-    nixosModules.sddm-sugar-candy-custom = {
-      config,
-      lib,
-      pkgs,
-      ...
-    }: {
-      imports = [sddm-sugar-candy-nix.nixosModules.default];
-      # your extra rules here
-      services.displayManager.sddm.sugarCandyNix.settings.Font = "Comic Sans MS";
-    };
+    nixosModules.sddm-sugar-candy = sddm-sugar-candy-nix.nixosModules.default;
+    # Re-export sddm-sugar-candy-nix artefacts
+    packages.${system} = sddm-sugar-candy-nix.packages.${system};
+    overlays = sddm-sugar-candy-nix.overlays;
+    nixosModules.sddm-sugar-candy = sddm-sugar-candy-nix.nixosModules.default;
   };
 }
