@@ -8,7 +8,7 @@
     ./home-module/eww-widgets/eww.nix
 
     ./home-module/niri/niri.nix
-    ./home-module/niri/hyprpaper.nix
+    #./home-module/niri/hyprpaper.nix
     ./home-module/niri/waybar.nix
     ./home-module/niri/mako.nix
   ];
