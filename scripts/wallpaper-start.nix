@@ -2,11 +2,10 @@
   wallpaper-start = pkgs.writeShellScriptBin "wallpaper-start" ''
         #!/usr/bin/env bash
 
-    w_eDP="$HOME/.config/nixos/utility/wallpaper2.png"
-    w_HDMI="$HOME/.config/nixos/utility/wallpaper1.png"
-
+    w_eDP="$(find /home/alsesd/.config/nixos/utility/wallpaper2.*)"
+    w_HDMI="$(find /home/alsesd/.config/nixos/utility/wallpaper1.*)"
         # Function to set wallpaper using swaybg
-        
+
         swaybg -o "eDP-1" -i "$w_eDP" -m fill &
         swaybg -o "HDMI-A-4" -i "$w_HDMI" -m fill
         }
@@ -28,7 +27,7 @@ in {
     serviceConfig = {
       ExecStart = "${wallpaper-start}";
       Restart = "on-failure";
-      RestartSec = 10;
+      RestartSec = 2;
     };
   };
 }
