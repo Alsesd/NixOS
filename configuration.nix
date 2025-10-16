@@ -12,7 +12,7 @@
     ./system_info/genv.nix
 
     ./modules/gc.nix
-    ./modules/sddm.nix
+    ./modules/ly.nix
     ./modules/xwayland.nix
     ./modules/stylix.nix
     ./modules/autoupgrade.nix
