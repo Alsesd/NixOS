@@ -4,411 +4,454 @@
   pkgs,
   ...
 }: let
-  cfg = config.services.displayManager.gdm;
-  gdm = pkgs.gdm;
-  xdmcfg = config.services.xserver.displayManager;
-  pamLogin = config.security.pam.services.login;
-  settingsFormat = pkgs.formats.ini {};
-  configFile = settingsFormat.generate "custom.conf" cfg.settings;
+  xcfg = config.services.xserver;
+  dmcfg = config.services.displayManager;
+  cfg = config.services.displayManager.sddm;
+  xEnv = config.systemd.services.display-manager.environment;
 
-  xSessionWrapper =
-    if (xdmcfg.setupCommands == "")
-    then null
-    else
-      pkgs.writeScript "gdm-x-session-wrapper" ''
-        #!${pkgs.bash}/bin/bash
-        ${xdmcfg.setupCommands}
-        exec "$@"
-      '';
+  sddm = cfg.package.override (old: {
+    extraPackages =
+      old.extraPackages or []
+      ++ lib.optionals cfg.wayland.enable [pkgs.qt6.qtwayland]
+      ++ lib.optionals (cfg.wayland.compositor == "kwin") [pkgs.kdePackages.layer-shell-qt]
+      ++ cfg.extraPackages;
+  });
 
-  # Solves problems like:
-  # https://wiki.archlinux.org/index.php/Talk:Bluetooth_headset#GDMs_pulseaudio_instance_captures_bluetooth_headset
-  # Instead of blacklisting plugins, we use Fedora's PulseAudio configuration for GDM:
-  # https://src.fedoraproject.org/rpms/gdm/blob/master/f/default.pa-for-gdm
-  pulseConfig = pkgs.writeText "default.pa" ''
-    load-module module-device-restore
-    load-module module-card-restore
-    load-module module-udev-detect
-    load-module module-native-protocol-unix
-    load-module module-default-device-restore
-    load-module module-always-sink
-    load-module module-intended-roles
-    load-module module-suspend-on-idle
-    load-module module-position-event-sounds
+  iniFmt = pkgs.formats.ini {};
+
+  inherit
+    (lib)
+    concatMapStrings
+    concatStringsSep
+    getExe
+    attrNames
+    getAttr
+    optionalAttrs
+    optionalString
+    mkRemovedOptionModule
+    mkRenamedOptionModule
+    mkIf
+    mkEnableOption
+    mkOption
+    mkPackageOption
+    types
+    ;
+
+  xserverWrapper = pkgs.writeShellScript "xserver-wrapper" ''
+    ${concatMapStrings (n: "export ${n}=\"${getAttr n xEnv}\"\n") (attrNames xEnv)}
+    exec systemd-cat -t xserver-wrapper ${xcfg.displayManager.xserverBin} ${toString xcfg.displayManager.xserverArgs} "$@"
   '';
 
-  defaultSessionName = config.services.displayManager.defaultSession;
+  Xsetup = pkgs.writeShellScript "Xsetup" ''
+    ${cfg.setupScript}
+    ${xcfg.displayManager.setupCommands}
+  '';
 
-  setSessionScript = pkgs.callPackage ../x11/display-managers/account-service-util.nix {};
+  Xstop = pkgs.writeShellScript "Xstop" ''
+    ${cfg.stopScript}
+  '';
+
+  defaultConfig =
+    {
+      General =
+        {
+          HaltCommand = "/run/current-system/systemd/bin/systemctl poweroff";
+          RebootCommand = "/run/current-system/systemd/bin/systemctl reboot";
+          Numlock =
+            if cfg.autoNumlock
+            then "on"
+            else "none"; # on, off none
+
+          # Implementation is done via pkgs/applications/display-managers/sddm/sddm-default-session.patch
+          DefaultSession = optionalString (
+            config.services.displayManager.defaultSession != null
+          ) "${config.services.displayManager.defaultSession}.desktop";
+
+          DisplayServer =
+            if cfg.wayland.enable
+            then "wayland"
+            else "x11";
+        }
+        // optionalAttrs (cfg.wayland.enable && cfg.wayland.compositor == "kwin") {
+          GreeterEnvironment = "QT_WAYLAND_SHELL_INTEGRATION=layer-shell";
+          InputMethod = ""; # needed if we are using --inputmethod with kwin
+        };
+
+      Theme =
+        {
+          Current = cfg.theme;
+          ThemeDir = "/run/current-system/sw/share/sddm/themes";
+          FacesDir = "/run/current-system/sw/share/sddm/faces";
+        }
+        // optionalAttrs (cfg.theme == "breeze") {
+          CursorTheme = "breeze_cursors";
+          CursorSize = 24;
+        };
+
+      Users = {
+        MaximumUid = config.ids.uids.nixbld;
+        HideUsers = concatStringsSep "," dmcfg.hiddenUsers;
+        HideShells = "/run/current-system/sw/bin/nologin";
+      };
+
+      Wayland = {
+        EnableHiDPI = cfg.enableHidpi;
+        SessionDir = "${dmcfg.sessionData.desktops}/share/wayland-sessions";
+        CompositorCommand = lib.optionalString cfg.wayland.enable cfg.wayland.compositorCommand;
+      };
+    }
+    // optionalAttrs xcfg.enable {
+      X11 = {
+        ServerPath = toString xserverWrapper;
+        XephyrPath = "${pkgs.xorg.xorgserver.out}/bin/Xephyr";
+        SessionCommand = toString dmcfg.sessionData.wrapper;
+        SessionDir = "${dmcfg.sessionData.desktops}/share/xsessions";
+        XauthPath = "${pkgs.xorg.xauth}/bin/xauth";
+        DisplayCommand = toString Xsetup;
+        DisplayStopCommand = toString Xstop;
+        EnableHiDPI = cfg.enableHidpi;
+      };
+    }
+    // optionalAttrs dmcfg.autoLogin.enable {
+      Autologin = {
+        User = dmcfg.autoLogin.user;
+        Session = autoLoginSessionName;
+        Relogin = cfg.autoLogin.relogin;
+      };
+    };
+
+  cfgFile = iniFmt.generate "sddm.conf" (lib.recursiveUpdate defaultConfig cfg.settings);
+
+  autoLoginSessionName = "${dmcfg.sessionData.autologinSession}.desktop";
+
+  compositorCmds = {
+    kwin = concatStringsSep " " [
+      "${lib.getBin pkgs.kdePackages.kwin}/bin/kwin_wayland"
+      "--no-global-shortcuts"
+      "--no-kactivities"
+      "--no-lockscreen"
+      "--locale1"
+    ];
+    # This is basically the upstream default, but with Weston referenced by full path
+    # and the configuration generated from NixOS options.
+    weston = let
+      westonIni = (pkgs.formats.ini {}).generate "weston.ini" {
+        libinput = {
+          enable-tap = config.services.libinput.mouse.tapping;
+          left-handed = config.services.libinput.mouse.leftHanded;
+        };
+        keyboard = {
+          keymap_model = xcfg.xkb.model;
+          keymap_layout = xcfg.xkb.layout;
+          keymap_variant = xcfg.xkb.variant;
+          keymap_options = xcfg.xkb.options;
+        };
+      };
+    in "${getExe pkgs.weston} --shell=kiosk -c ${westonIni}";
+  };
 in {
   imports = [
     (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "autoLogin" "enable"]
-      [
-        "services"
-        "displayManager"
-        "autoLogin"
-        "enable"
-      ]
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "autoLogin" "minimumUid"]
+      ["services" "displayManager" "sddm" "autoLogin" "minimumUid"]
     )
     (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "autoLogin" "user"]
-      [
-        "services"
-        "displayManager"
-        "autoLogin"
-        "user"
-      ]
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "autoLogin" "relogin"]
+      ["services" "displayManager" "sddm" "autoLogin" "relogin"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "autoNumlock"]
+      ["services" "displayManager" "sddm" "autoNumlock"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "enable"]
+      ["services" "displayManager" "sddm" "enable"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "enableHidpi"]
+      ["services" "displayManager" "sddm" "enableHidpi"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "extraPackages"]
+      ["services" "displayManager" "sddm" "extraPackages"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "package"]
+      ["services" "displayManager" "sddm" "package"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "settings"]
+      ["services" "displayManager" "sddm" "settings"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "setupScript"]
+      ["services" "displayManager" "sddm" "setupScript"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "stopScript"]
+      ["services" "displayManager" "sddm" "stopScript"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "theme"]
+      ["services" "displayManager" "sddm" "theme"]
+    )
+    (
+      mkRenamedOptionModule
+      ["services" "xserver" "displayManager" "sddm" "wayland" "enable"]
+      ["services" "displayManager" "sddm" "wayland" "enable"]
     )
 
-    (lib.mkRemovedOptionModule [
+    (mkRemovedOptionModule [
       "services"
-      "xserver"
       "displayManager"
-      "gdm"
-      "nvidiaWayland"
-    ] "We defer to GDM whether Wayland should be enabled.")
-
+      "sddm"
+      "themes"
+    ] "Set the option `services.displayManager.sddm.package' instead.")
     (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "enable"]
-      ["services" "displayManager" "gdm" "enable"]
+      mkRenamedOptionModule
+      ["services" "displayManager" "sddm" "autoLogin" "enable"]
+      ["services" "displayManager" "autoLogin" "enable"]
     )
     (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "debug"]
-      ["services" "displayManager" "gdm" "debug"]
+      mkRenamedOptionModule
+      ["services" "displayManager" "sddm" "autoLogin" "user"]
+      ["services" "displayManager" "autoLogin" "user"]
     )
-    (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "banner"]
-      ["services" "displayManager" "gdm" "banner"]
-    )
-    (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "settings"]
-      ["services" "displayManager" "gdm" "settings"]
-    )
-    (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "wayland"]
-      ["services" "displayManager" "gdm" "wayland"]
-    )
-    (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "autoSuspend"]
-      ["services" "displayManager" "gdm" "autoSuspend"]
-    )
-    (
-      lib.mkRenamedOptionModule
-      ["services" "xserver" "displayManager" "gdm" "autoLogin" "delay"]
-      ["services" "displayManager" "gdm" "autoLogin" "delay"]
-    )
+    (mkRemovedOptionModule [
+      "services"
+      "displayManager"
+      "sddm"
+      "extraConfig"
+    ] "Set the option `services.displayManager.sddm.settings' instead.")
   ];
 
-  meta = {
-    maintainers = lib.teams.gnome.members;
-  };
-
-  ###### interface
-
   options = {
-    services.displayManager.gdm = {
-      enable = lib.mkEnableOption "GDM, the GNOME Display Manager";
-
-      debug = lib.mkEnableOption "debugging messages in GDM";
-
-      # Auto login options specific to GDM
-      autoLogin.delay = lib.mkOption {
-        type = lib.types.int;
-        default = 0;
+    services.displayManager.sddm = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
         description = ''
-          Seconds of inactivity after which the autologin will be performed.
+          Whether to enable sddm as the display manager.
         '';
       };
 
-      wayland = lib.mkOption {
-        type = lib.types.bool;
+      package = mkPackageOption pkgs ["kdePackages" "sddm"] {};
+
+      enableHidpi = mkOption {
+        type = types.bool;
         default = true;
         description = ''
-          Allow GDM to run on Wayland instead of Xserver.
+          Whether to enable automatic HiDPI mode.
         '';
       };
 
-      autoSuspend = lib.mkOption {
-        default = true;
-        description = ''
-          On the GNOME Display Manager login screen, suspend the machine after inactivity.
-          (Does not affect automatic suspend while logged in, or at lock screen.)
-        '';
-        type = lib.types.bool;
-      };
-
-      banner = lib.mkOption {
-        type = lib.types.nullOr lib.types.lines;
-        default = null;
-        example = ''
-          foo
-          bar
-          baz
-        '';
-        description = ''
-          Optional message to display on the login screen.
-        '';
-      };
-
-      settings = lib.mkOption {
-        type = settingsFormat.type;
+      settings = mkOption {
+        type = iniFmt.type;
         default = {};
         example = {
-          debug.enable = true;
+          Autologin = {
+            User = "john";
+            Session = "plasma.desktop";
+          };
         };
         description = ''
-          Options passed to the gdm daemon.
-          See [here](https://help.gnome.org/admin/gdm/stable/configuration.html.en#daemonconfig) for supported options.
+          Extra settings merged in and overwriting defaults in sddm.conf.
         '';
+      };
+
+      theme = mkOption {
+        type = types.str;
+        default = "";
+        example = lib.literalExpression "\"\${pkgs.where-is-my-sddm-theme.override { variants = [ \"qt5\" ]; }}/share/sddm/themes/where_is_my_sddm_theme_qt5\"";
+        description = ''
+          Greeter theme to use.
+        '';
+      };
+
+      extraPackages = mkOption {
+        type = types.listOf types.package;
+        default = [];
+        defaultText = "[]";
+        description = ''
+          Extra Qt plugins / QML libraries to add to the environment.
+        '';
+      };
+
+      autoNumlock = mkOption {
+        type = types.bool;
+        default = false;
+        description = ''
+          Enable numlock at login.
+        '';
+      };
+
+      setupScript = mkOption {
+        type = types.str;
+        default = "";
+        example = ''
+          # workaround for using NVIDIA Optimus without Bumblebee
+          xrandr --setprovideroutputsource modesetting NVIDIA-0
+          xrandr --auto
+        '';
+        description = ''
+          A script to execute when starting the display server. DEPRECATED, please
+          use {option}`services.xserver.displayManager.setupCommands`.
+        '';
+      };
+
+      stopScript = mkOption {
+        type = types.str;
+        default = "";
+        description = ''
+          A script to execute when stopping the display server.
+        '';
+      };
+
+      # Configuration for automatic login specific to SDDM
+      autoLogin = {
+        relogin = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            If true automatic login will kick in again on session exit (logout), otherwise it
+            will only log in automatically when the display-manager is started.
+          '';
+        };
+
+        minimumUid = mkOption {
+          type = types.ints.u16;
+          default = 1000;
+          description = ''
+            Minimum user ID for auto-login user.
+          '';
+        };
+      };
+
+      # Experimental Wayland support
+      wayland = {
+        enable = mkEnableOption "experimental Wayland support";
+
+        compositor = mkOption {
+          description = "The compositor to use: ${lib.concatStringsSep ", " (builtins.attrNames compositorCmds)}";
+          type = types.enum (builtins.attrNames compositorCmds);
+          default = "weston";
+        };
+
+        compositorCommand = mkOption {
+          type = types.str;
+          internal = true;
+          default = compositorCmds.${cfg.wayland.compositor};
+          description = "Command used to start the selected compositor";
+        };
       };
     };
   };
 
-  ###### implementation
-
-  config = lib.mkIf cfg.enable {
-    services.xserver.displayManager.lightdm.enable = false;
-
-    users.users.gdm = {
-      name = "gdm";
-      uid = config.ids.uids.gdm;
-      group = "gdm";
-      home = "/run/gdm";
-      description = "GDM user";
-    };
-
-    users.groups.gdm.gid = config.ids.gids.gdm;
-
-    # GDM needs different xserverArgs, presumable because using wayland by default.
-    services.xserver.display = null;
-    services.xserver.verbose = null;
+  config = mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = xcfg.enable || cfg.wayland.enable;
+        message = ''
+          SDDM requires either services.xserver.enable or services.displayManager.sddm.wayland.enable to be true
+        '';
+      }
+      {
+        assertion = config.services.displayManager.autoLogin.enable -> autoLoginSessionName != null;
+        message = ''
+          SDDM auto-login requires that services.displayManager.defaultSession is set.
+        '';
+      }
+    ];
 
     services.displayManager = {
-      # Enable desktop session data
       enable = true;
-
-      environment =
-        {
-          GDM_X_SERVER_EXTRA_ARGS = toString (lib.filter (arg: arg != "-terminate") xdmcfg.xserverArgs);
-          XDG_DATA_DIRS = lib.makeSearchPath "share" [
-            gdm # for gnome-login.session
-            config.services.displayManager.sessionData.desktops
-            pkgs.gnome-control-center # for accessibility icon
-            pkgs.adwaita-icon-theme
-            pkgs.hicolor-icon-theme # empty icon theme as a base
-          ];
-        }
-        // lib.optionalAttrs (xSessionWrapper != null) {
-          # Make GDM use this wrapper before running the session, which runs the
-          # configured setupCommands. This relies on a patched GDM which supports
-          # this environment variable.
-          GDM_X_SESSION_WRAPPER = "${xSessionWrapper}";
-        };
-      execCmd = "exec ${gdm}/bin/gdm";
-      preStart = lib.optionalString (defaultSessionName != null) ''
-        # Set default session in session chooser to a specified values – basically ignore session history.
-        ${setSessionScript}/bin/set-session ${config.services.displayManager.sessionData.autologinSession}
-      '';
+      execCmd = "exec /run/current-system/sw/bin/sddm";
     };
 
-    systemd.tmpfiles.rules =
-      [
-        "d /run/gdm/.config 0711 gdm gdm"
-      ]
-      ++ lib.optionals config.services.pulseaudio.enable [
-        "d /run/gdm/.config/pulse 0711 gdm gdm"
-        "L+ /run/gdm/.config/pulse/${pulseConfig.name} - - - - ${pulseConfig}"
-      ]
-      ++ lib.optionals config.services.gnome.gnome-initial-setup.enable [
-        # Create stamp file for gnome-initial-setup to prevent it starting in GDM.
-        "f /run/gdm/.config/gnome-initial-setup-done 0711 gdm gdm - yes"
-      ];
-
-    # Otherwise GDM will not be able to start correctly and display Wayland sessions
-    systemd.packages = [
-      gdm
-      pkgs.gnome-session
-      pkgs.gnome-shell
-    ];
-    environment.systemPackages = [
-      pkgs.adwaita-icon-theme
-      pkgs.gdm # For polkit rules
-    ];
-
-    # We dont use the upstream gdm service
-    # it has to be disabled since the gdm package has it
-    # https://github.com/NixOS/nixpkgs/issues/108672
-    systemd.services.gdm.enable = false;
-
-    systemd.services.display-manager.wants = [
-      # Because sd_login_monitor_new requires /run/systemd/machines
-      "systemd-machined.service"
-      # setSessionScript wants AccountsService
-      "accounts-daemon.service"
-    ];
-
-    systemd.services.display-manager.after = [
-      "rc-local.service"
-      "systemd-machined.service"
-      "systemd-user-sessions.service"
-      "plymouth-quit.service"
-      "plymouth-start.service"
-    ];
-    systemd.services.display-manager.conflicts = [
-      "plymouth-quit.service"
-    ];
-    systemd.services.display-manager.onFailure = [
-      "plymouth-quit.service"
-    ];
-
-    # Prevent nixos-rebuild switch from bringing down the graphical
-    # session. (If multi-user.target wants plymouth-quit.service which
-    # conflicts display-manager.service, then when nixos-rebuild
-    # switch starts multi-user.target, display-manager.service is
-    # stopped so plymouth-quit.service can be started.)
-    systemd.services.plymouth-quit = lib.mkIf config.boot.plymouth.enable {
-      wantedBy = lib.mkForce [];
-    };
-
-    systemd.services.display-manager.serviceConfig = {
-      # Restart = "always"; - already defined in xserver.nix
-      KillMode = "mixed";
-      IgnoreSIGPIPE = "no";
-      BusName = "org.gnome.DisplayManager";
-      StandardError = "inherit";
-      ExecReload = "${pkgs.coreutils}/bin/kill -SIGHUP $MAINPID";
-      KeyringMode = "shared";
-      EnvironmentFile = "-/etc/locale.conf";
-    };
-
-    systemd.services.display-manager.path = [pkgs.gnome-session];
-
-    # Allow choosing an user account
-    services.accounts-daemon.enable = true;
-
-    services.dbus.packages = [gdm];
-
-    systemd.user.services.dbus.wantedBy = ["default.target"];
-
-    programs.dconf.profiles.gdm.databases =
-      lib.optionals (!cfg.autoSuspend) [
-        {
-          settings."org/gnome/settings-daemon/plugins/power" = {
-            sleep-inactive-ac-type = "nothing";
-            sleep-inactive-battery-type = "nothing";
-            sleep-inactive-ac-timeout = lib.gvariant.mkInt32 0;
-            sleep-inactive-battery-timeout = lib.gvariant.mkInt32 0;
-          };
-        }
-      ]
-      ++ lib.optionals (cfg.banner != null) [
-        {
-          settings."org/gnome/login-screen" = {
-            banner-message-enable = true;
-            banner-message-text = cfg.banner;
-          };
-        }
-      ]
-      ++ ["${gdm}/share/gdm/greeter-dconf-defaults"];
-
-    # Use AutomaticLogin if delay is zero, because it's immediate.
-    # Otherwise with TimedLogin with zero seconds the prompt is still
-    # presented and there's a little delay.
-    services.displayManager.gdm.settings = {
-      daemon = lib.mkMerge [
-        {WaylandEnable = cfg.wayland;}
-        # nested if else didn't work
-        (lib.mkIf (config.services.displayManager.autoLogin.enable && cfg.autoLogin.delay != 0) {
-          TimedLoginEnable = true;
-          TimedLogin = config.services.displayManager.autoLogin.user;
-          TimedLoginDelay = cfg.autoLogin.delay;
-        })
-        (lib.mkIf (config.services.displayManager.autoLogin.enable && cfg.autoLogin.delay == 0) {
-          AutomaticLoginEnable = true;
-          AutomaticLogin = config.services.displayManager.autoLogin.user;
-        })
-      ];
-      debug = lib.mkIf cfg.debug {
-        Enable = true;
-      };
-    };
-
-    environment.etc."gdm/custom.conf".source = configFile;
-
-    environment.etc."gdm/Xsession".source = config.services.displayManager.sessionData.wrapper;
-
-    # GDM LFS PAM modules, adapted somehow to NixOS
     security.pam.services = {
-      gdm-launch-environment.text = ''
-        auth     required       pam_succeed_if.so audit quiet_success user = gdm
-        auth     optional       pam_permit.so
-
-        account  required       pam_succeed_if.so audit quiet_success user = gdm
-        account  sufficient     pam_unix.so
-
-        password required       pam_deny.so
-
-        session  required       pam_succeed_if.so audit quiet_success user = gdm
-        session  required       pam_env.so conffile=/etc/pam/environment readenv=0
-        session  optional       ${config.systemd.package}/lib/security/pam_systemd.so
-        session  optional       pam_keyinit.so force revoke
-        session  optional       pam_permit.so
-      '';
-
-      gdm-password.text = ''
+      sddm.text = ''
         auth      substack      login
         account   include       login
         password  substack      login
         session   include       login
       '';
 
-      gdm-autologin.text = ''
-        auth      requisite     pam_nologin.so
-        auth      required      pam_succeed_if.so uid >= 1000 quiet
-        ${lib.optionalString (pamLogin.enable && pamLogin.enableGnomeKeyring) ''
-          auth       [success=ok default=1]      ${gdm}/lib/security/pam_gdm.so
-          auth       optional                    ${pkgs.gnome-keyring}/lib/security/pam_gnome_keyring.so
-        ''}
-        auth      required      pam_permit.so
+      sddm-greeter.text = ''
+        auth     required       pam_succeed_if.so audit quiet_success user = sddm
+        auth     optional       pam_permit.so
 
-        account   sufficient    pam_unix.so
+        account  required       pam_succeed_if.so audit quiet_success user = sddm
+        account  sufficient     pam_unix.so
 
-        password  requisite     pam_unix.so nullok yescrypt
+        password required       pam_deny.so
 
-        session   optional      pam_keyinit.so revoke
-        session   include       login
+        session  required       pam_succeed_if.so audit quiet_success user = sddm
+        session  required       pam_env.so conffile=/etc/pam/environment readenv=0
+        session  optional       ${config.systemd.package}/lib/security/pam_systemd.so
+        session  optional       pam_keyinit.so force revoke
+        session  optional       pam_permit.so
       '';
 
-      # This would block password prompt when included by gdm-password.
-      # GDM will instead run gdm-fingerprint in parallel.
-      login.fprintAuth = lib.mkIf config.services.fprintd.enable false;
+      sddm-autologin.text = ''
+        auth     requisite pam_nologin.so
+        auth     required  pam_succeed_if.so uid >= ${toString cfg.autoLogin.minimumUid} quiet
+        auth     required  pam_permit.so
 
-      gdm-fingerprint.text = lib.mkIf config.services.fprintd.enable ''
-        auth       required                    pam_shells.so
-        auth       requisite                   pam_nologin.so
-        auth       requisite                   pam_faillock.so      preauth
-        auth       required                    ${pkgs.fprintd}/lib/security/pam_fprintd.so
-        auth       required                    pam_env.so conffile=/etc/pam/environment readenv=0
-        ${lib.optionalString (pamLogin.enable && pamLogin.enableGnomeKeyring) ''
-          auth       [success=ok default=1]      ${gdm}/lib/security/pam_gdm.so
-          auth       optional                    ${pkgs.gnome-keyring}/lib/security/pam_gnome_keyring.so
-        ''}
+        account  include   sddm
 
-        account    include                     login
+        password include   sddm
 
-        password   required                    pam_deny.so
-
-        session    include                     login
+        session  include   sddm
       '';
+    };
+
+    users.users.sddm = {
+      createHome = true;
+      home = "/var/lib/sddm";
+      group = "sddm";
+      uid = config.ids.uids.sddm;
+    };
+
+    environment = {
+      etc."sddm.conf".source = cfgFile;
+      pathsToLink = [
+        "/share/sddm"
+      ];
+      systemPackages = [sddm];
+    };
+
+    users.groups.sddm.gid = config.ids.gids.sddm;
+
+    services = {
+      dbus.packages = [sddm];
+      xserver = {
+        # To enable user switching, allow sddm to allocate displays dynamically.
+        display = null;
+      };
+    };
+
+    systemd = {
+      tmpfiles.packages = [sddm];
+
+      # We're not using the upstream unit, so copy these: https://github.com/sddm/sddm/blob/develop/services/sddm.service.in
+      services.display-manager = {
+        after = [
+          "systemd-user-sessions.service"
+          "plymouth-quit.service"
+          "systemd-logind.service"
+        ];
+      };
     };
   };
 }

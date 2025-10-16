@@ -19,9 +19,9 @@
     ./scripts/active.nix
   ];
 
-  environment.variables = {
-    ew_eDP = "~/.config/nixos/utility/wallpaper2.png";
-    w_HDMI = "~/.config/nixos/utility/wallpaper1.png";
+  environment.sessionVariables = {
+    w_eDP = "$HOME/.config/nixos/utility/wallpaper2.png";
+    w_HDMI = "$HOME/.config/nixos/utility/wallpaper1.png";
   };
 
   programs.niri.enable = true;
@@ -49,7 +49,7 @@
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
-  services.displayManager.gdm.enable = true;
+  services.displayManager.sddm.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
