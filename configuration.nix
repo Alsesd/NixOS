@@ -20,12 +20,7 @@
     ./scripts/active.nix
   ];
 
-  
   programs.niri.enable = true;
-  
- 
-
- 
 
   # Create a wrapper script for xdg-open to handle directories
   environment.systemPackages = with pkgs; [
@@ -46,15 +41,10 @@
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
-    
   ];
-
-  
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
-
- 
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -65,8 +55,6 @@
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
-  
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "archiver-3.5.1"
@@ -76,6 +64,4 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   system.stateVersion = "25.05";
-
-  
 }
