@@ -10,8 +10,7 @@
     ./system_info/users.nix
     ./system_info/nvidia.nix
     ./system_info/genv.nix
-    # ./system_info/sddm.nix
-    1
+    ./system_info/sddm.nix
     ./utility/gc.nix
     ./utility/xwayland.nix
     ./utility/stylix.nix
@@ -26,7 +25,6 @@
   };
 
   programs.niri.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
 
   # Create a wrapper script for xdg-open to handle directories
   environment.systemPackages = with pkgs; [
