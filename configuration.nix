@@ -15,11 +15,16 @@
     ./modules/xwayland.nix
     ./modules/stylix.nix
     ./modules/autoupgrade.nix
+    ./modules/ly.nix
 
     ./scripts/active.nix
   ];
 
   programs.niri.enable = true;
+  services.displayManager.ly = {
+    enable = true;
+    settings = true;
+  };
 
   # Create a wrapper script for xdg-open to handle directories
   environment.systemPackages = with pkgs; [
