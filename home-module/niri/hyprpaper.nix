@@ -12,14 +12,14 @@
 
       # Preload both wallpapers
       preload = [
-        "~/.locaL/share/wallpaper1.png" # Primary wallpaper (also used by Stylix for colors)
-        "~/.local/share/wallpaper2.png" # Secondary wallpaper
+        "~/.config/nixos/wallpapers/wallpaper1.png" # Primary wallpaper (also used by Stylix for colors)
+        "~/.config/nixos/wallpapers/wallpaper2.png" # Secondary wallpaper
       ];
       main-wall = "~/.local/share/wallpaper1.png";
       # Set different wallpaper for each monitor
       wallpaper = [
-        "~/.locaL/share/wallpaper1.png" # Laptop screen
-        "~/.local/share/wallpaper2.png" # External monitor
+        "~/.config/nixos/wallpapers/wallpaper1.png" # Laptop screen
+        "~/.config/nixos/wallpapers/wallpaper2.png" # External monitor
       ];
     };
   };
