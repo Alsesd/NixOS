@@ -19,6 +19,11 @@
     ./scripts/active.nix
   ];
 
+  environment.variables = {
+    ew_eDP = "~/.config/nixos/utility/wallpaper2.png";
+    w_HDMI = "~/.config/nixos/utility/wallpaper1.png";
+  };
+
   programs.niri.enable = true;
 
   # Create a wrapper script for xdg-open to handle directories
