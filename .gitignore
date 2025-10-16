@@ -4,6 +4,6 @@ flake.lock
 /hypr/
 /vscode/
 /modules/*.png
-/modules/*.jpeg
+/modules/*.jpeg 
 
 .gitignore

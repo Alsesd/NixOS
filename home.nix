@@ -2,8 +2,8 @@
   imports = [
     ./home-module/bash.nix
     ./home-module/kitty.nix
-    ./home-module/fastfetch.nix
-    ./home-module/starship.nix
+    ./terminal/fastfetch.nix
+    ./terminal/starship.nix
 
     ./home-module/eww-widgets/eww.nix
 
@@ -12,8 +12,6 @@
     ./home-module/niri/waybar.nix
     ./home-module/niri/mako.nix
     #./home-module/niri/swayidle.nix
-
-    
   ];
 
   home.username = "alsesd";
