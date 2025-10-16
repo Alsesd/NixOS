@@ -107,7 +107,7 @@ in {
       dbus.packages = [ly];
 
       displayManager = {
-        enable = true;
+       enable = true;
         execCmd = "exec /run/current-system/sw/bin/ly";
 
         # Set this here instead of 'defaultConfig' so users get eval
