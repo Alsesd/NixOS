@@ -11,8 +11,8 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    silentSDDM = {
-      url = "github:uiriansan/SilentSDDM";
+    sddm-sugar-candy-nix = {
+      url = "github:Zhaith-Izaliel/sddm-sugar-candy-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -21,6 +21,7 @@
     self,
     nixpkgs,
     home-manager,
+    sddm-sugar-candy-nix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -38,16 +39,21 @@
           ./configuration.nix
           ./system_info/hardware-configuration.nix
           inputs.stylix.nixosModules.stylix
-          # Импортируем модуль NixOS для niri
+          sddm-sugar-candy-nix.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            # Импортируем home.nix как конфигурацию для пользователя alsesd
             home-manager.users.alsesd = import ./home.nix {inherit pkgs inputs;};
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs;};
           }
+        ];
+      };
+
+      nixpkgs = {
+        overlays = [
+          sddm-sugar-candy-nix.overlays.default
         ];
       };
     };
