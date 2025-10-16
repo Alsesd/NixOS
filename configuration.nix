@@ -25,6 +25,7 @@
   };
 
   programs.niri.enable = true;
+  services.displayManager.sddm.sugarCandyNix.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   # Create a wrapper script for xdg-open to handle directories
   environment.systemPackages = with pkgs; [

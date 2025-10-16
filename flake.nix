@@ -11,8 +11,8 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sddm-sugar-candy-nix = {
-      url = "github:Zhaith-Izaliel/sddm-sugar-candy-nix";
+    silentSDDM = {
+      url = "github:uiriansan/SilentSDDM";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -21,13 +21,14 @@
     self,
     nixpkgs,
     home-manager,
-    sddm-sugar-candy-nix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
-      config = {allowUnfree = true;};
+      config = {
+        allowUnfree = true;
+      };
     };
   in {
     nixosConfigurations = {
@@ -37,11 +38,12 @@
           ./configuration.nix
           ./system_info/hardware-configuration.nix
           inputs.stylix.nixosModules.stylix
-          sddm-sugar-candy-nix.nixosModules.default # ← already here
+          # Импортируем модуль NixOS для niri
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            # Импортируем home.nix как конфигурацию для пользователя alsesd
             home-manager.users.alsesd = import ./home.nix {inherit pkgs inputs;};
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs;};
@@ -49,14 +51,5 @@
         ];
       };
     };
-
-    # ⬇️ ADD THIS BLOCK (purely additive)
-    packages.${system} = sddm-sugar-candy-nix.packages.${system};
-    overlays = sddm-sugar-candy-nix.overlays;
-    nixosModules.sddm-sugar-candy = sddm-sugar-candy-nix.nixosModules.default;
-    # Re-export sddm-sugar-candy-nix artefacts
-    packages.${system} = sddm-sugar-candy-nix.packages.${system};
-    overlays = sddm-sugar-candy-nix.overlays;
-    nixosModules.sddm-sugar-candy = sddm-sugar-candy-nix.nixosModules.default;
   };
 }
