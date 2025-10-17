@@ -9,7 +9,7 @@
     };
 
     # Primary wallpaper - Stylix will use this for color scheme and default wallpaper
-    base16Scheme = "/home/alsesd/.config/nixos/utility/gruvbox.yaml";
+    base16Scheme = "~/.config/nixos/utility/gruvbox.yaml";
     # Font configuration
     fonts = {
       monospace = {
