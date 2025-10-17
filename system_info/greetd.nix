@@ -14,11 +14,6 @@
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
         user = "greeter";
       };
-
-      initial_session = {
-        command = "niri-session";
-        user = "alsesd";
-      };
     };
   };
 
