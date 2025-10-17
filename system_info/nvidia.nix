@@ -54,7 +54,7 @@
   # === Environment Variables для Wayland + NVIDIA ===
   environment.variables = {
     # === Wayland Backend ===
-    GDK_BACKEND = "wayland,x11,*";
+    GDK_BACKEND = "wayland,x11";
     QT_QPA_PLATFORM = "wayland;xcb";
     SDL_VIDEODRIVER = "wayland";
     CLUTTER_BACKEND = "wayland";

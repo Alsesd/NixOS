@@ -15,11 +15,10 @@
         user = "greeter";
       };
 
-      # Опционально: автологин для быстрой разработки
-      # initial_session = {
-      #   command = "niri-session";
-      #   user = "alsesd";
-      # };
+      initial_session = {
+        command = "niri-session";
+        user = "alsesd";
+      };
     };
   };
 
