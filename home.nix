@@ -28,35 +28,15 @@
     vscode
     slack
   ];
-<<<<<<< HEAD
-=======
-  programs.git = {
-    enable = true;
-    userName = "Alsesd";
-    userEmail = "mr.alsesd@gmail.com";
-  };
->>>>>>> d249a75 (ini)
 
   xdg.configFile = {
     # Keep any non-theme files you need
   };
 
-<<<<<<< HEAD
   # Remove xsettingsd - Stylix handles theme coordination
-=======
->>>>>>> d249a75 (ini)
   services = {
     # Other services you need
   };
 
   programs.home-manager.enable = true;
-<<<<<<< HEAD
-=======
-  home.file = {
-    "/home/alsesd/nixos-git" = {
-      source = "/home/alsesd/.config/nixos/";
-      recursive = true;
-    };
-  };
->>>>>>> d249a75 (ini)
 }
