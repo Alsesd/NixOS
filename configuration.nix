@@ -15,7 +15,10 @@
     ./utility/xwayland.nix
     ./utility/stylix.nix
     ./utility/autoupgrade.nix
+<<<<<<< HEAD
     ./utility/niri-session.nix
+=======
+>>>>>>> d249a75 (ini)
 
     ./scripts/active.nix
   ];
@@ -27,7 +30,10 @@
 
   programs.niri.enable = true;
   services.displayManager.sddm.wayland.enable = true;
+<<<<<<< HEAD
   # Create a wrapper script for xdg-open to handle directories
+=======
+>>>>>>> d249a75 (ini)
   environment.systemPackages = with pkgs; [
     wget
     git
