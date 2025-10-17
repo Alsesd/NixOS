@@ -9,8 +9,10 @@
     ./system_info/hardware-configuration.nix
     ./system_info/users.nix
     ./system_info/nvidia.nix
-    ./system_info/genv.nix
-    ./system_info/sddm.nix
+    ./system_info/wayland.nix
+    ./system_info/greetd.nix
+    ./system_info/xdg.nix
+
     ./utility/gc.nix
     ./utility/xwayland.nix
     ./utility/stylix.nix
@@ -18,17 +20,10 @@
     ./utility/niri-session.nix
 
     ./scripts/active.nix
-    
   ];
 
-  environment.sessionVariables = {
-    w_eDP = "$HOME/.config/nixos/utility/wallpaper2.png";
-    w_HDMI = "$HOME/.config/nixos/utility/wallpaper1.png";
-  };
-
   programs.niri.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  # Create a wrapper script for xdg-open to handle directories
+
   environment.systemPackages = with pkgs; [
     wget
     git
@@ -47,11 +42,11 @@
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
+    linux-wallpaperengine
   ];
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
-  services.displayManager.sddm.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
