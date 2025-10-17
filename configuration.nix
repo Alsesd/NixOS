@@ -18,7 +18,7 @@
     ./utility/niri-session.nix
 
     ./scripts/active.nix
-    ./veovim.nix
+    
   ];
 
   environment.sessionVariables = {
