@@ -51,11 +51,4 @@ in {
 
   environment.etc."backgrounds/wallpaper1.png".source = ../utility/wallpaper1.png;
   environment.etc."backgrounds/wallpaper2.png".source = ../utility/wallpaper2.png;
-
-  # Logind настройки
-  services.logind = {
-    lidSwitch = "ignore";
-    lidSwitchDocked = "ignore";
-    lidSwitchExternalPower = "ignore";
-  };
 }

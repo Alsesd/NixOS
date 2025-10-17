@@ -28,8 +28,8 @@
     vlc
     vscode
     slack
+    inputs.nixvim.packages.x86_64-linux.default
   ];
-
   xdg.configFile = {
     # Keep any non-theme files you need
   };
