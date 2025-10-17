@@ -1,6 +1,7 @@
 {
   description = "My favourite NixOS";
   inputs = {
+    nixCats.url = "github:dc-tec/nixvim";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -15,7 +16,6 @@
     self,
     nixpkgs,
     home-manager,
-    stylix,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -30,9 +30,9 @@
       myNixos = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs system;};
         modules = [
-          inputs.stylix.nixosModules.stylix
           ./configuration.nix
           ./system_info/hardware-configuration.nix
+          inputs.stylix.nixosModules.stylix
 
           home-manager.nixosModules.home-manager
           {
@@ -40,6 +40,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs;};
+
             home-manager.users.alsesd = import ./home.nix;
           }
         ];

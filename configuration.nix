@@ -11,7 +11,7 @@
     ./system_info/nvidia.nix
     ./system_info/wayland.nix
     ./system_info/greetd.nix
-    ./system_info/xdg.nix
+    #./system_info/xdg.nix
 
     ./utility/gc.nix
     ./utility/stylix.nix
