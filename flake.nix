@@ -1,7 +1,7 @@
 {
   description = "My favourite NixOS";
   inputs = {
-    nixvim.url = "github:dc-tec/nixvim";
+    nixCats.url = "github:dc-tec/nixvim";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";

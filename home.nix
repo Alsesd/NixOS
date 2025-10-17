@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./home-module/terminal/bash.nix
     ./home-module/terminal/kitty.nix
@@ -10,7 +14,6 @@
     ./home-module/niri/niri.nix
     ./home-module/niri/waybar.nix
     ./home-module/niri/mako.nix
-    ./neovim.nix
   ];
 
   home.username = "alsesd";
