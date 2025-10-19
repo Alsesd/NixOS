@@ -1,9 +1,10 @@
 {pkgs, ...}: let
   set-wallpapers = pkgs.writeShellScriptBin "set-wallpapers" ''
-    #!bin/usr/env bash
+    #!/usr/bin/env bash
 
-    exec linux-wallpaperengine --screen-root eDP-1 1959960111 &
-    exec linux-wallpaperengine --screen-root HDMI-A-4 1860216103 &
+    ${pkgs.linux-wallpaperengine}/bin/linux-wallpaperengine --screen-root eDP-1 --bg 1959960111 --screen-root HDMI-A-4 --bg 1860216103
+
+    wait
   '';
 in {
   environment.systemPackages = [
@@ -11,13 +12,14 @@ in {
   ];
 
   systemd.user.services.wallpaper-engine = {
-    description = "Wallpaper Engine Service using Stylix";
-    after = ["display-manager.service"];
+    description = "Wallpaper Engine Service";
+    after = ["graphical-session.target"];
+    partOf = ["graphical-session.target"];
     wantedBy = ["graphical-session.target"];
 
     serviceConfig = {
-      Type = "simple";
-      ExecStart = "set-wallpapers";
+      Type = "forking";
+      ExecStart = "${set-wallpapers}/bin/set-wallpapers";
       Restart = "on-failure";
       RestartSec = "10s";
     };

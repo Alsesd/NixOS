@@ -1,83 +1,54 @@
-# ============================================================================
-# NVIDIA Configuration
-# ============================================================================
-# Настройки для NVIDIA GPU с поддержкой Wayland
-# ============================================================================
 {
   config,
   pkgs,
   ...
 }: {
-  # === Graphics ===
   hardware.graphics = {
     enable = true;
-    enable32Bit = true; # Поддержка 32-bit приложений (Steam, Wine)
-
+    enable32Bit = true;
     extraPackages = with pkgs; [
-      # NVIDIA специфичные пакеты
-      nvidia-vaapi-driver # VA-API для аппаратного ускорения видео
-
-      # Vulkan
+      nvidia-vaapi-driver
       vulkan-loader
       vulkan-validation-layers
-
-      # OpenCL
-      # ocl-icd
     ];
   };
 
-  # === NVIDIA Driver ===
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
-    # Modesetting необходим для Wayland
     modesetting.enable = true;
-
-    # Использовать open-source модули ядра
-    # Если есть проблемы - поставьте false
-    open = true;
-
-    # Настройки NVIDIA
+    open = false; # Измените на false для проприетарного драйвера
     nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable; # Используйте stable
 
-    # Использовать последний драйвер
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
-
-    # Power Management
     powerManagement = {
       enable = true;
-      # Экспериментальная функция - отключает GPU когда не используется
-      # finegrained = true;
+      finegrained = false;
     };
   };
 
-  # === Environment Variables для Wayland + NVIDIA ===
+  # Kernel parameters для NVIDIA
+  boot.kernelParams = [
+    "nvidia-drm.modeset=1"
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+  ];
+
+  boot.extraModprobeConfig = ''
+    # Отключить I2C на NVIDIA GPU
+    options nvidia NVreg_RegistryDwords="RMUseSwI2c=0x01;RMI2cSpeed=100"
+  '';
+
   environment.variables = {
-    # === Wayland Backend ===
     GDK_BACKEND = "wayland,x11";
     QT_QPA_PLATFORM = "wayland;xcb";
     SDL_VIDEODRIVER = "wayland";
     CLUTTER_BACKEND = "wayland";
-
-    # === Desktop Session ===
     XDG_CURRENT_DESKTOP = "niri";
     XDG_SESSION_TYPE = "wayland";
-    XDG_SESSION_DESKTOP = "niri";
-
-    # === NVIDIA Specific ===
     LIBVA_DRIVER_NAME = "nvidia";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     GBM_BACKEND = "nvidia-drm";
-
-    # === Hardware Acceleration ===
-    NVD_BACKEND = "direct";
     MOZ_ENABLE_WAYLAND = "1";
-
-    # === Rendering ===
-    GSK_RENDERER = "ngl";
-    WLR_NO_HARDWARE_CURSORS = "1"; # Фикс для курсора на некоторых GPU
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
-
-  # === Kernel Modules ===
-  boot.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
 }

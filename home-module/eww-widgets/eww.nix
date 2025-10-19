@@ -34,15 +34,20 @@
     }
   '';
 
-  # Auto-start Eww daemon
   systemd.user.services.eww = {
     Unit = {
       Description = "Eww Daemon";
       PartOf = ["graphical-session.target"];
+      After = ["graphical-session.target"];
     };
     Service = {
+      Type = "simple";
       ExecStart = "${pkgs.eww}/bin/eww daemon --no-daemonize";
+      ExecReload = "${pkgs.eww}/bin/eww reload";
       Restart = "on-failure";
+      RestartSec = "5s";
+      StartLimitBurst = 3;
+      StartLimitIntervalSec = 30;
     };
     Install.WantedBy = ["graphical-session.target"];
   };
