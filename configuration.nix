@@ -11,7 +11,7 @@
     ./system_info/wayland.nix
     ./system_info/greetd.nix
     ./system_info/xdg.nix
-    ./system_info/fixes.nix # ← НОВЫЙ ФАЙЛ
+    ./fixes.nix # ← НОВЫЙ ФАЙЛ
 
     ./utility/gc.nix
     ./utility/stylix.nix
