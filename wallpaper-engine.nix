@@ -10,18 +10,4 @@ in {
   environment.systemPackages = [
     set-wallpapers
   ];
-
-  systemd.user.services.wallpaper-engine = {
-    description = "Wallpaper Engine Service";
-    after = ["graphical-session.target"];
-    partOf = ["graphical-session.target"];
-    wantedBy = ["graphical-session.target"];
-
-    serviceConfig = {
-      Type = "forking";
-      ExecStart = "${set-wallpapers}/bin/set-wallpapers";
-      Restart = "on-failure";
-      RestartSec = "10s";
-    };
-  };
 }
