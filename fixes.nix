@@ -26,17 +26,10 @@
     "ucsi_ccg" # USB Type-C контроллер на NVIDIA GPU (вызывает I2C timeout)
   ];
 
-  # ========== KERNEL PARAMETERS ==========
-  boot.kernelParams = [
-    "nvidia-drm.modeset=1" # KMS для NVIDIA
-    "nvidia.NVreg_PreserveVideoMemoryAllocations=1" # Suspend для NVIDIA
-    "pcie_aspm=off" # Отключить ASPM для всех PCIe
-  ];
+  
 
   # ========== MODULE OPTIONS ==========
   boot.extraModprobeConfig = ''
-    # ===== NVIDIA =====
-    options nvidia NVreg_RegistryDwords="RMUseSwI2c=0x01;RMI2cSpeed=100"
 
     # ===== Intel Wi-Fi =====
     # ВАЖНО: swcrypto=1 НЕ РАБОТАЕТ для iwlmvm!

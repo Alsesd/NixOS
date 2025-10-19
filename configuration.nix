@@ -19,7 +19,7 @@
     ./utility/niri-session.nix
 
     ./scripts/active.nix
-    ./wallpaper-engine.nix
+    ./scripts/wallpaper-engine.nix
   ];
 
   programs.niri.enable = true;
@@ -50,7 +50,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   networking.hostName = "nixos";
 

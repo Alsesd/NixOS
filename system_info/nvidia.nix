@@ -27,10 +27,10 @@
     };
   };
 
-  # Kernel parameters для NVIDIA
   boot.kernelParams = [
-    "nvidia-drm.modeset=1"
-    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+    "nvidia-drm.modeset=1" # KMS для NVIDIA
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1" # Suspend для NVIDIA
+    "pcie_aspm=off" # Отключить ASPM для всех PCIe
   ];
 
   boot.extraModprobeConfig = ''
