@@ -29,7 +29,8 @@
     vlc
     vscode
     slack
+    linux-wallpaperengine
   ];
-
-  programs.home-manager.enable = true;
+  linux-wallpaperengine.enable = true;
+  home.programs.home-manager.enable = true;
 }

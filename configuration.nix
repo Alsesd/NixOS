@@ -19,7 +19,7 @@
     ./utility/niri-session.nix
 
     ./scripts/active.nix
-    ./scripts/wallpaper-engine.nix
+    #./scripts/wallpaper-engine.nix
   ];
 
   programs.niri.enable = true;

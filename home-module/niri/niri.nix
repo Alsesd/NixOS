@@ -23,7 +23,7 @@
             keyboard {
             numlock 
             xkb {
-            layout "us,ru"
+            layout "us,ru,ua"
             options "grp:alt_shift_toggle"
                 }
             }
@@ -60,7 +60,7 @@
             mode "1920x1080@60.030"
             position x=0 y=0
         }
-     
+   
 
 
         // Settings that influence how windows are positioned and sized.
@@ -221,7 +221,7 @@
 
             hot-corners {
                 off
-   
+     
             }
         }
         // Add lines like this to spawn processes at startup.
@@ -248,7 +248,7 @@
     // This option will also fix border/focus ring drawing behind some semitransparent windows.
     // After enabling or disabling this, you need to restart the apps for this to take effect.
      prefer-no-csd
-     
+   
         // You can change the path where screenshots are saved.
         // A ~ at the front will be expanded to the home directory.
         // The path is formatted with strftime(3) to give you the screenshot date and time.
