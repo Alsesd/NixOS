@@ -67,57 +67,8 @@
         ];
       };
 
-      # DEVELOPMENT SHELLS (separate from nixosConfigurations!)
-      devShells.${system} = {
-        # Python dev environment with pip support and VSCode launcher
-        python = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            python3
-            python3Packages.pip
-            python3Packages.virtualenv
-          ];
-
-          shellHook = ''
-                     # Create virtual environment if it doesn't exist
-                     if [ ! -d .venv ]; then
-                       echo "Creating virtual environment..."
-                       python -m venv .venv
-                     fi
-
-                     # Activate the virtual environment
-                     source .venv/bin/activate
-
-                     # Upgrade pip
-                     pip install --upgrade pip
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-                     echo "🐍 Python Development Environment Ready"
-                     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-                     echo "Python: $(which python)"
-                     echo "pip: $(which pip)"
-                     echo ""
-
-                     # Check if a workspace file is specified
-                     if [ -n "$VSCODE_WORKSPACE" ] && [ -f "$VSCODE_WORKSPACE" ]; then
-                       echo "🚀 Opening VSCode with workspace: $VSCODE_WORKSPACE"
-                       code "$VSCODE_WORKSPACE" &
-                     elif [ -f "$(pwd)/*.code-workspace" ]; then
-                       # Auto-detect workspace file in current directory
-                       WORKSPACE=$(ls *.code-workspace 2>/dev/null | head -n 1)
-                       if [ -n "$WORKSPACE" ]; then
-                         echo "🚀 Opening VSCode with detected workspace: $WORKSPACE"
-                         code "$WORKSPACE" &
-                       else
-                         echo "💡 Tip: Open VSCode with 'code .' or set VSCODE_WORKSPACE"
-                       fi
-                     else
-                       echo "💡 Tip: Open VSCode with 'code .'"
-                       echo "    Or set VSCODE_WORKSPACE=/path/to/workspace.code-workspace"
-                     fi
-
-                     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          '';
-        };
-      };
+      devShells.${system} = import ./devshells.nix {inherit pkgs;};
+      default = self.outputs.devShells.${system}.python;
     };
   };
 }

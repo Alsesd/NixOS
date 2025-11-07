@@ -6,4 +6,6 @@ flake.lock
 /modules/*.png
 /modules/*.jpeg 
 
+
 .gitignore
+shells.nix
