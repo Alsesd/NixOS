@@ -19,11 +19,9 @@
     ./utility/niri-session.nix
 
     ./scripts/active.nix
-    #./scripts/wallpaper-engine.nix
   ];
 
   programs.niri.enable = true;
-
   environment.systemPackages = with pkgs; [
     wget
     git
@@ -42,7 +40,6 @@
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
-    linux-wallpaperengine
   ];
 
   powerManagement.cpuFreqGovernor = "performance";

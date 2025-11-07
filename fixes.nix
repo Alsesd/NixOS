@@ -26,8 +26,6 @@
     "ucsi_ccg" # USB Type-C контроллер на NVIDIA GPU (вызывает I2C timeout)
   ];
 
-  
-
   # ========== MODULE OPTIONS ==========
   boot.extraModprobeConfig = ''
 
@@ -54,11 +52,11 @@
   };
 
   # ========== NVIDIA UDEV RULES ==========
-  services.udev.extraRules = ''
-    # Исправление прав доступа к NVIDIA device nodes
-    KERNEL=="nvidia", RUN+="${pkgs.coreutils}/bin/chmod 666 /dev/nvidia*"
-    KERNEL=="nvidia_uvm", RUN+="${pkgs.coreutils}/bin/chmod 666 /dev/nvidia-uvm"
-    KERNEL=="nvidia_modeset", RUN+="${pkgs.coreutils}/bin/chmod 666 /dev/nvidia-modeset"
-    KERNEL=="nvidiactl", RUN+="${pkgs.coreutils}/bin/chmod 666 /dev/nvidiactl"
-  '';
+  # services.udev.extraRules = ''
+  # Исправление прав доступа к NVIDIA device nodes
+  #  KERNEL=="nvidia", RUN+="${pkgs.coreutils}/bin/chmod 666 /dev/nvidia*"
+  #  KERNEL=="nvidia_uvm", RUN+="${pkgs.coreutils}/bin/chmod 666 /dev/nvidia-uvm"
+  #  KERNEL=="nvidia_modeset", RUN+="${pkgs.coreutils}/bin/chmod 666 /dev/nvidia-modeset"
+  #  KERNEL=="nvidiactl", RUN+="${pkgs.coreutils}/bin/chmod 666 /dev/nvidiactl"
+  #'';
 }

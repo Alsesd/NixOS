@@ -17,14 +17,14 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    open = false; # Измените на false для проприетарного драйвера
+    open = true; # Измените на false для проприетарного драйвера
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable; # Используйте stable
 
-    powerManagement = {
-      enable = true;
-      finegrained = false;
-    };
+    #powerManagement = {
+    # enable = true;
+    #finegrained = false;
+    #};
   };
 
   boot.kernelParams = [
@@ -33,10 +33,10 @@
     "pcie_aspm=off" # Отключить ASPM для всех PCIe
   ];
 
-  boot.extraModprobeConfig = ''
-    # Отключить I2C на NVIDIA GPU
-    options nvidia NVreg_RegistryDwords="RMUseSwI2c=0x01;RMI2cSpeed=100"
-  '';
+  #  boot.extraModprobeConfig = ''
+  #   # Отключить I2C на NVIDIA GPU
+  #   options nvidia NVreg_RegistryDwords="RMUseSwI2c=0x01;RMI2cSpeed=100"
+  # '';
 
   environment.variables = {
     GDK_BACKEND = "wayland,x11";

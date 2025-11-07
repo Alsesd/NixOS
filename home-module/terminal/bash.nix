@@ -23,6 +23,8 @@
       test-test = "sudo nixos-rebuild test -I nixos-config=/home/alsesd/test/configuration.nix --flake ./test/#myNixos";
       test-switch = "sudo nixos-rebuild switch -I nixos-config=/home/alsesd/test/configuration.nix --flake ./test/#myNixos";
       ngc-all = "sudo nix-collect-garbage -d";
+
+      arena-bot = "cd /home/alsesd/GoogleBot && source ./googlebot/bin/activate && python main.py";
     };
     bashrcExtra = ''
       eval "$(starship init bash)"
