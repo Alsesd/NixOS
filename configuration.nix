@@ -25,13 +25,9 @@
   environment.systemPackages = with pkgs; [
     wget
     git
-    alejandra
-    nixd
     base16-schemes
     cava
-    tree
     ventoy-full
-    python3
     xdg-utils
     networkmanager
     usbutils
@@ -40,6 +36,7 @@
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
+    direnv
   ];
 
   powerManagement.cpuFreqGovernor = "performance";
