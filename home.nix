@@ -29,5 +29,6 @@
     vlc
     vscode
     slack
+    jetbrains.pycharm-community-bin
   ];
 }
