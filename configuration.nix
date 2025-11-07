@@ -40,7 +40,6 @@
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
-    pkgs.set-wallpapers
   ];
 
   powerManagement.cpuFreqGovernor = "performance";

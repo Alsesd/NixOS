@@ -11,7 +11,7 @@
     settings = {
       default_session = {
         # Используем tuigreet - красивый TUI интерфейс
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
         user = "greeter";
       };
     };
