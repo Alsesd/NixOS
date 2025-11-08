@@ -5,6 +5,8 @@ flake.lock
 /vscode/
 /modules/*.png
 /modules/*.jpeg 
-
-
+.gitignore
+nixos.code-workspace
+.envrc
+.direnv
 .gitignore

@@ -37,6 +37,7 @@
     xfce.thunar-volman
     xfce.thunar-archive-plugin
     direnv
+    nix-direnv
   ];
 
   powerManagement.cpuFreqGovernor = "performance";

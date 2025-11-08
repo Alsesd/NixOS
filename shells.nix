@@ -2,6 +2,7 @@
   # Python dev environment
   python = pkgs.mkShell {
     buildInputs = with pkgs; [
+      bashInteractive # Full bash with completion support
       python3
       python3Packages.pip
       python3Packages.virtualenv
@@ -13,6 +14,22 @@
     ];
 
     shellHook = ''
+            # Enable bash completion
+            if [ -f /etc/bash_completion ]; then
+              . /etc/bash_completion
+            fi
+
+            # Create venv if needed (always)
+            [ ! -d .venv ] && python -m venv .venv
+            source .venv/bin/activate
+            pip install --upgrade pip --quiet 2>/dev/null
+
+            # Skip fancy output and VSCode opening if already in VSCode terminal
+            if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
+              return 0
+            fi
+
+
             PROJECT_NAME=$(basename "$(pwd)")
             WORKSPACE_FILE="$PROJECT_NAME.code-workspace"
 
@@ -144,6 +161,7 @@
   # Nix development environment
   nix = pkgs.mkShell {
     buildInputs = with pkgs; [
+      bashInteractive # Full bash with completion support
       nil
       nixd
       nixpkgs-fmt
@@ -157,6 +175,11 @@
     ];
 
     shellHook = ''
+            # Skip fancy output and VSCode opening if already in VSCode terminal
+            if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
+              return 0
+            fi
+
             PROJECT_NAME=$(basename "$(pwd)")
             WORKSPACE_FILE="$PROJECT_NAME.code-workspace"
 
@@ -246,6 +269,15 @@
             echo "  alejandra (formatter): $(which alejandra)"
             echo "  statix (linter): $(which statix)"
             echo "  git: $(git --version)"
+
+            # Optional: Auto-close if requested
+            if [[ "$AUTO_CLOSE" == "true" ]]; then
+              echo "👋 Closing terminal (AUTO_CLOSE=true)"
+              sleep 1
+              exit
+            fi
+
+            echo "💡 Tip: Add 'export AUTO_CLOSE=true' to .envrc to auto-close terminal"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     '';
   };
