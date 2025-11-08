@@ -24,7 +24,9 @@
       test-switch = "sudo nixos-rebuild switch -I nixos-config=/home/alsesd/test/configuration.nix --flake ./test/#myNixos";
       ngc-all = "sudo nix-collect-garbage -d";
 
-      arena-bot = "cd /home/alsesd/GoogleBot && source ./googlebot/bin/activate && python main.py";
+      #Shells
+      nix-develop = "cd ~/home/alsesd/.config/nixos && nix develop .#nix";
+      py-develop = "nix develop /home/alsesd/.config/nixos/#python";
     };
     bashrcExtra = ''
       eval "$(starship init bash)"
@@ -33,7 +35,7 @@
       export PATH="~/.scripts:$PATH"
       export PATH="~/.scripts/nixos:$PATH"
       export PATH="~/.scripts/hypr:$PATH"
-
+      eval "$(direnv hook $SHELL)"
     '';
   };
 }
