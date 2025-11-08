@@ -25,8 +25,7 @@
       ngc-all = "sudo nix-collect-garbage -d";
 
       #Shells
-      nix-develop = "cd ~/home/alsesd/.config/nixos && nix develop .#nix";
-      py-develop = "nix develop /home/alsesd/.config/nixos/#python";
+      my-system = "cd /home/alsesd/.config/nixos";
     };
     bashrcExtra = ''
       eval "$(starship init bash)"
