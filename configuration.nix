@@ -38,11 +38,12 @@
     xfce.thunar-archive-plugin
     direnv
     nix-direnv
+    docker
   ];
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
-
+  virtualisation.docker.enable = true;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_zen;

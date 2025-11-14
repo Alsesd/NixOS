@@ -26,6 +26,8 @@
 
       #Shells
       my-system = "cd /home/alsesd/.config/nixos";
+      python-shell = "nix develop /home/alsesd/.config/nixos#python";
+      docker-pyinstaller = "docker run -v \"$(pwd):/src/\" cdrx/pyinstaller-windows \"pyinstaller --onefile\"";
     };
     bashrcExtra = ''
       eval "$(starship init bash)"
