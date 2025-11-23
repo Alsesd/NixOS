@@ -6,11 +6,13 @@
       python3
       python3Packages.pip
       python3Packages.virtualenv
-      vscode
-      git
       python3Packages.python-lsp-server
       python3Packages.pylint
       python3Packages.black
+      python3Packages.jupyter
+      python3Packages.poetry
+      vscode
+      git
     ];
 
     shellHook = ''
