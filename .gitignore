@@ -10,3 +10,4 @@ nixos.code-workspace
 .envrc
 .direnv
 .gitignore
+flake.lock
