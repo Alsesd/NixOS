@@ -16,6 +16,9 @@
       dbeaver-bin
     ];
     shellHook = ''
+            # Set custom shell name with Python icon
+            export NIXSHELL_NAME=" python"
+
             # Enable bash completion
             if [ -f /etc/bash_completion ]; then
               . /etc/bash_completion
@@ -150,6 +153,9 @@
       jq
     ];
     shellHook = ''
+            # Set custom shell name with Nix snowflake icon
+            export NIXSHELL_NAME="❄ nix"
+
             if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
               return 0
             fi
@@ -247,6 +253,9 @@
       ];
 
     shellHook = ''
+      # Set custom shell name with Jupyter icon
+      export NIXSHELL_NAME="📊 jupyter"
+
       if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
         return 0
       fi
