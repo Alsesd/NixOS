@@ -1,71 +1,54 @@
 {pkgs}: {
-  # Python dev environment
+  # 1. PYTHON SHELL (Lightweight for scripting and general development)
   python = pkgs.mkShell {
     buildInputs = with pkgs; [
-      bashInteractive # Full bash with completion support
+      bashInteractive
       python3
       python3Packages.pip
       python3Packages.virtualenv
       python3Packages.python-lsp-server
       python3Packages.pylint
       python3Packages.black
-      python3Packages.jupyter
       python3Packages.poetry
+      python3Packages.poetry-core
       vscode
       git
+      dbeaver-bin
     ];
-
     shellHook = ''
             # Enable bash completion
             if [ -f /etc/bash_completion ]; then
               . /etc/bash_completion
             fi
 
-            # Create venv if needed (always)
-            [ ! -d .venv ] && python -m venv .venv
-            source .venv/bin/activate
-            pip install --upgrade pip --quiet 2>/dev/null
-
-            # Skip fancy output and VSCode opening if already in VSCode terminal
             if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
               return 0
             fi
 
-
             PROJECT_NAME=$(basename "$(pwd)")
             WORKSPACE_FILE="$PROJECT_NAME.code-workspace"
 
-            # Create virtual environment if it doesn't exist
+            # Create venv if needed
             if [ ! -d .venv ]; then
               echo "🔧 Creating virtual environment..."
               python -m venv .venv
             fi
-
-            # Activate the virtual environment
             source .venv/bin/activate
-
-            # Upgrade pip silently
             pip install --upgrade pip --quiet 2>/dev/null
 
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            echo "🐍 Python Environment: $PROJECT_NAME"
+            echo "🐍 Python Development Environment"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-            # Check if workspace file exists
             if [ -f "$WORKSPACE_FILE" ]; then
               echo "📂 Found workspace: $WORKSPACE_FILE"
-              echo "🚀 Opening VSCode..."
-              code "$WORKSPACE_FILE" 2>/dev/null &
+              echo "🚀 Opening VSCode (maximized)..."
+              code "$WORKSPACE_FILE" --maximize 2>/dev/null &
             else
               echo "📝 Creating workspace: $WORKSPACE_FILE"
-
               cat > "$WORKSPACE_FILE" << 'EOF'
       {
-        "folders": [
-          {
-            "path": "."
-          }
-        ],
+        "folders": [{"path": "."}],
         "settings": {
           "python.defaultInterpreterPath": "''${workspaceFolder}/.venv/bin/python",
           "python.terminal.activateEnvironment": true,
@@ -80,9 +63,7 @@
             "**/*.pyc": true,
             ".venv": false
           },
-          "files.watcherExclude": {
-            "**/.venv/**": true
-          }
+          "files.watcherExclude": { "**/.venv/**": true }
         },
         "extensions": {
           "recommendations": [
@@ -93,20 +74,17 @@
         }
       }
       EOF
-
               echo "✅ Workspace created"
-              echo "🚀 Opening VSCode..."
-              code "$WORKSPACE_FILE" 2>/dev/null &
+              echo "🚀 Opening VSCode (maximized)..."
+              code "$WORKSPACE_FILE" --maximize 2>/dev/null &
             fi
 
-            # Initialize git repo if not exists
             if [ ! -d .git ]; then
               echo "📝 Initializing git repository..."
               git init
               git add .gitignore 2>/dev/null || true
             fi
 
-            # Create .gitignore if it doesn't exist
             if [ ! -f .gitignore ]; then
               echo "📝 Creating .gitignore..."
               cat > .gitignore << 'EOF'
@@ -117,53 +95,49 @@
       *$py.class
       *.so
       .Python
-
+      build/
+      dist/
+      *.egg-info/
+      # Poetry
+      poetry.lock
       # direnv
       .direnv/
-
-      # Distribution / packaging
-      dist/
-      build/
-      *.egg-info/
-
-      # Testing
-      .pytest_cache/
-      .coverage
-
       # VSCode
       .vscode/
+      # Data
+      *.db
+      *.sqlite
+      *.sqlite3
       EOF
             fi
 
-            # Create .envrc if it doesn't exist
             if [ ! -f .envrc ]; then
               echo "📝 Creating .envrc..."
               cat > .envrc << 'EOF'
-      use flake /etc/nixos#python
+      use flake ~/.config/nixos#python
       EOF
               echo "⚠️  Run 'direnv allow' to enable automatic activation"
             fi
 
             echo ""
             echo "Python: $(python --version)"
-            echo "pip: $(pip --version)"
+            echo "Poetry: $(poetry --version 2>/dev/null || echo 'available')"
+            echo ""
+            echo "💡 Use 'pip install <package>' for additional packages"
+            echo "💡 Use 'poetry init' to start a Poetry project"
 
-            # Optional: Auto-close if requested
             if [[ "$AUTO_CLOSE" == "true" ]]; then
               echo "👋 Closing terminal (AUTO_CLOSE=true)"
               sleep 1
               exit
             fi
-
-            echo "💡 Tip: Add 'export AUTO_CLOSE=true' to .envrc to auto-close terminal"
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     '';
   };
 
-  # Nix development environment
+  # 2. NIX SHELL
   nix = pkgs.mkShell {
     buildInputs = with pkgs; [
-      bashInteractive # Full bash with completion support
+      bashInteractive
       nil
       nixd
       nixpkgs-fmt
@@ -175,9 +149,7 @@
       tree
       jq
     ];
-
     shellHook = ''
-            # Skip fancy output and VSCode opening if already in VSCode terminal
             if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
               return 0
             fi
@@ -191,18 +163,13 @@
 
             if [ -f "$WORKSPACE_FILE" ]; then
               echo "📂 Found workspace: $WORKSPACE_FILE"
-              echo "🚀 Opening VSCode..."
-              code "$WORKSPACE_FILE" 2>/dev/null &
+              echo "🚀 Opening VSCode (maximized)..."
+              code "$WORKSPACE_FILE" --maximize 2>/dev/null &
             else
               echo "📝 Creating workspace: $WORKSPACE_FILE"
-
               cat > "$WORKSPACE_FILE" << 'EOF'
       {
-        "folders": [
-          {
-            "path": "."
-          }
-        ],
+        "folders": [{"path": "."}],
         "settings": {
           "nix.enableLanguageServer": true,
           "nix.serverPath": "nil",
@@ -212,75 +179,164 @@
             "editor.formatOnSave": true,
             "editor.tabSize": 2
           },
-          "files.associations": {
-            "*.nix": "nix"
-          },
+          "files.associations": { "*.nix": "nix" },
           "editor.formatOnSave": true,
+          "files.exclude": { "result": true, "result-*": true }
+        },
+        "extensions": { "recommendations": ["jnoortheen.nix-ide", "arrterian.nix-env-selector"] }
+      }
+      EOF
+              echo "✅ Workspace created"
+              echo "🚀 Opening VSCode (maximized)..."
+              code "$WORKSPACE_FILE" --maximize 2>/dev/null &
+            fi
+
+            if [ ! -f .envrc ]; then
+              echo "use flake ~/.config/nixos#nix" > .envrc
+              echo "⚠️  Run 'direnv allow'"
+            fi
+    '';
+  };
+
+  # 3. JUPYTER SHELL (Data Science with notebooks)
+  jupyter = pkgs.mkShell {
+    buildInputs = with pkgs; [
+      bashInteractive
+      nodejs_22
+      (python3.withPackages (ps:
+        with ps; [
+          pip
+          virtualenv
+          python-lsp-server
+          # Jupyter
+          jupyterlab
+          jupyterlab-lsp
+          ipython
+          ipykernel
+          notebook
+          # Data Science Core
+          numpy
+          pandas
+          matplotlib
+          scipy
+          scikit-learn
+          seaborn
+          plotly
+          # Additional Tools
+          statsmodels
+          openpyxl
+          xlrd
+          sqlalchemy
+          faker
+          requests
+          beautifulsoup4
+        ]))
+      vscode
+      git
+      dbeaver-bin
+    ];
+
+    LD_LIBRARY_PATH = with pkgs;
+      lib.makeLibraryPath [
+        stdenv.cc.cc
+        zlib
+        glib
+        glibc
+        libGL
+        libxkbcommon
+      ];
+
+    shellHook = ''
+      if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
+        return 0
+      fi
+
+      PROJECT_NAME=$(basename "$(pwd)")
+      WORKSPACE_FILE="$PROJECT_NAME.code-workspace"
+
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      echo "📊 Jupyter Lab (Data Science)"
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+      if [ -f "$WORKSPACE_FILE" ]; then
+        echo "📂 Found workspace: $WORKSPACE_FILE"
+        echo "🚀 Opening VSCode (maximized)..."
+        code "$WORKSPACE_FILE" --maximize 2>/dev/null &
+      else
+        echo "📝 Creating workspace: $WORKSPACE_FILE"
+        cat > "$WORKSPACE_FILE" << 'EOF'
+      {
+        "folders": [{"path": "."}],
+        "settings": {
+          "python.defaultInterpreterPath": "$(which python)",
+          "jupyter.notebookFileRoot": "''${workspaceFolder}",
+          "notebook.cellToolbarLocation": {
+            "default": "right",
+            "jupyter-notebook": "left"
+          },
           "files.exclude": {
-            "result": true,
-            "result-*": true
+            "**/__pycache__": true,
+            "**/*.pyc": true,
+            ".ipynb_checkpoints": true
           }
         },
         "extensions": {
           "recommendations": [
-            "jnoortheen.nix-ide",
-            "arrterian.nix-env-selector"
+            "ms-python.python",
+            "ms-python.vscode-pylance",
+            "ms-toolsai.jupyter",
+            "ms-toolsai.jupyter-keymap",
+            "ms-toolsai.jupyter-renderers"
           ]
         }
       }
       EOF
+        echo "✅ Workspace created"
+        echo "🚀 Opening VSCode (maximized)..."
+        code "$WORKSPACE_FILE" --maximize 2>/dev/null &
+      fi
 
-              echo "✅ Workspace created"
-              echo "🚀 Opening VSCode..."
-              code "$WORKSPACE_FILE" 2>/dev/null &
-            fi
+      if [ ! -d .git ]; then
+        echo "📝 Initializing git repository..."
+        git init
+        git add .gitignore 2>/dev/null || true
+      fi
 
-            # Initialize git repo if not exists
-            if [ ! -d .git ]; then
-              echo "📝 Initializing git repository..."
-              git init
-              git add .gitignore 2>/dev/null || true
-            fi
-
-            if [ ! -f .gitignore ]; then
-              echo "📝 Creating .gitignore..."
-              cat > .gitignore << 'EOF'
-      # Nix
-      result
-      result-*
-
+      if [ ! -f .gitignore ]; then
+        echo "📝 Creating .gitignore..."
+        cat > .gitignore << 'EOF'
+      # Python
+      __pycache__/
+      *.py[cod]
+      *$py.class
+      *.so
+      .Python
+      # Jupyter
+      .ipynb_checkpoints/
+      *.ipynb_checkpoints
       # direnv
       .direnv/
-
       # VSCode
       .vscode/
+      # Data
+      *.csv
+      *.db
+      *.sqlite
+      *.sqlite3
       EOF
-            fi
+      fi
 
-            if [ ! -f .envrc ]; then
-              echo "📝 Creating .envrc..."
-              cat > .envrc << 'EOF'
-      use flake /etc/nixos#nix
-      EOF
-              echo "⚠️  Run 'direnv allow' to enable automatic activation"
-            fi
+      if [ ! -f .envrc ]; then
+        echo "use flake ~/.config/nixos#jupyter" > .envrc
+        echo "⚠️  Run 'direnv allow'"
+      fi
 
-            echo ""
-            echo "Nix tools available:"
-            echo "  nil (language server): $(which nil)"
-            echo "  alejandra (formatter): $(which alejandra)"
-            echo "  statix (linter): $(which statix)"
-            echo "  git: $(git --version)"
-
-            # Optional: Auto-close if requested
-            if [[ "$AUTO_CLOSE" == "true" ]]; then
-              echo "👋 Closing terminal (AUTO_CLOSE=true)"
-              sleep 1
-              exit
-            fi
-
-            echo "💡 Tip: Add 'export AUTO_CLOSE=true' to .envrc to auto-close terminal"
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      echo ""
+      echo "Python: $(python --version)"
+      echo "Jupyter: $(jupyter --version 2>&1 | head -n1)"
+      echo ""
+      echo "💡 Run 'jupyter lab' to start Jupyter Lab"
+      echo "💡 All data science packages are pre-installed"
     '';
   };
 }

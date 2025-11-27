@@ -30,5 +30,6 @@
     vscode
     slack
     jetbrains.pycharm-community-bin
+    dbeaver-bin
   ];
 }
