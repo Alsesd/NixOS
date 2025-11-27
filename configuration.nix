@@ -62,6 +62,10 @@
     "ventoy-1.1.07"
   ];
 
+  nix.settings = {
+    download-buffer-size = 134217728; # 128 MB (default is 64 MB)
+  };
+
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   system.stateVersion = "25.05";
