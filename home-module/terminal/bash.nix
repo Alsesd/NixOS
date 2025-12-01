@@ -19,7 +19,7 @@
       nixos-switch = "sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos";
 
       #Test system build
-      test-build = "sudo nixos-rebuild build -I nixos-config=/home/alsesd/test/configuration.nixe --flake ./test/#myNixos";
+      test-build = "sudo nixos-rebuild build -I nixos-config=/home/alsesd/test/configuration.nix --flake ./test/#myNixos";
       test-test = "sudo nixos-rebuild test -I nixos-config=/home/alsesd/test/configuration.nix --flake ./test/#myNixos";
       test-switch = "sudo nixos-rebuild switch -I nixos-config=/home/alsesd/test/configuration.nix --flake ./test/#myNixos";
       ngc-all = "sudo nix-collect-garbage -d";
