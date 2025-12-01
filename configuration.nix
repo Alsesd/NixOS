@@ -39,7 +39,15 @@
     direnv
     nix-direnv
     docker
+    libGL
+    libGLU
+    mesa
+    vulkan-loader
+    libglvnd
+    fuse
+    fuse3
   ];
+  programs.fuse.userAllowOther = true;
 
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;

@@ -9,8 +9,7 @@
       python3Packages.python-lsp-server
       python3Packages.pylint
       python3Packages.black
-      python3Packages.poetry
-      python3Packages.poetry-core
+      poetry # Poetry is a standalone package, not python3Packages.poetry
       vscode
       git
       dbeaver-bin
@@ -204,23 +203,29 @@
     '';
   };
 
-  # 3. JUPYTER SHELL (Data Science with notebooks)
+  # 3. JUPYTER SHELL (Data Science with notebooks – standalone JupyterLab IDE)
   jupyter = pkgs.mkShell {
     buildInputs = with pkgs; [
       bashInteractive
       nodejs_22
       (python3.withPackages (ps:
         with ps; [
+          # Core
           pip
           virtualenv
+
+          # LSP for intelligent completions, hover, go-to-def, etc.
           python-lsp-server
+          jupyter-lsp # ← critical: Jupyter server extension for LSP
+          jupyterlab-lsp # ← frontend extension for JupyterLab
+
           # Jupyter
           jupyterlab
-          jupyterlab-lsp
+          notebook
           ipython
           ipykernel
-          notebook
-          # Data Science Core
+
+          # Data Science Stack
           numpy
           pandas
           matplotlib
@@ -228,7 +233,6 @@
           scikit-learn
           seaborn
           plotly
-          # Additional Tools
           statsmodels
           openpyxl
           xlrd
@@ -237,9 +241,8 @@
           requests
           beautifulsoup4
         ]))
-      vscode
       git
-      dbeaver-bin
+      dbeaver-bin # keep if you use it for DBs
     ];
 
     LD_LIBRARY_PATH = with pkgs;
@@ -253,99 +256,101 @@
       ];
 
     shellHook = ''
-      # Set custom shell name with Jupyter icon
-      export NIXSHELL_NAME="📊 jupyter"
+          # Set custom shell name
+          export NIXSHELL_NAME="📊 jupyter"
 
-      if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
-        return 0
-      fi
+          # Skip extra setup if inside VSCode terminal (harmless but clean)
+          if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
+            return 0
+          fi
 
-      PROJECT_NAME=$(basename "$(pwd)")
-      WORKSPACE_FILE="$PROJECT_NAME.code-workspace"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📊 Standalone JupyterLab IDE (LSP Enabled)"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-      echo "📊 Jupyter Lab (Data Science)"
-      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          # Use local config dir to avoid polluting home - PROPERLY ESCAPED
+          export XDG_CONFIG_HOME="$PWD/.config"
+          mkdir -p "$XDG_CONFIG_HOME/jupyter"
 
-      if [ -f "$WORKSPACE_FILE" ]; then
-        echo "📂 Found workspace: $WORKSPACE_FILE"
-        echo "🚀 Opening VSCode (maximized)..."
-        code "$WORKSPACE_FILE" --maximize 2>/dev/null &
-      else
-        echo "📝 Creating workspace: $WORKSPACE_FILE"
-        cat > "$WORKSPACE_FILE" << 'EOF'
-      {
-        "folders": [{"path": "."}],
-        "settings": {
-          "python.defaultInterpreterPath": "$(which python)",
-          "jupyter.notebookFileRoot": "''${workspaceFolder}",
-          "notebook.cellToolbarLocation": {
-            "default": "right",
-            "jupyter-notebook": "left"
-          },
-          "files.exclude": {
-            "**/__pycache__": true,
-            "**/*.pyc": true,
-            ".ipynb_checkpoints": true
+          # Enable Python LSP in Jupyter
+          cat > "$XDG_CONFIG_HOME/jupyter/jupyter_server_config.py" << 'EOF'
+      c.LanguageServerManager.language_servers = {
+          'python-lsp-server': {
+              'version': 2,
+              'argv': ['python', '-m', 'pylsp'],
+              'languages': ['python']
           }
-        },
-        "extensions": {
-          "recommendations": [
-            "ms-python.python",
-            "ms-python.vscode-pylance",
-            "ms-toolsai.jupyter",
-            "ms-toolsai.jupyter-keymap",
-            "ms-toolsai.jupyter-renderers"
-          ]
-        }
       }
       EOF
-        echo "✅ Workspace created"
-        echo "🚀 Opening VSCode (maximized)..."
-        code "$WORKSPACE_FILE" --maximize 2>/dev/null &
-      fi
 
-      if [ ! -d .git ]; then
-        echo "📝 Initializing git repository..."
-        git init
-        git add .gitignore 2>/dev/null || true
-      fi
+          # Initialize Git if needed
+          if [ ! -d .git ]; then
+            echo "📝 Initializing Git repo..."
+            git init -q
+          fi
 
-      if [ ! -f .gitignore ]; then
-        echo "📝 Creating .gitignore..."
-        cat > .gitignore << 'EOF'
+          # Create .gitignore if missing
+          if [ ! -f .gitignore ]; then
+            cat > .gitignore << 'EOF'
       # Python
       __pycache__/
       *.py[cod]
       *$py.class
       *.so
       .Python
+      .env
+      .venv/
+
       # Jupyter
       .ipynb_checkpoints/
       *.ipynb_checkpoints
-      # direnv
+
+      # Direnv
       .direnv/
-      # VSCode
-      .vscode/
+
       # Data
       *.csv
       *.db
       *.sqlite
       *.sqlite3
+
+      # OS
+      .DS_Store
+      Thumbs.db
       EOF
-      fi
+          fi
 
-      if [ ! -f .envrc ]; then
-        echo "use flake ~/.config/nixos#jupyter" > .envrc
-        echo "⚠️  Run 'direnv allow'"
-      fi
+          # Create .envrc for direnv - POINT TO YOUR ACTUAL FLAKE
+          if [ ! -f .envrc ]; then
+            echo "use flake ~/.config/nixos#jupyter" > .envrc
+            # Don't show warning if we're in a non-interactive shell
+            if [ -t 1 ]; then
+              echo "⚠️  Run 'direnv allow' to auto-activate this shell"
+            fi
+          fi
 
-      echo ""
-      echo "Python: $(python --version)"
-      echo "Jupyter: $(jupyter --version 2>&1 | head -n1)"
-      echo ""
-      echo "💡 Run 'jupyter lab' to start Jupyter Lab"
-      echo "💡 All data science packages are pre-installed"
+          echo ""
+          echo "🐍 Python: $(python --version)"
+          echo "📊 JupyterLab: $(jupyter --version 2>/dev/null | head -n1)"
+          echo ""
+          echo "✅ LSP-powered IDE features enabled:"
+          echo "   • Autocompletion (with signatures)"
+          echo "   • Hover documentation"
+          echo "   • Go to definition (Ctrl+Click)"
+          echo "   • Real-time diagnostics"
+          echo ""
+
+          # AUTO-START JUPYTER LAB - This is what was missing!
+          echo "🚀 Starting Jupyter Lab..."
+          echo "   → Your notebook server will be available at: http://localhost:8888"
+          echo "   → Press Ctrl+C to stop the server"
+          echo ""
+
+          # Start Jupyter Lab with proper settings
+          # --no-browser prevents automatic browser opening (often fails in Nix environments)
+          # --ip=127.0.0.1 binds only to localhost for security
+          # --port=8888 uses standard port
+          jupyter lab --no-browser --ip=127.0.0.1 --port=8888
     '';
   };
 }
