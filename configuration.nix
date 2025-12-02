@@ -12,7 +12,7 @@
     ./system_info/greetd.nix
     ./system_info/xdg.nix
     ./fixes.nix
-    ./steam-gaming.nix # ← NEW: Gaming configuration
+    # ./steam-gaming.nix # ← NEW: Gaming configuration
 
     ./utility/gc.nix
     ./utility/stylix.nix
