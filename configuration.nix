@@ -12,7 +12,7 @@
     ./system_info/greetd.nix
     ./system_info/xdg.nix
     ./fixes.nix
-    # ./steam-gaming.nix # ← NEW: Gaming configuration
+    ./steam-gaming.nix # ← NEW: Gaming configuration
 
     ./utility/gc.nix
     ./utility/stylix.nix
@@ -49,6 +49,7 @@
     libglvnd
     fuse
     fuse3
+    gamescope
 
     # Gaming utilities
     protonup-qt # ← Manage Proton-GE versions
@@ -57,7 +58,8 @@
   ];
 
   programs.fuse.userAllowOther = true;
-
+  services.udiskie.enable = true;
+  services.tailscale.enable = true;
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
   virtualisation.docker.enable = true;

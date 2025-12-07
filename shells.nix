@@ -204,140 +204,141 @@
     '';
   };
 
-# 3. JUPYTER SHELL (Data Science with notebooks – standalone JupyterLab IDE)
-jupyter = pkgs.mkShell {
-  buildInputs = with pkgs; [
-    bashInteractive
-    nodejs_22
-    (python3.withPackages (ps:
-      with ps; [
-        # Core
-        pip
-        virtualenv
+  # 3. JUPYTER SHELL (Data Science with notebooks – standalone JupyterLab IDE)
+  jupyter = pkgs.mkShell {
+    buildInputs = with pkgs; [
+      bashInteractive
+      nodejs_22
+      (python3.withPackages (ps:
+        with ps; [
+          # Core
+          pip
+          virtualenv
 
-        # LSP for intelligent completions, hover, go-to-def, etc.
-        python-lsp-server
-        jupyter-lsp          # ← critical: Jupyter server extension for LSP
-        jupyterlab-lsp       # ← frontend extension for JupyterLab
+          # LSP for intelligent completions, hover, go-to-def, etc.
+          python-lsp-server
+          jupyter-lsp # ← critical: Jupyter server extension for LSP
+          jupyterlab-lsp # ← frontend extension for JupyterLab
 
-        # Jupyter
-        jupyterlab
-        notebook
-        ipython
-        ipykernel
+          # Jupyter
+          jupyterlab
+          notebook
+          ipython
+          ipykernel
 
-        # Data Science Stack
-        numpy
-        pandas
-        matplotlib
-        scipy
-        scikit-learn
-        seaborn
-        plotly
-        statsmodels
-        openpyxl
-        xlrd
-        sqlalchemy
-        faker
-        requests
-        beautifulsoup4
-      ]))
-    git
-    dbeaver-bin  # keep if you use it for DBs
-  ];
-
-  LD_LIBRARY_PATH = with pkgs;
-    lib.makeLibraryPath [
-      stdenv.cc.cc
-      zlib
-      glib
-      glibc
-      libGL
-      libxkbcommon
+          # Data Science Stack
+          numpy
+          pandas
+          matplotlib
+          scipy
+          scikit-learn
+          seaborn
+          plotly
+          statsmodels
+          openpyxl
+          xlrd
+          sqlalchemy
+          faker
+          requests
+          beautifulsoup4
+        ]))
+      git
+      dbeaver-bin # keep if you use it for DBs
     ];
 
-  shellHook = ''
-    # Set custom shell name
-    export NIXSHELL_NAME="📊 jupyter"
+    # LD_LIBRARY_PATH = with pkgs;
+    # lib.makeLibraryPath [
+    # stdenv.cc.cc
+    # zlib
+    # glib
+    # glibc
+    # libGL
+    # libxkbcommon
+    # ];
 
-    # Skip extra setup if inside VSCode terminal (harmless but clean)
-    if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
-      return 0
-    fi
+    shellHook = ''
+          # Set custom shell name
+          export NIXSHELL_NAME="📊 jupyter"
 
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "📊 Standalone JupyterLab IDE (LSP Enabled)"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          # Skip extra setup if inside VSCode terminal (harmless but clean)
+          if [[ -n "$VSCODE_IPC_HOOK_CLI" ]] || [[ "$TERM_PROGRAM" == "vscode" ]]; then
+            return 0
+          fi
 
-    # Use local config dir to avoid polluting home - CORRECTED ESCAPING
-    export XDG_CONFIG_HOME="\$PWD/.config"
-    mkdir -p "$XDG_CONFIG_HOME/jupyter"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📊 Standalone JupyterLab IDE (LSP Enabled)"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-    # Enable Python LSP in Jupyter
-    cat > "$XDG_CONFIG_HOME/jupyter/jupyter_server_config.py" << 'EOF'
-c.LanguageServerManager.language_servers = {
-    'python-lsp-server': {
-        'version': 2,
-        'argv': ['python', '-m', 'pylsp'],
-        'languages': ['python']
-    }
+          # Use local config dir to avoid polluting home - CORRECTED ESCAPING
+          export XDG_CONFIG_HOME="\$PWD/.config"
+          mkdir -p "$XDG_CONFIG_HOME/jupyter"
+
+          # Enable Python LSP in Jupyter
+          cat > "$XDG_CONFIG_HOME/jupyter/jupyter_server_config.py" << 'EOF'
+      c.LanguageServerManager.language_servers = {
+          'python-lsp-server': {
+              'version': 2,
+              'argv': ['python', '-m', 'pylsp'],
+              'languages': ['python']
+          }
+      }
+      EOF
+
+          # Initialize Git if needed
+          if [ ! -d .git ]; then
+            echo "📝 Initializing Git repo..."
+            git init -q
+          fi
+
+          # Create .gitignore if missing
+          if [ ! -f .gitignore ]; then
+            cat > .gitignore << 'EOF'
+      # Python
+      __pycache__/
+      *.py[cod]
+      *$py.class
+      *.so
+      .Python
+      .env
+      .venv/
+
+      # Jupyter
+      .ipynb_checkpoints/
+      *.ipynb_checkpoints
+
+      # Direnv
+      .direnv/
+
+      # Data
+      *.csv
+      *.db
+      *.sqlite
+      *.sqlite3
+
+      # OS
+      .DS_Store
+      Thumbs.db
+      EOF
+          fi
+
+          # Create .envrc for direnv - POINT TO YOUR ACTUAL FLAKE
+          if [ ! -f .envrc ]; then
+            echo "use flake ~/.config/nixos#jupyter" > .envrc
+            echo "⚠️  Run 'direnv allow' to auto-activate this shell"
+          fi
+
+          echo ""
+          echo "🐍 Python: $(python --version)"
+          echo "📊 JupyterLab: $(jupyter --version 2>/dev/null | head -n1)"
+          echo ""
+          echo "✅ LSP-powered IDE features enabled:"
+          echo "   • Autocompletion (with signatures)"
+          echo "   • Hover documentation"
+          echo "   • Go to definition (Ctrl+Click)"
+          echo "   • Real-time diagnostics"
+          echo ""
+          echo "🚀 Run 'jupyter lab' to start"
+          echo ""
+    '';
+  };
 }
-EOF
-
-    # Initialize Git if needed
-    if [ ! -d .git ]; then
-      echo "📝 Initializing Git repo..."
-      git init -q
-    fi
-
-    # Create .gitignore if missing
-    if [ ! -f .gitignore ]; then
-      cat > .gitignore << 'EOF'
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-.env
-.venv/
-
-# Jupyter
-.ipynb_checkpoints/
-*.ipynb_checkpoints
-
-# Direnv
-.direnv/
-
-# Data
-*.csv
-*.db
-*.sqlite
-*.sqlite3
-
-# OS
-.DS_Store
-Thumbs.db
-EOF
-    fi
-
-    # Create .envrc for direnv - POINT TO YOUR ACTUAL FLAKE
-    if [ ! -f .envrc ]; then
-      echo "use flake ~/.config/nixos#jupyter" > .envrc
-      echo "⚠️  Run 'direnv allow' to auto-activate this shell"
-    fi
-
-    echo ""
-    echo "🐍 Python: $(python --version)"
-    echo "📊 JupyterLab: $(jupyter --version 2>/dev/null | head -n1)"
-    echo ""
-    echo "✅ LSP-powered IDE features enabled:"
-    echo "   • Autocompletion (with signatures)"
-    echo "   • Hover documentation"
-    echo "   • Go to definition (Ctrl+Click)"
-    echo "   • Real-time diagnostics"
-    echo ""
-    echo "🚀 Run 'jupyter lab' to start"
-    echo ""
-  '';
-};

@@ -1,95 +1,152 @@
+# ============================================================================
+# System Fixes - Enhanced for Gaming + USB-C DisplayPort
+# ============================================================================
 {
   config,
   pkgs,
   ...
 }: {
-  # ========== GRAPHICS HARDWARE ==========
-  hardware.graphics = {
+  # ========== AUDIO + RTKIT ==========
+  services.pipewire = {
     enable = true;
-    enable32Bit = true; # CRITICAL for Proton/Steam games
-    extraPackages = with pkgs; [
-      nvidia-vaapi-driver
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-tools # vulkaninfo, etc.
-      libvdpau-va-gl
-    ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [
-      # 32-bit Vulkan support for older games
-      vulkan-loader
-      vulkan-validation-layers
-    ];
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
   };
 
-  # ========== NVIDIA DRIVER ==========
-  services.xserver.videoDrivers = ["nvidia"];
+  security.rtkit.enable = true;
 
-  hardware.nvidia = {
-    modesetting.enable = true;
+  # ========== FIRMWARE ==========
+  hardware.firmware = [pkgs.linux-firmware];
 
-    # Try open-source driver first, switch to false if issues persist
-    open = true;
+  # ========== THUNDERBOLT/USB4 SUPPORT ==========
+  # CRITICAL for USB-C DisplayPort Alt Mode
+  services.hardware.bolt.enable = true;
 
-    nvidiaSettings = true;
+  # Allow user access to Thunderbolt devices
+  services.udev.extraRules = ''
+    # Thunderbolt
+    ACTION=="add", SUBSYSTEM=="thunderbolt", ATTR{authorized}=="0", ATTR{authorized}="1"
+  '';
 
-    # Use latest stable driver
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  # ========== KERNEL BLACKLIST ==========
+  boot.blacklistedKernelModules = [
+    "psmouse" # Old touchpad driver (conflicts with libinput)
+    # REMOVED: "ucsi_ccg" - THIS WAS BREAKING USB-C DP!
+  ];
 
-    # Power management - can cause issues with some games
-    # Disable if you experience crashes or black screens
-    powerManagement = {
-      enable = false; # Set to true only if suspend/resume works well
-      finegrained = false;
+  # ========== MODULE OPTIONS ==========
+  boot.extraModprobeConfig = ''
+    # ===== Intel Wi-Fi =====
+    options iwlwifi power_save=0 11n_disable=0 bt_coex_active=0
+    options iwlmvm power_scheme=1
+
+    # ===== NVIDIA for Gaming =====
+    options nvidia NVreg_PreserveVideoMemoryAllocations=1
+    options nvidia NVreg_TemporaryFilePath=/var/tmp
+
+    # ===== USB-C DisplayPort =====
+    # Reduce ucsi_ccg timeout to prevent boot delays
+    options ucsi_ccg ucsi_ccg_timeout=5000
+
+    # Force load USB-C controller modules
+    options typec typec_mode=0
+  '';
+
+  # ========== KERNEL MODULES ==========
+  # Explicitly load USB-C/Thunderbolt modules
+  boot.kernelModules = [
+    "thunderbolt"
+    "typec"
+    "typec_ucsi"
+    "ucsi_ccg" # Re-enabled!
+    "ucsi_acpi"
+  ];
+
+  # ========== LIBINPUT (TOUCHPAD) ==========
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      naturalScrolling = true;
+      tapping = true;
+      disableWhileTyping = true;
     };
+  };
 
-    # Force full composition pipeline - helps with tearing
-    # but may slightly reduce performance
-    forceFullCompositionPipeline = false;
+  # ========== NETWORK MANAGER ==========
+  networking.networkmanager = {
+    enable = true;
+    wifi.powersave = false;
+  };
+
+  # ========== GAMING OPTIMIZATIONS ==========
+  programs.gamemode = {
+    enable = true;
+    settings = {
+      general = {
+        renice = 10;
+      };
+      gpu = {
+        apply_gpu_optimisations = "accept-responsibility";
+        gpu_device = 0;
+        amd_performance_level = "high";
+      };
+    };
+  };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    gamescopeSession.enable = true;
   };
 
   # ========== KERNEL PARAMETERS ==========
   boot.kernelParams = [
-    "nvidia-drm.modeset=1" # KMS для NVIDIA
+    # NVIDIA
+    "nvidia-drm.modeset=1"
     "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-    "pcie_aspm=off" # Disable PCIe power management
 
-    # Additional gaming optimizations
-    "nvidia.NVreg_EnableGpuFirmware=0" # Can help with stability
+    # PCIe optimizations
+    "pcie_aspm=off"
+
+    # Performance
+    "mitigations=off"
+    "split_lock_detect=off"
+
+    # Memory management
+    "transparent_hugepage=always"
+
+    # USB-C/Thunderbolt
+    "thunderbolt.dyndbg=+p" # Enable debug logging if issues persist
+  ];
+
+  # ========== OPENGL/VULKAN 32-BIT SUPPORT ==========
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  # ========== SYSTEM LIMITS ==========
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "hard";
+      item = "memlock";
+      value = "unlimited";
+    }
+    {
+      domain = "*";
+      type = "soft";
+      item = "memlock";
+      value = "unlimited";
+    }
   ];
 
   # ========== ENVIRONMENT VARIABLES ==========
-  environment.variables = {
-    # Wayland support
-    GDK_BACKEND = "wayland,x11";
-    QT_QPA_PLATFORM = "wayland;xcb";
-    SDL_VIDEODRIVER = "wayland";
-    CLUTTER_BACKEND = "wayland";
-    XDG_CURRENT_DESKTOP = "niri";
-    XDG_SESSION_TYPE = "wayland";
-
-    # NVIDIA specific
-    LIBVA_DRIVER_NAME = "nvidia";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    GBM_BACKEND = "nvidia-drm";
-
-    # Mozilla/Firefox
-    MOZ_ENABLE_WAYLAND = "1";
-
-    # Cursor workaround for NVIDIA+Wayland
-    WLR_NO_HARDWARE_CURSORS = "1";
-
-    # Gaming optimizations
-    __GL_THREADED_OPTIMIZATION = "1";
-    __GL_SHADER_DISK_CACHE = "1";
-    __GL_SHADER_DISK_CACHE_PATH = "/tmp/nvidia-shader-cache";
-
-    # Vulkan ICD - ensures Proton finds the right driver
-    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
+  environment.sessionVariables = {
+    # Uncomment for debugging
+    # LIBGL_DEBUG = "verbose";
   };
-
-  # ========== SYSTEMD TMPFILES ==========
-  # Create shader cache directory
-  systemd.tmpfiles.rules = [
-    "d /tmp/nvidia-shader-cache 1777 root root 10d"
-  ];
 }

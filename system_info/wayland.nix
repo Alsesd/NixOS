@@ -98,7 +98,7 @@
       CLUTTER_BACKEND = "wayland";
 
       # SDL
-      SDL_VIDEODRIVER = "wayland";
+      # SDL_VIDEODRIVER = "wayland";
 
       # Electron
       ELECTRON_OZONE_PLATFORM_HINT = "auto";

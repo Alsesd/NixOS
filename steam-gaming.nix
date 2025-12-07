@@ -62,7 +62,7 @@
 
     # Debugging
     vulkan-tools # vulkaninfo
-    glxinfo
+    mesa-demos # vulkan-smoketest
 
     # Wine dependencies (for Proton)
     wine
