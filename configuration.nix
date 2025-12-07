@@ -58,7 +58,6 @@
   ];
 
   programs.fuse.userAllowOther = true;
-  services.udiskie.enable = true;
   services.tailscale.enable = true;
   powerManagement.cpuFreqGovernor = "performance";
   security.polkit.enable = true;
