@@ -50,6 +50,7 @@
     fuse
     fuse3
     gamescope
+    ayugram-desktop
 
     # Gaming utilities
     protonup-qt # ← Manage Proton-GE versions
