@@ -8,10 +8,10 @@
       followSystem = true;
     };
 
-    stylix.targets.nixos-icons.enable = false;
+    targets.nixos-icons.enable = false;
     # Primary wallpaper - Stylix will use this for color scheme and default wallpaper
 
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/0";
 
     # Font configuration
     fonts = {

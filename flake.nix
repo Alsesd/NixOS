@@ -35,9 +35,7 @@
       inherit system;
       config.allowUnfree = true; # Allow proprietary software (Discord, Steam, etc.)
     };
-
-    # Load the development shells from devshells.nix
-    allDevShells = import ./shells.nix {inherit pkgs;};
+    # allDevShells = import ./shells.nix {inherit pkgs;};
   in {
     # NIXOS SYSTEM CONFIGURATION
     nixosConfigurations = {
@@ -73,11 +71,10 @@
 
     # DEVELOPMENT SHELLS
     # This defines the set of available shells and explicitly sets 'python' as the default.
-    devShells.${system} =
-      allDevShells
-      // {
-        # FIX: Set the 'default' attribute inside devShells.${system}
-        default = allDevShells.python;
-      };
+    # devShells.${system} =
+    # allDevShells
+    # // {
+    # default = allDevShells.python;
+    # };
   };
 }

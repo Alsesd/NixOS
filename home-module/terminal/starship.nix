@@ -9,7 +9,7 @@
         style = "bg:base00 fg:base0D";
         disabled = false;
         symbols = {
-          NixOS = "";
+          NixOS = " ";
           Windows = "󰍲";
           Ubuntu = "󰕈";
           SUSE = "";

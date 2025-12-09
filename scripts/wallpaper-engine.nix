@@ -1,13 +1,23 @@
 {pkgs, ...}: let
   set-wallpapers = pkgs.writeShellScriptBin "set-wallpapers" ''
     #!/usr/bin/env bash
+    set -euo pipefail
 
-    ${pkgs.linux-wallpaperengine}/bin/linux-wallpaperengine --screen-root eDP-1 --bg 1959960111 --screen-root HDMI-A-4 --bg 1860216103
+    # Kill any existing swaybg instances
+    ${pkgs.procps}/bin/pkill swaybg || true
+    sleep 0.5
 
-    wait
+    # Wallpaper path
+    WALLPAPER="$HOME/Pictures/NixWallBin.png"
+
+    # Start single swaybg instance for all outputs
+    ${pkgs.swaybg}/bin/swaybg -i "$WALLPAPER" -m fill &
+
+    echo "Wallpaper set with swaybg"
   '';
 in {
   environment.systemPackages = [
     set-wallpapers
+    pkgs.swaybg
   ];
 }

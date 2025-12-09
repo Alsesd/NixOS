@@ -1,11 +1,7 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   nord9 = "#81A1C1";
   nord10 = "#5E81AC";
-  nord11 = "#BF616A";
+  # nord11 = "#BF616A";
   nord13 = "#EBCB8B";
   nord14 = "#A3BE8C";
 in {
@@ -16,11 +12,11 @@ in {
       "$schema" = "https:#github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
 
       logo = {
-        source = "nixos";
+        source = "~/Pictures/NixOS.png";
         height = 15;
-        width = 30;
+        width = 45;
         padding = {
-          top = 10;
+          top = 7;
           left = 3;
         };
       };
@@ -169,36 +165,36 @@ in {
           key = "│ ├";
           keyColor = nord10;
         }
-        {
-          type = "terminalfont";
-          key = "└ └";
-          keyColor = nord10;
-        }
-        {
-          type = "custom";
-          format = "└────────────────────────────────────────────────────┘";
-        }
-        "break"
-        {
-          type = "custom";
-          format = "┌────────────────────Uptime / Age────────────────────┐";
-        }
-        {
-          type = "command";
-          key = "  OS Age";
-          keyColor = nord11;
-          text = "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days";
-        }
-        {
-          type = "uptime";
-          key = "  Uptime";
-          keyColor = nord11;
-        }
+        # {
+        # type = "terminalfont";
+        # key = "└ └";
+        # keyColor = nord10;
+        # }
         {
           type = "custom";
           format = "└────────────────────────────────────────────────────┘";
         }
-        "break"
+        # "break"
+        # {
+        # type = "custom";
+        # format = "┌────────────────────Uptime / Age────────────────────┐";
+        # }
+        # {
+        # type = "command";
+        # key = "  OS Age";
+        # keyColor = nord11;
+        # text = "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days";
+        # }
+        # {
+        # type = "uptime";
+        # key = "  Uptime";
+        # keyColor = nord11;
+        # }
+        # {
+        # type = "custom";
+        # format = "└────────────────────────────────────────────────────┘";
+        # }
+        # "break"
       ];
     };
   };

@@ -5,10 +5,8 @@
     xwayland-satellite
     file-roller
     papirus-icon-theme # Popular, complete icon theme
-    adwaita-icon-theme # GNOME icons (fallback)
     hicolor-icon-theme
     swayimg
-    swaybg # Base icon theme (required)
   ];
   xdg.configFile."niri/config.kdl".text = ''
             // This config is in the KDL format: https://kdl.dev
@@ -60,7 +58,7 @@
             mode "1920x1080@60.030"
             position x=0 y=0
         }
-   
+     
 
 
         // Settings that influence how windows are positioned and sized.
@@ -127,7 +125,7 @@
                 // You can use any CSS linear-gradient tool on the web to set these up.
                 // Changing the color space is also supported, check the wiki for more info.
                 //
-                 active-gradient from="#80c8ff" to="#c7ff7f" angle=45
+                 active-gradient from="#b8bb26" to="#8ec07c" angle=135
 
                 // You can also color the gradient relative to the entire view
                 // of the workspace, rather than relative to just the window itself.
@@ -152,7 +150,7 @@
                 // Gradients can use a few different interpolation color spaces.
                 // For example, this is a pastel rainbow gradient via in="oklch longer hue".
                 //
-                // active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
+                // active-gradient from="#00d2ff" to="#3a47d5" angle=45 relative-to="workspace-view" in="oklch longer hue"
 
                 // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
             }
@@ -221,7 +219,7 @@
 
             hot-corners {
                 off
-     
+   
             }
         }
         // Add lines like this to spawn processes at startup.
@@ -239,7 +237,7 @@
 
         hotkey-overlay {
             // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-            // skip-at-startup
+            skip-at-startup
         }
 
     // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -248,7 +246,7 @@
     // This option will also fix border/focus ring drawing behind some semitransparent windows.
     // After enabling or disabling this, you need to restart the apps for this to take effect.
      prefer-no-csd
-   
+     
         // You can change the path where screenshots are saved.
         // A ~ at the front will be expanded to the home directory.
         // The path is formatted with strftime(3) to give you the screenshot date and time.

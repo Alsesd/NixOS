@@ -10,7 +10,6 @@
       python3Packages.pylint
       python3Packages.black
       poetry # Poetry is a standalone package, not python3Packages.poetry
-      poetry # Poetry is a standalone package, not python3Packages.poetry
       vscode
       git
       dbeaver-bin
@@ -187,6 +186,8 @@
           },
           "files.associations": { "*.nix": "nix" },
           "editor.formatOnSave": true,
+          "window.restoreWindows": "none",
+          "workbench.startupEditor": "none"
           "files.exclude": { "result": true, "result-*": true }
         },
         "extensions": { "recommendations": ["jnoortheen.nix-ide", "arrterian.nix-env-selector"] }

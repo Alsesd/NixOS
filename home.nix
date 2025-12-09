@@ -33,4 +33,5 @@
     jetbrains.pycharm-community-bin
     dbeaver-bin
   ];
+  programs.nixvim.enable = true;
 }

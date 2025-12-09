@@ -51,7 +51,6 @@
     fuse3
     gamescope
     ayugram-desktop
-    swaybg
 
     # Gaming utilities
     protonup-qt # ← Manage Proton-GE versions
