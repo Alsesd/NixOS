@@ -11,7 +11,6 @@
     ./system_info/wayland.nix
     ./system_info/greetd.nix
     ./system_info/xdg.nix
-    # ./steam-gaming.nix # ← NEW: Gaming configuration
 
     ./utility/gc.nix
     ./utility/stylix.nix
@@ -19,7 +18,6 @@
     ./utility/niri-session.nix
 
     ./scripts/active.nix
-    ./ds.nix
   ];
 
   programs.niri.enable = true;
