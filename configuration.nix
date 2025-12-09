@@ -18,6 +18,7 @@
     ./utility/niri-session.nix
 
     ./scripts/active.nix
+    ./fixes.nix
   ];
 
   programs.niri.enable = true;
@@ -67,7 +68,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_zen; # Zen kernel is good for gaming
+  boot.kernelPackages = pkgs.linuxPackages_6_17; # Zen kernel is good for gaming
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
