@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  environment.systemPackages = [pkgs.python3Packages.thefuck];
   programs.zsh = {
     enable = true;
     autocd = true;
