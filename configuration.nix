@@ -20,6 +20,7 @@
     ./utility/niri-session.nix
 
     ./scripts/active.nix
+    ./ds.nix
   ];
 
   programs.niri.enable = true;

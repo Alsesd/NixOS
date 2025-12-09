@@ -11,7 +11,7 @@
     targets.nixos-icons.enable = false;
     # Primary wallpaper - Stylix will use this for color scheme and default wallpaper
 
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/0";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
 
     # Font configuration
     fonts = {

@@ -5,7 +5,7 @@
 }: {
   imports = [
     inputs.nixvim.homeModules.nixvim
-    ./home-module/terminal/bash.nix
+    ./home-module/terminal/zsh.nix
     ./home-module/terminal/kitty.nix
     ./home-module/terminal/fastfetch.nix
     ./home-module/terminal/starship.nix
