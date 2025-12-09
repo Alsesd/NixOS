@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  environment.systemPackages = [pkgs.python3Packages.thefuck];
+  home.packages = [pkgs.pay-respects];
   programs.zsh = {
     enable = true;
     autocd = true;
@@ -32,7 +32,7 @@
     oh-my-zsh = {
       # "ohMyZsh" without Home Manager
       enable = true;
-      plugins = ["git" "thefuck"];
+      plugins = ["git"];
       theme = "robbyrussell";
     };
     history.size = 10000;
