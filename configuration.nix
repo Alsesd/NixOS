@@ -11,8 +11,7 @@
     ./system_info/wayland.nix
     ./system_info/greetd.nix
     ./system_info/xdg.nix
-    ./fixes.nix
-    ./steam-gaming.nix # ← NEW: Gaming configuration
+    # ./steam-gaming.nix # ← NEW: Gaming configuration
 
     ./utility/gc.nix
     ./utility/stylix.nix
@@ -24,7 +23,10 @@
   ];
 
   programs.niri.enable = true;
-
+  programs.zsh.enable = true;
+  users.users.alsesd = {
+    shell = pkgs.zsh;
+  };
   environment.systemPackages = with pkgs; [
     wget
     git
@@ -46,7 +48,6 @@
     libGLU
     mesa
     vulkan-loader
-    vulkan-tools # ← For debugging Vulkan issues
     libglvnd
     fuse
     fuse3
@@ -56,33 +57,26 @@
     # Gaming utilities
     protonup-qt # ← Manage Proton-GE versions
     mangohud
-    goverlay
   ];
 
-  programs.fuse.userAllowOther = true;
   services.tailscale.enable = true;
+
   powerManagement.cpuFreqGovernor = "performance";
+
   security.polkit.enable = true;
+
   virtualisation.docker.enable = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_zen; # Zen kernel is good for gaming
 
-  networking.hostName = "nixos";
-
-  programs.direnv = {
-    enable = true;
-    enableBashIntegration = true;
-    nix-direnv.enable = true;
-  };
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "archiver-3.5.1"
     "ventoy-1.1.07"
   ];
-
+  networking.hostName = "nixos";
   nix.settings = {
     download-buffer-size = 134217728; # 128 MB
     # Additional Nix optimization for gaming

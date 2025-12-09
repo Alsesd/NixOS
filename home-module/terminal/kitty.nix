@@ -16,9 +16,9 @@
     # };
 
     # === Shell Integration ===
-    shellIntegration = {
-      enableBashIntegration = true;
-    };
+    # shellIntegration = {
+    # enableBashIntegration = true;
+    # };
 
     # === Settings ===
     settings = {

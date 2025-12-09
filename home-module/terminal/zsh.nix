@@ -1,15 +1,14 @@
-{
+{pkgs, ...}: {
   programs.zsh = {
     enable = true;
-    enableCompletions = true;
+    autocd = true;
+    enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
     shellAliases = {
       # NixOS & Sistema
       list-nixos-generations = "nixos-rebuild list-generations";
-      flake-check = "nix flake check";
-      size = "du -ah --max-depth=1 | sort -h";
       ip-show = "curl ifconfig.me";
 
       #Main system build
