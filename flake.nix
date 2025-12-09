@@ -1,21 +1,22 @@
 {
   description = "My favourite NixOS";
 
-  # INPUTS: External dependencies your flake uses
   inputs = {
-    # Main package repository (unstable = latest packages)
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Home-manager: Manages user-level configs (dotfiles, packages, etc.)
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs"; # Use same nixpkgs version
     };
 
-    # Stylix: System-wide theming (colors, fonts, etc.)
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs"; # Use same nixpkgs version
+    };
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -54,7 +55,6 @@
 
           # Enable Stylix theming module
           inputs.stylix.nixosModules.stylix
-
           # Enable home-manager as NixOS module
           home-manager.nixosModules.home-manager
           {
