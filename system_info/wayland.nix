@@ -20,7 +20,7 @@
         default = ["gtk"];
       };
       niri = {
-        default = ["gtk" "wlr"];
+        # default = ["gtk" "wlr"];
         "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
         "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
       };
