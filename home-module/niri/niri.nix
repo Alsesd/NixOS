@@ -4,10 +4,13 @@
     fuzzel
     xwayland-satellite
     file-roller
-    papirus-icon-theme # Popular, complete icon theme
-    hicolor-icon-theme
+ 
     swayimg
+    mako
+    libnotify
   ];
+    
+}
   xdg.configFile."niri/config.kdl".text = ''
             // This config is in the KDL format: https://kdl.dev
         // "/-" comments out the following node.

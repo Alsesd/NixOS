@@ -25,11 +25,11 @@
     google-chrome
     discord
     steam
-    obsidian
     qbittorrent
     vlc
     vscode
     slack
+    inputs.zen-browser.packages."${system}".default
   ];
   programs.nixvim.enable = true;
 }

@@ -101,14 +101,6 @@
       "ctrl+shift+v" = "paste_from_clipboard";
     };
 
-    # === Extra Config ===
-    extraConfig = ''
-      # Custom selection colors (если Stylix не устраивает)
-      # selection_background #364A82
-      # selection_foreground #C0CAF5
-
-      # Background opacity (если нужно)
-      # background_opacity 0.95
-    '';
+   
   };
 }

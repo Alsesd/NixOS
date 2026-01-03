@@ -83,10 +83,7 @@
   };
 
   # ========== NETWORK MANAGER ==========
-  networking.networkmanager = {
-    enable = true;
-    wifi.powersave = false;
-  };
+
 
   # ========== GAMING OPTIMIZATIONS ==========
   programs.gamemode = {

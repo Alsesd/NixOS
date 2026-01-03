@@ -1,20 +1,12 @@
-# ============================================================================
-# Wayland Configuration
-# ============================================================================
-# Общие настройки для Wayland окружения
-# ============================================================================
 {pkgs, ...}: {
-  # === XDG Desktop Portal ===
   xdg.portal = {
     enable = true;
 
-    # Порталы для различных функций
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk # GTK file picker
       xdg-desktop-portal-wlr # Screen sharing
     ];
 
-    # Конфигурация портала
     config = {
       common = {
         default = ["gtk"];
@@ -67,17 +59,11 @@
       # Wayland tools
       wayland-utils
       wayland-protocols
-      wev # Wayland event viewer (для отладки клавиш)
-
-      # XDG utils
+      wev
       xdg-utils
       xdg-user-dirs
-
-      # Qt Wayland support
       qt5.qtwayland
       qt6.qtwayland
-
-      # GTK
       gtk3
       gtk4
     ];

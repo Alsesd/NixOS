@@ -3,9 +3,9 @@
     isNormalUser = true;
     description = "alsesd";
     extraGroups = ["networkmanager" "wheel" "libvirtd" "input" "docker"];
-    #packages = with pkgs; [];
+ `  shell = pkgs.zsh;
   };
-
+    
   time.timeZone = "Europe/Kyiv";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {

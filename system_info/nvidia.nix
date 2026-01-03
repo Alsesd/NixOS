@@ -3,36 +3,31 @@
   pkgs,
   ...
 }: {
-  # ========== GRAPHICS HARDWARE ==========
   hardware.graphics = {
     enable = true;
-    enable32Bit = true; # CRITICAL for Proton/Steam games
+    enable32Bit = true; 
     extraPackages = with pkgs; [
       nvidia-vaapi-driver
       vulkan-loader
       vulkan-validation-layers
-      vulkan-tools # vulkaninfo, etc.
+      vulkan-tools 
       libvdpau-va-gl
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [
-      # 32-bit Vulkan support for older games
       vulkan-loader
       vulkan-validation-layers
     ];
   };
 
-  # ========== NVIDIA DRIVER ==========
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
     modesetting.enable = true;
 
-    # Try open-source driver first, switch to false if issues persist
     open = true;
 
     nvidiaSettings = true;
 
-    # Use latest stable driver
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
     # Power management - can cause issues with some games
@@ -42,12 +37,9 @@
       finegrained = false;
     };
 
-    # Force full composition pipeline - helps with tearing
-    # but may slightly reduce performance
     forceFullCompositionPipeline = false;
   };
 
-  # ========== KERNEL PARAMETERS ==========
   boot.kernelParams = [
     "nvidia-drm.modeset=1" # KMS для NVIDIA
     "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
@@ -79,17 +71,15 @@
     WLR_NO_HARDWARE_CURSORS = "1";
 
     # Gaming optimizations
-    __GL_THREADED_OPTIMIZATION = "1";
-    __GL_SHADER_DISK_CACHE = "1";
-    __GL_SHADER_DISK_CACHE_PATH = "/tmp/nvidia-shader-cache";
+    # __GL_THREADED_OPTIMIZATION = "1";
+    # __GL_SHADER_DISK_CACHE = "1";
+    # __GL_SHADER_DISK_CACHE_PATH = "/tmp/nvidia-shader-cache";
 
     # Vulkan ICD - ensures Proton finds the right driver
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
   };
 
-  # ========== SYSTEMD TMPFILES ==========
-  # Create shader cache directory
-  systemd.tmpfiles.rules = [
-    "d /tmp/nvidia-shader-cache 1777 root root 10d"
-  ];
+  # systemd.tmpfiles.rules = [
+  #   "d /tmp/nvidia-shader-cache 1777 root root 10d"
+  # ];
 }

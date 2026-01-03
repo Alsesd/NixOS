@@ -1,23 +1,23 @@
 {pkgs, ...}: {
+  home.packages = with pkgs; [  
+    papirus-icon-theme 
+  ];
   stylix = {
     enable = true;
 
-    # Enable home-manager integration
     homeManagerIntegration = {
       autoImport = true;
       followSystem = true;
     };
 
-    targets.nixos-icons.enable = false;
-    # Primary wallpaper - Stylix will use this for color scheme and default wallpaper
+    # targets.nixos-icons.enable = false;
 
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
 
-    # Font configuration
     fonts = {
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMono Nerd Font Mono";
+        name = "JetBrainsMonoNL Nerd Font Mono";
       };
       sansSerif = {
         package = pkgs.dejavu_fonts;
@@ -35,14 +35,12 @@
       };
     };
 
-    # Cursor configuration
     cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Ice";
       size = 18;
     };
 
-    # Opacity settings
     opacity = {
       applications = 0.75;
       terminal = 0.7;
@@ -50,18 +48,14 @@
       popups = 0.9;
     };
 
-    # Icon theme configuration
     iconTheme = {
       enable = true;
       package = pkgs.papirus-icon-theme;
       dark = "Papirus-Dark";
-      light = "Papirus-Light";
     };
 
-    # GTK theme settings
     targets.gtk.enable = true;
   };
 
-  # Configure GTK settings
   programs.dconf.enable = true;
 }

@@ -20,44 +20,35 @@
     ./scripts/active.nix
     ./fixes.nix
   ];
-
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
   programs.niri.enable = true;
   programs.zsh.enable = true;
-  users.users.alsesd = {
-    shell = pkgs.zsh;
-  };
+
   environment.systemPackages = with pkgs; [
     wget
     git
     base16-schemes
-    cava
     ventoy-full
-    xdg-utils
-    networkmanager
     usbutils
     udiskie
-    pkgs.mesa
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
     direnv
     nix-direnv
     docker
-    libGL
-    libGLU
-    mesa
-    vulkan-loader
-    libglvnd
     fuse
     fuse3
     gamescope
     ayugram-desktop
+    pkgs.easyeffects
 
     # Gaming utilities
     protonup-qt # ← Manage Proton-GE versions
   ];
 
-  services.tailscale.enable = true;
+  
 
   powerManagement.cpuFreqGovernor = "performance";
 
@@ -67,19 +58,15 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_zen; # Zen kernel is good for gaming
+  boot.kernelPackages = pkgs.linuxPackages_zen; 
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "archiver-3.5.1"
     "ventoy-1.1.07"
   ];
-  networking.hostName = "nixos";
-  nix.settings = {
-    download-buffer-size = 134217728; # 128 MB
-    # Additional Nix optimization for gaming
-    auto-optimise-store = true;
-  };
+  
+
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
