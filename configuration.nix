@@ -7,18 +7,16 @@
   imports = [
     ./system_info/hardware-configuration.nix
     ./system_info/users.nix
-    ./system_info/nvidia.nix
-    ./system_info/wayland.nix
+    ./system_info/gpu-wayland-env.nix
+    ./system_info/network.nix
     ./system_info/greetd.nix
-    ./system_info/xdg.nix
 
-    ./utility/gc.nix
     ./utility/stylix.nix
-    ./utility/autoupgrade.nix
+    ./utility/nix.nix
+
     ./utility/niri-session.nix
 
     ./scripts/active.nix
-    ./fixes.nix
   ];
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
