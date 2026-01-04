@@ -29,7 +29,6 @@
             numlock 
             xkb {
             layout "us,ru,ua"
-            options "grp:alt_shift_toggle"
                 }
             }
 
@@ -91,9 +90,6 @@
                 proportion 0.33333
                 proportion 0.5
                 proportion 0.66667
-
-                // Fixed sets the width in logical pixels exactly.
-                // fixed 1920
             }
 
                 default-column-display "tabbed"
@@ -102,71 +98,21 @@
                     hide-when-single-tab
                 }
 
-            // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
-            // preset-window-heights { }
 
-            // You can change the default width of the new windows.
             default-column-width { proportion 0.5; }
-            // If you leave the brackets empty, the windows themselves will decide their initial width.
-            // default-column-width {}
-            // You can change how the focus ring looks.
             focus-ring {
-                // Uncomment this line to disable the focus ring.
-                // off
 
                 // How many logical pixels the ring extends out from the windows.
                 width 4
 
-                // Colors can be set in a variety of ways:
-                // - CSS named colors: "red"
-                // - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
-                // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
-                // Color of the ring on the active monitor.
-                //active-color "#7fc8ff"
-
-                // Color of the ring on inactive monitors.
-                //
-                // The focus ring only draws around the active window, so the only place
-                // where you can see its inactive-color is on other monitors.
                 inactive-color "#505050"
 
-                // You can also use gradients. They take precedence over solid colors.
-                // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
-                // The angle is the same as in linear-gradient, and is optional,
-                // defaulting to 180 (top-to-bottom gradient).
-                // You can use any CSS linear-gradient tool on the web to set these up.
-                // Changing the color space is also supported, check the wiki for more info.
-                //
-                 active-gradient from="#b8bb26" to="#8ec07c" angle=135
+                active-gradient from="#b8bb26" to="#8ec07c" angle=135
 
-                // You can also color the gradient relative to the entire view
-                // of the workspace, rather than relative to just the window itself.
-                // To do that, set relative-to="workspace-view".
-                //
-                 inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+                inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
             }
 
-            // You can also add a border. It's similar to the focus ring, but always visible.
-            border {
-                // The settings are the same as for the focus ring.
-                // If you enable the border, you probably want to disable the focus ring.
-                off
-
-                width 4
-                active-color "#ffc87f"
-                inactive-color "#505050"
-
-                // Color of the border around windows that request your attention.
-                urgent-color "#9b0000"
-
-                // Gradients can use a few different interpolation color spaces.
-                // For example, this is a pastel rainbow gradient via in="oklch longer hue".
-                //
-                // active-gradient from="#00d2ff" to="#3a47d5" angle=45 relative-to="workspace-view" in="oklch longer hue"
-
-                // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
-            }
 
             // You can enable drop shadows for windows.
             shadow {
@@ -336,7 +282,6 @@
             // Suggested binds for running programs: terminal, app launcher, screen locker.
             Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
             Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-            Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
             // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
             // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -357,13 +302,12 @@
             XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
             XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
-            // Open/close the Overview: a zoomed-out view of workspaces and windows.
-            // You can also move the mouse into the top-left hot corner,
-            // or do a four-finger swipe up on a touchpad.
+            Shift+Alt { spawn "layout-switch"; }
+
             Mod+O repeat=false { toggle-overview; }
-        Mod+B {spawn "zen";}
+            Mod+B {spawn "zen";}
             Mod+Q repeat=false { close-window; }
-        Mod+E {spawn "thunar";}
+            Mod+E {spawn "thunar";}
             Mod+Left  { focus-column-left; }
             Mod+Down  { focus-window-down; }
             Mod+Up    { focus-window-up; }
@@ -503,16 +447,11 @@
             // Switches focus between the current and the previous workspace.
             // Mod+Tab { focus-workspace-previous; }
 
-            // The following binds move the focused window in and out of a column.
-            // If the window is alone, they will consume it into the nearby column to the side.
-            // If the window is already in a column, they will expel it out.
-            Mod+BracketLeft  { consume-or-expel-window-left; }
-            Mod+BracketRight { consume-or-expel-window-right; }
 
             // Consume one window from the right to the bottom of the focused column.
-            Mod+Comma  { consume-window-into-column; }
+            Mod+Comma  { consume-or-expel-window-left; }
             // Expel the bottom window from the focused column to the right.
-            Mod+Period { expel-window-from-column; }
+            Mod+Period { consume-or-expel-window-right; }
 
             Mod+R { switch-preset-column-width; }
             // Cycling through the presets in reverse order is also possible.
@@ -521,38 +460,20 @@
             Mod+Ctrl+R { reset-window-height; }
             Mod+F { maximize-column; }
             Mod+Shift+F { fullscreen-window; }
-
-            // Expand the focused column to space not taken up by other fully visible columns.
-            // Makes the column "fill the rest of the space".
             Mod+Ctrl+F { expand-column-to-available-width; }
 
             Mod+C { center-column; }
 
-            // Center all fully visible columns on screen.
             Mod+Ctrl+C { center-visible-columns; }
 
-            // Finer width adjustments.
-            // This command can also:
-            // * set width in pixels: "1000"
-            // * adjust width in pixels: "-5" or "+5"
-            // * set width as a percentage of screen width: "25%"
-            // * adjust width as a percentage of screen width: "-10%" or "+10%"
-            // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
-            // set-column-width "100" will make the column occupy 200 physical screen pixels.
             Mod+Minus { set-column-width "-10%"; }
             Mod+Equal { set-column-width "+10%"; }
 
-            // Finer height adjustments when in column with other windows.
             Mod+Shift+Minus { set-window-height "-10%"; }
             Mod+Shift+Equal { set-window-height "+10%"; }
 
-            // Move the focused window between the floating and the tiling layout.
             Mod+V       { toggle-window-floating; }
             Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-
-            // Toggle tabbed column display mode.
-            // Windows in this column will appear as vertical tabs,
-            // rather than stacked on top of each other.
             Mod+W { toggle-column-tabbed-display; }
 
             // Actions to switch layouts.
@@ -567,14 +488,6 @@
             Ctrl+Print { screenshot-screen; }
             Alt+Print { screenshot-window; }
 
-            // Applications such as remote-desktop clients and software KVM switches may
-            // request that niri stops processing the keyboard shortcuts defined here
-            // so they may, for example, forward the key presses as-is to a remote machine.
-            // It's a good idea to bind an escape hatch to toggle the inhibitor,
-            // so a buggy application can't hold your session hostage.
-            //
-            // The allow-inhibiting=false property can be applied to other binds as well,
-            // which ensures niri always processes them, even when an inhibitor is active.
             Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
             // The quit action will show a confirmation dialog to avoid accidental exits.
