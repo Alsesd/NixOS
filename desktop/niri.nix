@@ -290,7 +290,7 @@
 
               // Suggested binds for running programs: terminal, app launcher, screen locker.
               Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
-              Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+              Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "rofi -show drun"; }
 
               // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
               // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.

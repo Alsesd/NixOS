@@ -21,7 +21,7 @@ in {
 
     xdg.configFile."rofi/config.rasi".text = ''
       /* Load the layout and colors from the theme itself */
-      @import "~/.config/rofi/launchers/type-5/style-5.rasi"
+      @import "~/.config/rofi/launchers/type-5/style-4.rasi"
 
       configuration {
         modi: "drun,filebrowser";

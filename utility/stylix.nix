@@ -1,6 +1,6 @@
 {pkgs, ...}: {
-  environment.systemPackages = with pkgs; [  
-    papirus-icon-theme 
+  environment.systemPackages = with pkgs; [
+    papirus-icon-theme
     base16-schemes
   ];
   stylix = {
@@ -15,19 +15,20 @@
 
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
 
-    fonts = {
+    stylix.fonts = {
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMonoNL Nerd Font Mono";
+        name = "JetBrainsMono Nerd Font";
       };
       sansSerif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Sans";
+        package = pkgs.inter; # Намного современнее и полнее, чем DejaVu
+        name = "Inter";
       };
       serif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Serif";
+        package = pkgs.noto-fonts;
+        name = "Noto Serif";
       };
+
       sizes = {
         applications = 12;
         terminal = 15;
