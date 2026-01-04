@@ -14,6 +14,8 @@
     ./utility/nix.nix
     ./scripts/active.nix
     ./desktop/default.nix
+
+    ./home-module/terminal.nix
   ];
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -31,10 +33,9 @@
     docker
     fuse
     fuse3
- # ← Manage Proton-GE versions
+    # ← Manage Proton-GE versions
   ];
 
-  
   hardware.cpu.intel.updateMicrocode = true;
   powerManagement.cpuFreqGovernor = "performance";
   xdg.autostart.enable = true;
@@ -44,15 +45,15 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_zen; 
-  boot.blacklistedKernelModules = [ "psmouse" ];
-  
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.blacklistedKernelModules = ["psmouse"];
+
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "archiver-3.5.1"
     "ventoy-1.1.07"
   ];
-  
+
   networking.hostName = "nixos";
 
   nix.settings.experimental-features = ["nix-command" "flakes"];

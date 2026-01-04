@@ -5,10 +5,9 @@
 }: {
   imports = [
     inputs.nixvim.homeModules.nixvim
-    ./home-module/terminal.nix
+    # ./home-module/terminal.nix
 
     ./home-module/eww-widgets/eww.nix
-
   ];
 
   home.username = "alsesd";

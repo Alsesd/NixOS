@@ -1,42 +1,34 @@
-{ pkgs, config, ... }: {
-
-  home-manager.users.alsesd = {
-  # Fix for rofi-calc on Wayland
-  nixpkgs.overlays = [
-    (final: prev: {
-      rofi-calc = prev.rofi-calc.override { rofi-unwrapped = prev.rofi-wayland-unwrapped; };
-    })
-  ];
-
-  home.packages = with pkgs; [
-    rofi
-    rofi-calc
-    libqalculate # High-performance math engine
-  ];
-
-  programs.rofi = {
-    enable = true;
-    package = pkgs.rofi;
-    plugins = [ pkgs.rofi-calc ];
-    
-    extraConfig = {
-      # Enable the three modes you want
-      modi = "drun,calc,filebrowser";
-      show-icons = true;
-      display-drun = "Apps";
-      display-calc = "Calc";
-      display-filebrowser = "Files";
-
-      # Filebrowser settings
-      filebrowser = {
-        directory = "/home/alsesd"; # Starts in your home
-        directories-first = true;
-        sorting-method = "name";
-      };
-
-      # Calc settings
-      calc-command = "echo -n '{result}' | wl-copy"; # Auto-copies math results to clipboard
-    };
+{pkgs, ...}: let
+  rofi-type5 = pkgs.fetchFromGitHub {
+    owner = "adi1090x";
+    repo = "rofi";
+    rev = "master";
+    hash = "sha256-iUX0Quae06tGd7gDgXZo1B3KYgPHU+ADPBrowHlv02A=";
   };
-};
+in {
+  home-manager.users.alsesd = {
+    home.packages = with pkgs; [
+      rofi
+      rofi-bluetooth
+      networkmanager_dmenu
+    ];
+
+    # This links the entire folder so all styles (1-5) are available
+    xdg.configFile."rofi/launchers/type-5".source = "${rofi-type5}/files/launchers/type-5";
+
+    # Link the shared colors/fonts needed by the theme
+    xdg.configFile."rofi/colors".source = "${rofi-type5}/files/colors";
+
+    xdg.configFile."rofi/config.rasi".text = ''
+      /* Load the layout and colors from the theme itself */
+      @import "~/.config/rofi/launchers/type-5/style-5.rasi"
+
+      configuration {
+        modi: "drun,filebrowser";
+        show-icons: true;
+        display-drun: "Apps";
+        terminal: "kitty";
+      }
+    '';
+  };
 }
