@@ -1,15 +1,17 @@
   { config, pkgs, ... }: {
 
-  system.packages = with pkgs: [
+environment.systemPackages = with pkgs; [
     networkmanager
   ];
 
+
   networking = {
-    hostname = "myNixos"; 
+    hostName = "nixos";
     networkmanager = {
       enable = true;
       wifi.powersave = false;
     };
   };
+  
   services.tailscale.enable = true;
   }

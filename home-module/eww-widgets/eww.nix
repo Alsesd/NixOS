@@ -25,7 +25,7 @@
   xdg.configFile."eww/eww.scss".text = ''
     /* Import tray styles */
     @import "./tray.scss";
-    ;;@import "./bar.scss";
+    /* @import "./bar.scss"; */
 
     /* Global styles */
     * {
@@ -39,6 +39,8 @@
       Description = "Eww Daemon";
       PartOf = ["graphical-session.target"];
       After = ["graphical-session.target"];
+      StartLimitBurst = 3;
+      StartLimitIntervalSec = 30;
     };
     Service = {
       Type = "simple";
@@ -46,9 +48,8 @@
       ExecReload = "${pkgs.eww}/bin/eww reload";
       Restart = "on-failure";
       RestartSec = "5s";
-      StartLimitBurst = 3;
-      StartLimitIntervalSec = 30;
     };
     Install.WantedBy = ["graphical-session.target"];
   };
+  
 }

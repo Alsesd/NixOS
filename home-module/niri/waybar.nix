@@ -7,8 +7,8 @@
     waybar
     pavucontrol # For pulseaudio right-click
     blueman # For bluetooth click
-    wlogout # For power button
     lm_sensors # For temperature
+    
   ];
   programs.waybar = {
     enable = true;

@@ -68,7 +68,7 @@
   # ============================================================================
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce; [
+    plugins = with pkgs; [
       thunar-archive-plugin
       thunar-volman
     ];
@@ -77,7 +77,6 @@
   services = {
     gvfs.enable = true; # Монтирование (флешки, сеть)
     tumbler.enable = true; # Генерация миниатюр
-    xfconf.enable = true; # Сохранение настроек XFCE/Thunar
     dbus = {
       enable = true;
       packages = [ pkgs.dconf ];
@@ -106,13 +105,14 @@
       
       # Кастомный скрипт (из старого xdg.nix)
       (writeShellScriptBin "xdg-file-manager" ''
-        exec ${pkgs.xfce.thunar}/bin/thunar "$@"
+        exec ${pkgs.thunar}/bin/thunar "$@"
       '')
     ];
 
     sessionVariables = {
       # --- General Wayland ---
       NIXOS_OZONE_WL = "1"; 
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";
       MOZ_ENABLE_WAYLAND = "1";
       GDK_BACKEND = "wayland,x11";
       QT_QPA_PLATFORM = "wayland;xcb";

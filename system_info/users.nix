@@ -1,9 +1,9 @@
-{
+{pkgs, ...}: {
   users.users.alsesd = {
     isNormalUser = true;
     description = "alsesd";
     extraGroups = ["networkmanager" "wheel" "libvirtd" "input" "docker"];
- `  shell = pkgs.zsh;
+    shell = pkgs.zsh;
   };
     
   time.timeZone = "Europe/Kyiv";

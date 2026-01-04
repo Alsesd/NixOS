@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  home.packages = with pkgs; [  
+  environment.systemPackages = with pkgs; [  
     papirus-icon-theme 
   ];
   stylix = {
@@ -52,6 +52,7 @@
       enable = true;
       package = pkgs.papirus-icon-theme;
       dark = "Papirus-Dark";
+      light = "Papirus-Light";
     };
 
     targets.gtk.enable = true;

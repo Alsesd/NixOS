@@ -12,7 +12,7 @@
     };
     optimise = {
       automatic = true;
-      timerConfig.OnCalendar = "daily";
+      dates = "daily";
     };
 
     settings = {

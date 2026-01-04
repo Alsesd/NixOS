@@ -11,3 +11,4 @@ nixos.code-workspace
 .direnv
 .gitignore
 *.lock
+*.yaml

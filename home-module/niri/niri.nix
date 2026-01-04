@@ -8,10 +8,14 @@
     swayimg
     mako
     libnotify
+
+    thunar
+    thunar-volman
+    thunar-archive-plugin
   ];
     
-}
-  xdg.configFile."niri/config.kdl".text = ''
+    programs.niri.enable = true;
+    xdg.configFile."niri/config.kdl".text = ''
             // This config is in the KDL format: https://kdl.dev
         // "/-" comments out the following node.
         // Check the wiki for a full description of the configuration:
@@ -91,6 +95,12 @@
                 // Fixed sets the width in logical pixels exactly.
                 // fixed 1920
             }
+
+                default-column-display "tabbed"
+
+                tab-indicator {
+                    hide-when-single-tab
+                }
 
             // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
             // preset-window-heights { }
@@ -273,23 +283,22 @@
         // Find more information on the wiki:
         // https://yalter.github.io/niri/Configuration:-Window-Rules
 
-        // Work around WezTerm's initial configure bug
-        // by setting an empty default-column-width.
+
+
         window-rule {
-            // This regular expression is intentionally made as specific as possible,
-            // since this is the default config, and we want no false positives.
-            // You can get away with just app-id="wezterm" if you want.
-            match app-id=r#"^org\.wezfurlong\.wezterm$"#
-            default-column-width {}
+            match app-id="steam"
+            match app-id=r#"^zen.*$"#
+            match app-id="code"
+            open-maximized true
         }
 
-        // Open the Firefox picture-in-picture player as floating by default.
         window-rule {
-            // This app-id regular expression will work for both:
-            // - host Firefox (app-id is "firefox")
-            // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-            match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-            open-floating true
+        match app-id=r#"^steam_app_.*$"#
+        open-fullscreen true
+        }
+
+        window-rule {
+        open-floating false
         }
 
         // Example: block out two password managers from screen capture.
@@ -352,7 +361,7 @@
             // You can also move the mouse into the top-left hot corner,
             // or do a four-finger swipe up on a touchpad.
             Mod+O repeat=false { toggle-overview; }
-        Mod+B {spawn "google-chrome-stable";}
+        Mod+B {spawn "zen";}
             Mod+Q repeat=false { close-window; }
         Mod+E {spawn "thunar";}
             Mod+Left  { focus-column-left; }

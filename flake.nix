@@ -21,46 +21,33 @@
 
     zen-browser = {
     url = "github:0xc000022070/zen-browser-flake";
-    inputs = {
-      nixpkgs.follows = "nixpkgs";
-      home-manager.follows = "home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
   };
-
-  # OUTPUTS: What your flake produces
   outputs = {
     self,
     nixpkgs,
     home-manager,
     ...
   } @ inputs: let
-    # Define system architecture
     system = "x86_64-linux";
 
-    # Import nixpkgs with configuration
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true; # Allow proprietary software (Discord, Steam, etc.)
     };
     allDevShells = import ./shells.nix {inherit pkgs;};
   in {
-    # NIXOS SYSTEM CONFIGURATION
     nixosConfigurations = {
-      # "myNixos" is your hostname - change if needed
       myNixos = nixpkgs.lib.nixosSystem {
-        # Pass inputs and system to modules
         specialArgs = {inherit inputs system;};
 
         modules = [
-          # System configuration (packages, services, etc.)
           ./configuration.nix
-
-          # Hardware-specific config (filesystems, boot, etc.)
           ./system_info/hardware-configuration.nix
 
-          # Enable Stylix theming module
           inputs.stylix.nixosModules.stylix
-          # Enable home-manager as NixOS module
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -76,8 +63,6 @@
       };
     };
 
-    # DEVELOPMENT SHELLS
-    # This defines the set of available shells and explicitly sets 'python' as the default.
     devShells.${system} =
       allDevShells
       // {

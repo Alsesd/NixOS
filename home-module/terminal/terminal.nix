@@ -118,7 +118,7 @@ in {
       path = "${config.xdg.dataHome}/zsh/history";
     };
 
-    initExtra = ''
+    initContent = ''
       nreb() {
         sudo nixos-rebuild switch --upgrade --flake ~/.config/nixos/.#myNixos && notify-send "NixOS" "Rebuild complete!"
       }
@@ -471,3 +471,7 @@ in {
           type = "custom";
           format = "└────────────────────────────────────────────────────┘";
         }
+      ];
+  };
+  };
+}

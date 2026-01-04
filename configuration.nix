@@ -20,7 +20,7 @@
   ];
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-  programs.niri.enable = true;
+  
   programs.zsh.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -30,9 +30,7 @@
     ventoy-full
     usbutils
     udiskie
-    xfce.thunar
-    xfce.thunar-volman
-    xfce.thunar-archive-plugin
+
     direnv
     nix-direnv
     docker
@@ -40,14 +38,14 @@
     fuse3
     gamescope
     ayugram-desktop
-    pkgs.easyeffects
+    easyeffects
+    nixd
 
-    # Gaming utilities
     protonup-qt # ← Manage Proton-GE versions
   ];
 
   
-
+  hardware.cpu.intel.updateMicrocode = true;
   powerManagement.cpuFreqGovernor = "performance";
 
   security.polkit.enable = true;
@@ -57,14 +55,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_zen; 
-
+  boot.blacklistedKernelModules = [ "psmouse" ];
+  
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "archiver-3.5.1"
     "ventoy-1.1.07"
   ];
   
-
+  networking.hostName = "nixos";
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
