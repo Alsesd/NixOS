@@ -3,7 +3,7 @@
   ./greetd.nix
   ./niri.nix
   ./waybar.nix
-  ./rofi-wayland.nix
+  ./rofi.nix
 
   ];
 }
