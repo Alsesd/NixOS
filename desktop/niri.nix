@@ -1,8 +1,13 @@
-{pkgs, ...}: {
+{config, pkgs, ...}: {
+programs.niri.enable = true;
+services.displayManager.sessionPackages = [pkgs.niri];
+environment.systemPackages = with pkgs; [xwayland-satellite
+  ];
+
+home-manager.users.alsesd = {
   home.packages = with pkgs; [
     niri
     fuzzel
-    xwayland-satellite
     file-roller
  
     swayimg
@@ -14,7 +19,6 @@
     thunar-archive-plugin
   ];
     
-    programs.niri.enable = true;
     xdg.configFile."niri/config.kdl".text = ''
             // This config is in the KDL format: https://kdl.dev
         // "/-" comments out the following node.
@@ -29,6 +33,7 @@
             numlock 
             xkb {
             layout "us,ru,ua"
+            xkb-options "grp:alt_shift_toggle,compose:rctrl"
                 }
             }
 
@@ -302,7 +307,6 @@
             XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
             XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
-            Shift+Alt { spawn "layout-switch"; }
 
             Mod+O repeat=false { toggle-overview; }
             Mod+B {spawn "zen";}
@@ -447,10 +451,9 @@
             // Switches focus between the current and the previous workspace.
             // Mod+Tab { focus-workspace-previous; }
 
-
-            // Consume one window from the right to the bottom of the focused column.
+            Mod+KP_Subtract { expel-window-from-column; }
+            Mod+KP_Add { consume-window-into-column; }
             Mod+Comma  { consume-or-expel-window-left; }
-            // Expel the bottom window from the focused column to the right.
             Mod+Period { consume-or-expel-window-right; }
 
             Mod+R { switch-preset-column-width; }
@@ -498,4 +501,5 @@
             // moving the mouse or pressing any other key.
             Mod+Shift+P { power-off-monitors; }
         }'';
+};
 }

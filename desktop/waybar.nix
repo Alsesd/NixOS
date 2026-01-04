@@ -3,7 +3,9 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [
+ 
+  home-manager.users.alsesd = {
+    home.packages = with pkgs; [
     waybar
     pavucontrol # For pulseaudio right-click
     blueman # For bluetooth click
@@ -286,4 +288,5 @@
           }
     '';
   };
+};
 }

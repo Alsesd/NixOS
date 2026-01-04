@@ -4,6 +4,5 @@
     ./plug.nix
     ./xdg-file-manager.nix
     ./wallpaper-engine.nix
-    ./layout-switch.nix
   ];
 }

@@ -15,7 +15,7 @@ in {
       window_border_width = 1;
       hide_window_decorations = false;
 
-      cursor_shape = "block";
+      cursor_shape = "beam";
       cursor_blink_interval = 0;
 
       scrollback_lines = 10000;

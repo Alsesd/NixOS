@@ -9,24 +9,19 @@
     ./system_info/users.nix
     ./system_info/gpu-wayland-env.nix
     ./system_info/network.nix
-    ./system_info/greetd.nix
 
     ./utility/stylix.nix
     ./utility/nix.nix
-
-    ./utility/niri-session.nix
-
     ./scripts/active.nix
+    ./desktop/default.nix
   ];
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-  
   programs.zsh.enable = true;
 
   environment.systemPackages = with pkgs; [
     wget
     git
-    base16-schemes
     ventoy-full
     usbutils
     udiskie
@@ -36,18 +31,13 @@
     docker
     fuse
     fuse3
-    gamescope
-    ayugram-desktop
-    easyeffects
-    nixd
-
-    protonup-qt # ← Manage Proton-GE versions
+ # ← Manage Proton-GE versions
   ];
 
   
   hardware.cpu.intel.updateMicrocode = true;
   powerManagement.cpuFreqGovernor = "performance";
-
+  xdg.autostart.enable = true;
   security.polkit.enable = true;
 
   virtualisation.docker.enable = true;

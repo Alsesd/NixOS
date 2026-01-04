@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [  
     papirus-icon-theme 
+    base16-schemes
   ];
   stylix = {
     enable = true;
