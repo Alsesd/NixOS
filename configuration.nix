@@ -26,14 +26,9 @@
     git
     ventoy-full
     usbutils
-    udiskie
-
-    direnv
-    nix-direnv
     docker
     fuse
     fuse3
-    # ← Manage Proton-GE versions
   ];
 
   hardware.cpu.intel.updateMicrocode = true;
@@ -51,12 +46,12 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "archiver-3.5.1"
-    "ventoy-1.1.07"
+    "ventoy-1.1.10"
   ];
 
   networking.hostName = "nixos";
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 }

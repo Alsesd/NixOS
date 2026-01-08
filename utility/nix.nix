@@ -3,7 +3,16 @@
   pkgs,
   inputs,
   ...
-}:{
+}: {
+  environment.systemPackages = with pkgs; [
+    alejandra
+    statix
+    deadnix
+    zsh-nix-shell
+    direnv
+    nix-direnv
+    nixd
+  ];
   nix = {
     gc = {
       automatic = true;
@@ -16,25 +25,23 @@
     };
 
     settings = {
-    download-buffer-size = 134217728; 
-    auto-optimise-store = true;
+      download-buffer-size = 134217728;
+      auto-optimise-store = true;
+    };
   };
-  };
-  
+
   system.autoUpgrade = {
     enable = true;
     flake = inputs.self.outPath;
     flags = [
       "--update-input"
-      "nixpkgs" 
+      "nixpkgs"
       "--update-input"
-      "home-manager" 
-      "--commit-lock-file" 
-      "-L" 
+      "home-manager"
+      "--commit-lock-file"
+      "-L"
     ];
     dates = "02:00";
     randomizedDelaySec = "45min";
-    
   };
 }
-

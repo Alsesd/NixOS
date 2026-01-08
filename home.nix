@@ -5,7 +5,6 @@
 }: {
   imports = [
     inputs.nixvim.homeModules.nixvim
-    # ./home-module/terminal.nix
 
     ./home-module/eww-widgets/eww.nix
   ];
@@ -21,13 +20,10 @@
     vlc
     vscode
     slack
-    nixd
-    alejandra
     gamescope
     ayugram-desktop
     easyeffects
     protonup-qt
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
   ];
-  programs.nixvim.enable = true;
 }

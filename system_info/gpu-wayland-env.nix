@@ -1,5 +1,8 @@
-{ config, pkgs, ... }: {
-
+{
+  config,
+  pkgs,
+  ...
+}: {
   # ============================================================================
   # HARDWARE & GRAPHICS (NVIDIA)
   # ============================================================================
@@ -23,16 +26,16 @@
 
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-    
+
     modesetting.enable = true;
-    open = true; 
+    open = true;
     nvidiaSettings = true;
-    
+
     powerManagement = {
       enable = false;
       finegrained = false;
     };
-    
+
     forceFullCompositionPipeline = false;
   };
 
@@ -45,7 +48,7 @@
   # ============================================================================
   # WAYLAND & DESKTOP PORTALS
   # ============================================================================
-  
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -80,12 +83,21 @@
     tumbler.enable = true; # Генерация миниатюр
     dbus = {
       enable = true;
-      packages = [ pkgs.dconf ];
+      packages = [pkgs.dconf];
     };
   };
 
-  # MIME settings
-  xdg.mime.enable = true;
+  xdg.mime = {
+    enable = true; # Ensure this is set to true
+    defaultApplications = {
+      "inode/directory" = ["thunar.desktop"]; # Must be a list [ ]
+      "application/pdf" = ["evince.desktop"];
+      "text/plain" = ["gedit.desktop"];
+      "image/jpeg" = ["eog.desktop"];
+      "image/png" = ["eog.desktop"];
+      "x-scheme-handler/file" = ["thunar.desktop"];
+    };
+  };
 
   # ============================================================================
   # ENVIRONMENT & VARIABLES
@@ -97,13 +109,12 @@
       wev
       xdg-utils
       xdg-user-dirs
-      
-      
+
       qt5.qtwayland
       qt6.qtwayland
       gtk3
       gtk4
-      
+
       # Кастомный скрипт (из старого xdg.nix)
       (writeShellScriptBin "xdg-file-manager" ''
         exec ${pkgs.thunar}/bin/thunar "$@"
@@ -112,18 +123,18 @@
 
     sessionVariables = {
       # --- General Wayland ---
-      NIXOS_OZONE_WL = "1"; 
+      NIXOS_OZONE_WL = "1";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
       MOZ_ENABLE_WAYLAND = "1";
       GDK_BACKEND = "wayland,x11";
       QT_QPA_PLATFORM = "wayland;xcb";
       SDL_VIDEODRIVER = "wayland";
       CLUTTER_BACKEND = "wayland";
-      
+
       # --- Desktop Identity ---
       XDG_CURRENT_DESKTOP = "niri";
       XDG_SESSION_TYPE = "wayland";
-      
+
       # --- File Manager Defaults ---
       DEFAULT_FILE_MANAGER = "thunar";
       FILE_MANAGER = "thunar";
@@ -133,9 +144,8 @@
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       GBM_BACKEND = "nvidia-drm";
 
-      # WLR_NO_HARDWARE_CURSORS = "1"; 
+      # WLR_NO_HARDWARE_CURSORS = "1";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     };
-    
   };
 }

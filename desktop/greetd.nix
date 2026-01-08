@@ -4,12 +4,13 @@
 
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session --remember";
         user = "greeter";
       };
     };
   };
 
+  services.greetd.useTextGreeter = true;
   environment.etc."greetd/tuigreet-config".text = ''
     # tuigreet settings
     --time

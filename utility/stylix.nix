@@ -2,6 +2,8 @@
   environment.systemPackages = with pkgs; [
     papirus-icon-theme
     base16-schemes
+    dejavu_fonts
+    nerd-fonts.jetbrains-mono
   ];
   stylix = {
     enable = true;
@@ -21,7 +23,7 @@
         name = "JetBrainsMono Nerd Font";
       };
       sansSerif = {
-        package = pkgs.inter; # Намного современнее и полнее, чем DejaVu
+        package = pkgs.inter;
         name = "Inter";
       };
       serif = {
