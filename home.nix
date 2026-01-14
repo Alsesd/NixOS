@@ -4,9 +4,8 @@
   ...
 }: {
   imports = [
-    inputs.nixvim.homeModules.nixvim
-
     ./home-module/eww-widgets/eww.nix
+    ./home-module/nixvim.nix
   ];
 
   home.username = "alsesd";
@@ -26,4 +25,14 @@
     protonup-qt
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
   ];
+	programs.yazi = {
+  enable = true;
+  enableZshIntegration = true; # чтобы 'cd' из yazi менял директорию в шелле
+  settings = {
+    manager = {
+      show_hidden = true;
+      sort_by = "mtime"; # сортировка по времени изменения (удобно для логов)
+    };
+  };
+};
 }

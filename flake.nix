@@ -20,7 +20,7 @@
     };
 
     zen-browser = {
-    url = "github:0xc000022070/zen-browser-flake";
+      url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
@@ -35,8 +35,16 @@
 
     pkgs = import nixpkgs {
       inherit system;
-      config.allowUnfree = true; # Allow proprietary software (Discord, Steam, etc.)
+      config = {
+        # Глобальное разрешение на все несвободное (Nvidia + Codeium)
+        allowUnfree = true;
+        permittedInsecurePackages = [
+          "archiver-3.5.1"
+          "ventoy-1.1.10"
+        ];
+      };
     };
+
     allDevShells = import ./shells.nix {inherit pkgs;};
   in {
     nixosConfigurations = {
@@ -44,9 +52,9 @@
         specialArgs = {inherit inputs system;};
 
         modules = [
+          {nixpkgs.pkgs = pkgs;}
           ./configuration.nix
           ./system_info/hardware-configuration.nix
-
           inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {

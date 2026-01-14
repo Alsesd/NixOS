@@ -29,6 +29,8 @@
     docker
     fuse
     fuse3
+		zed-editor-fhs
+		noctalia-shell
   ];
 
   hardware.cpu.intel.updateMicrocode = true;
@@ -42,12 +44,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.blacklistedKernelModules = ["psmouse"];
-
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "archiver-3.5.1"
-    "ventoy-1.1.10"
-  ];
 
   networking.hostName = "nixos";
 

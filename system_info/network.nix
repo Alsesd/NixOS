@@ -1,9 +1,11 @@
-  { config, pkgs, ... }: {
-
-environment.systemPackages = with pkgs; [
+{
+  config,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
     networkmanager
   ];
-
 
   networking = {
     hostName = "nixos";
@@ -12,6 +14,10 @@ environment.systemPackages = with pkgs; [
       wifi.powersave = false;
     };
   };
-  
+
+  services.openssh = {
+    enable = true;
+  };
+
   services.tailscale.enable = true;
-  }
+}
