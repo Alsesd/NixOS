@@ -24,8 +24,6 @@
     ayugram-desktop
     easyeffects
     protonup-qt
-   	zed-editor
-		noctalia-shell
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
   ];
 	programs.yazi = {

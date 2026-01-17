@@ -27,9 +27,6 @@
     docker
     fuse
     fuse3
-		zed-zed-editor
-		noctalia-shell
-		nil
   ];
 
   hardware.cpu.intel.updateMicrocode = true;
