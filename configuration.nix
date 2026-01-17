@@ -1,6 +1,4 @@
 {
-  inputs,
-  config,
   pkgs,
   ...
 }: {
@@ -29,8 +27,9 @@
     docker
     fuse
     fuse3
-		zed-editor-fhs
+		zed-zed-editor
 		noctalia-shell
+		nil
   ];
 
   hardware.cpu.intel.updateMicrocode = true;

@@ -50,19 +50,20 @@
   # ============================================================================
 
   xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk # Фолбэк для выбора файлов (GTK)
-      xdg-desktop-portal-wlr # Скриншеринг для wlroots-based (Niri)
-    ];
-    config = {
-      common.default = ["gtk"];
-      niri = {
-        "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
-        "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-wlr
+      ];
+      config = {
+        common.default = ["gtk"];
+        niri = {
+          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
+          "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
+          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
+        };
       };
     };
-  };
 
   # Поддержка XWayland
   programs.xwayland.enable = true;

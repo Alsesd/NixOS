@@ -4,8 +4,9 @@
   ...
 }: {
   imports = [
-    ./home-module/eww-widgets/eww.nix
     ./home-module/nixvim.nix
+    ./home-module/noctalia.nix
+    ./home-module/zed.nix
   ];
 
   home.username = "alsesd";
@@ -23,6 +24,8 @@
     ayugram-desktop
     easyeffects
     protonup-qt
+   	zed-editor
+		noctalia-shell
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
   ];
 	programs.yazi = {

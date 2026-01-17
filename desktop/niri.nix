@@ -196,7 +196,7 @@
           // See the binds section below for more spawn examples.
 
           // This line starts waybar, a commonly used bar for Wayland compositors.
-          spawn-at-startup "waybar"
+          spawn-at-startup "noctalia-shell"
           spawn-at-startup "set-wallpapers"
           spawn-at-startup "xwayland-satellite" ":0"
 
@@ -315,7 +315,7 @@
               Mod+O repeat=false { toggle-overview; }
               Mod+B {spawn "zen";}
               Mod+Q repeat=false { close-window; }
-              Mod+E {spawn "thunar";}
+              Mod+E {spawn "kitty" "-e" "yazi";}
               Mod+Left  { focus-column-left; }
               Mod+Down  { focus-window-down; }
               Mod+Up    { focus-window-up; }
