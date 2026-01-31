@@ -7,6 +7,7 @@
   fonts = config.stylix.fonts;
 in {
   home.packages = with pkgs; [
+    quickshell
     noctalia-shell
   ];
 

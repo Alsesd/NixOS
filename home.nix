@@ -7,6 +7,7 @@
     ./home-module/nixvim.nix
     ./home-module/noctalia.nix
     ./home-module/zed.nix
+    ./home-module/just.nix
   ];
 
   home.username = "alsesd";
@@ -25,15 +26,18 @@
     easyeffects
     protonup-qt
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
+    anytype
+    obsidian
+    ollama
   ];
-	programs.yazi = {
-  enable = true;
-  enableZshIntegration = true; # чтобы 'cd' из yazi менял директорию в шелле
-  settings = {
-    manager = {
-      show_hidden = true;
-      sort_by = "mtime"; # сортировка по времени изменения (удобно для логов)
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true; # чтобы 'cd' из yazi менял директорию в шелле
+    settings = {
+      manager = {
+        show_hidden = true;
+        sort_by = "mtime"; # сортировка по времени изменения (удобно для логов)
+      };
     };
   };
-};
 }

@@ -5,6 +5,7 @@
     dejavu_fonts
     nerd-fonts.jetbrains-mono
   ];
+
   stylix = {
     enable = true;
 
@@ -12,8 +13,6 @@
       autoImport = true;
       followSystem = true;
     };
-
-    # targets.nixos-icons.enable = false;
 
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
 
@@ -52,7 +51,8 @@
       popups = 0.9;
     };
 
-    iconTheme = {
+    # FIXED: Changed from 'iconTheme' to 'icons'
+    icons = {
       enable = true;
       package = pkgs.papirus-icon-theme;
       dark = "Papirus-Dark";

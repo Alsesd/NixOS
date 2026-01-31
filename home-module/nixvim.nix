@@ -70,7 +70,6 @@
         settings.filesystem.follow_current_file.enabled = true;
       };
 
-      # Чистый Telescope без встроенных keymaps (мы сделаем их ниже)
       telescope.enable = true;
 
       lsp = {
@@ -112,7 +111,8 @@
 
       alpha = {
         enable = true;
-        layout = [
+        # FIXED: Changed from 'layout' to 'settings.layout'
+        settings.layout = [
           {
             type = "padding";
             val = 2;
@@ -141,7 +141,7 @@
             val = [
               {
                 type = "button";
-                val = "  Find File";
+                val = "  Find File";
                 on_press.__raw = "function() require('telescope.builtin').find_files() end";
                 opts = {
                   shortcut = "f";
@@ -158,7 +158,7 @@
               }
               {
                 type = "button";
-                val = "  Recent Files";
+                val = "  Recent Files";
                 on_press.__raw = "function() require('telescope.builtin').oldfiles() end";
                 opts = {
                   shortcut = "r";
@@ -175,7 +175,7 @@
               }
               {
                 type = "button";
-                val = "  Find Text";
+                val = "  Find Text";
                 on_press.__raw = "function() require('telescope.builtin').live_grep() end";
                 opts = {
                   shortcut = "g";
@@ -192,7 +192,7 @@
               }
               {
                 type = "button";
-                val = "  Config";
+                val = "  Config";
                 on_press.__raw = "function() vim.cmd('cd ~/.config/nixos | e flake.nix') end";
                 opts = {
                   shortcut = "c";
@@ -209,7 +209,7 @@
               }
               {
                 type = "button";
-                val = "  Quit";
+                val = "  Quit";
                 on_press.__raw = "function() vim.cmd('qa') end";
                 opts = {
                   shortcut = "q";
@@ -230,9 +230,8 @@
       };
     };
 
-    # --- ВСЕ КЛАВИШИ ТЕПЕРЬ ТУТ (ГАРАНТИРОВАННО РАБОТАЕТ) ---
     keymaps = [
-      # Дерево
+      # Explorer
       {
         mode = "n";
         key = "<C-n>";
@@ -246,7 +245,7 @@
         options.desc = "Explorer";
       }
 
-      # Telescope (перенесен из плагина сюда)
+      # Telescope
       {
         mode = "n";
         key = "<leader><space>";
@@ -278,7 +277,7 @@
         options.desc = "Search in Buffer";
       }
 
-      # Буферы
+      # Buffers
       {
         mode = "n";
         key = "<leader>q";
@@ -298,7 +297,7 @@
         options.desc = "Next Buffer";
       }
 
-      # Код
+      # Code/LSP
       {
         mode = "n";
         key = "<leader>cf";
