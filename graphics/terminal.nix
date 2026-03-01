@@ -1,12 +1,13 @@
 {
   config,
   pkgs,
+  vars,
   ...
 }: let
   colors = config.lib.stylix.colors;
 in {
   programs.zsh.promptInit = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-  home-manager.users.alsesd = {
+  home-manager.users.${vars.username} = {
     # === Kitty ===
     programs.kitty = {
       enable = true;

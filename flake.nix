@@ -73,65 +73,6 @@
       ];
     };
 
-    packages.${system}.usb-image = nixos-generators.nixosGenerate {
-      inherit system;
-      format = "install-iso";
-      specialArgs = {inherit inputs system vars;};
-      modules = [
-        {nixpkgs.pkgs = pkgs;}
-        ./configuration.nix
-        ./system_info/hardware-configuration.nix
-        inputs.stylix.nixosModules.stylix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            backupFileExtension = "backup";
-            extraSpecialArgs = {inherit inputs vars;};
-            users.${vars.username} = import ./home.nix;
-          };
-        }
-        ({
-          pkgs,
-          modulesPath,
-          lib,
-          ...
-        }: {
-          imports = [
-            "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
-            "${modulesPath}/profiles/all-hardware.nix"
-          ];
-
-          services.xserver.videoDrivers = lib.mkForce ["nvidia" "amdgpu" "modesetting" "fbdev"];
-
-          boot.supportedFilesystems = lib.mkForce ["btrfs" "ext4" "vfat" "ntfs" "xfs" "f2fs"];
-          boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
-
-          # Override fileSystems from hardware-configuration.nix
-          fileSystems = lib.mkForce {
-            "/" = {
-              fsType = "tmpfs";
-              device = "none";
-              options = ["defaults" "size=2G" "mode=755"];
-            };
-          };
-
-          # Disable swap for ISO
-          swapDevices = lib.mkForce [];
-
-          boot.loader.grub.enable = lib.mkForce false;
-          isoImage.makeUsbBootable = true;
-          isoImage.makeEfiBootable = true;
-          isoImage.isoName = "NixOS.iso";
-
-          services.displayManager.autoLogin.user = lib.mkForce vars.username;
-          services.getty.autologinUser = lib.mkForce vars.username;
-          environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
-        })
-      ];
-    };
-
     devShells.${system} =
       allDevShells // {default = allDevShells.python;};
   };

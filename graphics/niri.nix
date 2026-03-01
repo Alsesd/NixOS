@@ -1,11 +1,15 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  vars,
+  ...
+}: {
   programs.niri.enable = true;
   services.displayManager.sessionPackages = [pkgs.niri];
   environment.systemPackages = with pkgs; [
     xwayland-satellite
   ];
 
-  home-manager.users.alsesd = {
+  home-manager.users.${vars.username} = {
     home.packages = with pkgs; [
       niri
       file-roller

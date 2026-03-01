@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  vars,
   ...
 }: {
   imports = [
@@ -10,8 +11,8 @@
     ./home-module/just.nix
   ];
 
-  home.username = "alsesd";
-  home.homeDirectory = "/home/alsesd";
+  home.username = vars.username;
+  home.homeDirectory = "/home/${vars.username}";
   home.stateVersion = "25.05";
 
   home.packages = with pkgs; [

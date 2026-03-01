@@ -1,7 +1,11 @@
-{pkgs, ...}: {
-  users.users.alsesd = {
+{
+  pkgs,
+  vars,
+  ...
+}: {
+  users.users.${vars.username} = {
     isNormalUser = true;
-    description = "alsesd";
+    description = "${vars.username}";
     extraGroups = ["networkmanager" "wheel" "libvirtd" "input"];
     shell = pkgs.zsh;
   };
