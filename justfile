@@ -1,1 +1,1 @@
-/nix/store/vliqqd3fnyd31m75wzrzv4z8035f25xd-home-manager-files/.config/nixos/justfile
+/nix/store/9qvv3xjy8pxidxyb4i24vfqccfim4gbg-home-manager-files/.config/nixos/justfile

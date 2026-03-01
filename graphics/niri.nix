@@ -239,7 +239,8 @@
           window-rule {
               match app-id="steam"
               match app-id=r#"^zen.*$"#
-              match app-id="code"
+              match app-id="dev.zed.Zed"
+              match app-id="kitty"
               open-maximized true
           }
 
@@ -309,7 +310,7 @@
 
 
               Mod+O repeat=false { toggle-overview; }
-              Mod+B {spawn "zen";}
+              Mod+B {spawn "zen-beta";}
               Mod+Q repeat=false { close-window; }
               Mod+E {spawn "kitty" "-e" "yazi";}
               Mod+Left  { focus-column-left; }

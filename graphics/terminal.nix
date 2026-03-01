@@ -87,6 +87,7 @@ in {
 
         my-system = "cd /home/alsesd/.config/nixos";
         docker-pyinstaller = "docker run -v \"$(pwd):/src/\" cdrx/pyinstaller-windows \"pyinstaller --onefile\"";
+        js = "just ~/.config/nixos/";
       };
 
       oh-my-zsh = {

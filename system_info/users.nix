@@ -2,10 +2,10 @@
   users.users.alsesd = {
     isNormalUser = true;
     description = "alsesd";
-    extraGroups = ["networkmanager" "wheel" "libvirtd" "input" "docker"];
+    extraGroups = ["networkmanager" "wheel" "libvirtd" "input"];
     shell = pkgs.zsh;
   };
-    
+
   time.timeZone = "Europe/Kyiv";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {

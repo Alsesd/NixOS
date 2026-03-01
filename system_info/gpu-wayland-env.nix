@@ -28,13 +28,14 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
     modesetting.enable = true;
-    open = true;
+    open = false;
     nvidiaSettings = true;
 
     powerManagement = {
-      enable = false;
+      enable = true;
       finegrained = false;
     };
+    nvidiaPersistenced = true;
 
     forceFullCompositionPipeline = false;
   };
@@ -42,28 +43,38 @@
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
     "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+    "nvidia.NVreg_UsePageAttributeTable=1" # ADD: better memory perf
     "pcie_aspm=off"
+    "intel_pstate=active"
   ];
-
+  # Kernel scheduler tweaks for lower latency
+  boot.kernel.sysctl = {
+    # Reduce scheduler latency
+    "kernel.sched_min_granularity_ns" = 500000;
+    "kernel.sched_wakeup_granularity_ns" = 1000000;
+    # Faster GPU memory reclaim
+    "vm.dirty_ratio" = 10;
+    "vm.dirty_background_ratio" = 5;
+  };
   # ============================================================================
   # WAYLAND & DESKTOP PORTALS
   # ============================================================================
 
   xdg.portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-wlr
-      ];
-      config = {
-        common.default = ["gtk"];
-        niri = {
-          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
-          "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
-          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
-        };
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-wlr
+    ];
+    config = {
+      common.default = ["gtk"];
+      niri = {
+        "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
+        "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
+        "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
       };
     };
+  };
 
   # Поддержка XWayland
   programs.xwayland.enable = true;
@@ -131,6 +142,7 @@
       QT_QPA_PLATFORM = "wayland;xcb";
       SDL_VIDEODRIVER = "wayland";
       CLUTTER_BACKEND = "wayland";
+      WLR_RENDERER = "vulkan";
 
       # --- Desktop Identity ---
       XDG_CURRENT_DESKTOP = "niri";
@@ -147,6 +159,14 @@
 
       # WLR_NO_HARDWARE_CURSORS = "1";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+
+      # Force immediate buffer swaps, reduces stutter when switching windows
+      __GL_YIELD = "USLEEP";
+      # Reduce Vulkan/GL pipeline stalls
+      __GL_MaxFramesAllowed = "1";
+      NVD_BACKEND = "direct";
+      __GL_SYNC_TO_VBLANK = "0"; # don't wait for vblank on every frame
+      KWIN_DRM_USE_EGL_STREAMS = "0"; # not kwin but good practice
     };
   };
 }

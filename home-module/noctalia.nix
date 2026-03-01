@@ -520,9 +520,9 @@ in {
 
     templates = {
       alacritty = false;
-      cava = true;
+      cava = false;
       code = false;
-      discord = true;
+      discord = false;
       emacs = false;
       enableUserTemplates = false;
       foot = false;
@@ -532,9 +532,9 @@ in {
       helix = false;
       hyprland = false;
       kcolorscheme = false;
-      kitty = true;
+      kitty = false;
       mango = false;
-      niri = true;
+      niri = false;
       pywalfox = false;
       qt = false;
       spicetify = false;
@@ -543,7 +543,7 @@ in {
       walker = false;
       wezterm = false;
       yazi = false;
-      zed = true;
+      zed = false;
     };
 
     ui = {

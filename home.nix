@@ -19,19 +19,17 @@
     steam
     qbittorrent
     vlc
-    vscode
     slack
     gamescope
+    gamemode
     ayugram-desktop
     easyeffects
     protonup-qt
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
-    anytype
-    obsidian
-    ollama
   ];
   programs.yazi = {
     enable = true;
+    shellWrapperName = "y";
     enableZshIntegration = true; # чтобы 'cd' из yazi менял директорию в шелле
     settings = {
       manager = {
