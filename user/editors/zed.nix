@@ -75,8 +75,9 @@ in {
     assistant = {
       enabled = true;
       default_model = {
-        provider = "ollama";
-        model = "qwen3-zed";
+        provider = "openrouter";
+        model = "healer-alpha";
+        num_ctx = 4096;
       };
       button = true;
       dock = "right";

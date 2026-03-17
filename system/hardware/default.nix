@@ -1,8 +1,9 @@
 {...}: {
   imports = [
-    ./gpu-wayland-env.nix
     ./hardware-configuration.nix
-    ./network.nix
+    ./gpu-wayland-env.nix
     ./users.nix
+    ./bluetooth.nix
+    ./cpu.nix
   ];
 }

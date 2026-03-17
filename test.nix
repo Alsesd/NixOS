@@ -31,11 +31,7 @@
       ExecStart = "${pkgs.intel-undervolt}/bin/intel-undervolt apply";
     };
   };
-  services.ollama = {
-    enable = true;
-    # Instead of 'acceleration = "cuda"', we point to the cuda-enabled package
-    package = pkgs.ollama-cuda;
-  };
+
   environment.systemPackages = with pkgs; [
     intel-undervolt
     lm_sensors

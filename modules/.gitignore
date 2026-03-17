@@ -1,0 +1,23 @@
+# Editor backup files
+*.swp
+*.swo
+*~
+*.bak
+
+# Nix build artifacts
+*.tmp
+.direnv/
+.nix-gcroots/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log

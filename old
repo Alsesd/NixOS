@@ -1,0 +1,35 @@
+.
+├── configuration.nix
+├── flake.lock
+├── flake.nix
+├── graphics
+│   ├── default.nix
+│   ├── greetd.nix
+│   ├── niri.nix
+│   └── terminal.nix
+├── home-module
+│   ├── just.nix
+│   ├── nixvim.nix
+│   ├── noctalia.nix
+│   └── zed.nix
+├── home.nix
+├── justfile -> /nix/store/1vv4riczavw07dksl2zx2v5g6l4gpbxl-home-manager-files/.config/nixos/justfile
+├── scripts
+│   ├── active.nix
+│   ├── plug.nix
+│   └── wallpaper-engine.nix
+├── shells.nix
+├── system_info
+│   ├── default.nix
+│   ├── gpu-wayland-env.nix
+│   ├── hardware-configuration.nix
+│   ├── network.nix
+│   └── users.nix
+├── test.nix
+└── utility
+    ├── gruvbox-dark-medium.yaml
+    ├── nix.nix
+    ├── perf_tweeks.nix
+    └── stylix.nix
+
+7 directories, 27 files

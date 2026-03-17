@@ -1,0 +1,28 @@
+# Build output
+result
+result-*
+
+# Nix
+.direnv/
+.nix-gcroots/
+*.tmp
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Secrets (if any)
+*.secret
+*.key

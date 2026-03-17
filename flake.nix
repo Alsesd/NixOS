@@ -50,7 +50,7 @@
       modules = [
         {nixpkgs.pkgs = pkgs;}
         ./configuration.nix
-        ./system_info/hardware-configuration.nix
+        ./system/hardware/hardware-configuration.nix
         inputs.stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
         {
