@@ -75,10 +75,9 @@ in {
     assistant = {
       enabled = true;
       default_model = {
-        provider = "anthropic";
-        model = "claude-sonnet-4-20250514";
+        provider = "ollama";
+        model = "qwen3-zed";
       };
-      version = "2";
       button = true;
       dock = "right";
     };

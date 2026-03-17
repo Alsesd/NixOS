@@ -3,9 +3,6 @@
   pkgs,
   ...
 }: {
-  # ============================================================================
-  # TUXEDO DRIVERS (Fan Control)
-  # ============================================================================
   hardware.tuxedo-drivers.enable = true;
   boot.extraModulePackages = [config.boot.kernelPackages.acpi_call];
   boot.kernelModules = ["msr" "tuxedo_io" "tuxedo_keyboard" "ec_sys" "acpi_call"];
@@ -34,7 +31,11 @@
       ExecStart = "${pkgs.intel-undervolt}/bin/intel-undervolt apply";
     };
   };
-
+  services.ollama = {
+    enable = true;
+    # Instead of 'acceleration = "cuda"', we point to the cuda-enabled package
+    package = pkgs.ollama-cuda;
+  };
   environment.systemPackages = with pkgs; [
     intel-undervolt
     lm_sensors

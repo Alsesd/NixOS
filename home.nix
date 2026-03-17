@@ -24,10 +24,10 @@
     easyeffects
     protonup-qt
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
- fzf
- zellij
- croc
- ];
+    fzf
+    zellij
+    croc
+  ];
 
   programs.yazi = {
     enable = true;

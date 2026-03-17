@@ -5,6 +5,7 @@
 }: {
   environment.systemPackages = with pkgs; [
     networkmanager
+    wayvnc
   ];
 
   networking = {
@@ -15,16 +16,25 @@
     };
     firewall = {
       enable = true;
-      trustedInterfaces = [ "tailscale0" ];
+      trustedInterfaces = ["tailscale0"];
     };
   };
 
   services.openssh = {
     enable = true;
   };
+  programs.mosh.enable = true;
+  networking.firewall.allowedUDPPortRanges = [
+    {
+      from = 60000;
+      to = 61000;
+    }
+  ];
+
+  networking.firewall.allowedTCPPorts = [5900];
 
   services.tailscale = {
-  enable = true;
-  useRoutingFeatures = "both";
-};
+    enable = true;
+    useRoutingFeatures = "both";
+  };
 }
