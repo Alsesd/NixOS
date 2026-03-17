@@ -17,17 +17,18 @@
 
   home.packages = with pkgs; [
     discord
-    steam
     qbittorrent
     vlc
     slack
-    gamescope
-    gamemode
     ayugram-desktop
     easyeffects
     protonup-qt
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
-  ];
+ fzf
+ zellij
+ croc
+ ];
+
   programs.yazi = {
     enable = true;
     shellWrapperName = "y";

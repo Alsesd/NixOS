@@ -17,6 +17,7 @@
       vulkan-validation-layers
       vulkan-tools
       libvdpau-va-gl
+      intel-media-driver
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [
       vulkan-loader
@@ -47,18 +48,6 @@
     "pcie_aspm=off"
     "intel_pstate=active"
   ];
-  # Kernel scheduler tweaks for lower latency
-  boot.kernel.sysctl = {
-    # Reduce scheduler latency
-    "kernel.sched_min_granularity_ns" = 500000;
-    "kernel.sched_wakeup_granularity_ns" = 1000000;
-    # Faster GPU memory reclaim
-    "vm.dirty_ratio" = 10;
-    "vm.dirty_background_ratio" = 5;
-  };
-  # ============================================================================
-  # WAYLAND & DESKTOP PORTALS
-  # ============================================================================
 
   xdg.portal = {
     enable = true;
@@ -138,9 +127,9 @@
       NIXOS_OZONE_WL = "1";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
       MOZ_ENABLE_WAYLAND = "1";
-      GDK_BACKEND = "wayland,x11";
+      # GDK_BACKEND = "wayland,x11";
       QT_QPA_PLATFORM = "wayland;xcb";
-      SDL_VIDEODRIVER = "wayland";
+      # SDL_VIDEODRIVER = "wayland";
       CLUTTER_BACKEND = "wayland";
       WLR_RENDERER = "vulkan";
 

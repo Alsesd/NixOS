@@ -58,8 +58,8 @@
               mouse {
                   // off
                   // natural-scroll
-                  // accel-speed 0.2
-                  // accel-profile "flat"
+                    accel-speed 0.0
+                    accel-profile "flat"
                   // scroll-method "no-scroll"
               }
               // warp-mouse-to-focus

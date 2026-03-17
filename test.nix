@@ -17,9 +17,9 @@
   # UNDERVOLT
   # ============================================================================
   environment.etc."intel-undervolt.conf".text = ''
-    undervolt 0 'CPU' -100
-    undervolt 1 'GPU' -65
-    undervolt 2 'CPU Cache' -50
+    undervolt 0 'CPU' -35
+    undervolt 1 'GPU' -35
+    undervolt 2 'CPU Cache' -15
     undervolt 3 'System Agency' 0
     undervolt 4 'Analog I/O' 0
     power package 60/28 50

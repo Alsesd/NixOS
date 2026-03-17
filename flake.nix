@@ -1,5 +1,6 @@
 {
   description = "My favourite NixOS";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
@@ -19,24 +20,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
+
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    nixos-generators,
     ...
   } @ inputs: let
     system = "x86_64-linux";
-    # --- SHARED VARIABLES BLOCK ---
     vars = {
       username = "alsesd";
-      # IMPORTANT: Use a relative path like ./wallpaper.png
-      # or an absolute path like /home/alsesd/Pictures/wallpaper.png (NO QUOTES)
       wallpaper = /home/alsesd/Pictures/NixWallBin.png;
     };
     pkgs = import nixpkgs {
@@ -46,15 +40,13 @@
         permittedInsecurePackages = [
           "archiver-*"
           "ventoy-1.1.10"
-          "anytype"
-          "obsidian"
         ];
       };
     };
     allDevShells = import ./shells.nix {inherit pkgs;};
   in {
     nixosConfigurations.myNixos = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs system vars;}; # Passing 'vars' here
+      specialArgs = {inherit inputs system vars;};
       modules = [
         {nixpkgs.pkgs = pkgs;}
         ./configuration.nix
@@ -66,7 +58,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             backupFileExtension = "backup";
-            extraSpecialArgs = {inherit inputs vars;}; # Passing 'vars' to Home Manager
+            extraSpecialArgs = {inherit inputs vars;};
             users.${vars.username} = import ./home.nix;
           };
         }

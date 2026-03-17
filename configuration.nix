@@ -22,11 +22,17 @@
     docker
     fuse
     fuse3
+    nix-output-monitor
+		wayvnc
   ];
-
   hardware.cpu.intel.updateMicrocode = true;
   xdg.autostart.enable = true;
   security.polkit.enable = true;
+	
+programs.mosh.enable = true;
+networking.firewall.allowedUDPPortRanges = [{ from = 60000; to = 61000; }];
+
+	networking.firewall.allowedTCPPorts= [5900];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -43,6 +49,12 @@
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;
     "vm.vfs_cache_pressure" = 50;
+    # Reduce scheduler latency
+    "kernel.sched_min_granularity_ns" = 500000;
+    "kernel.sched_wakeup_granularity_ns" = 1000000;
+    # Faster GPU memory reclaim
+    "vm.dirty_ratio" = 10;
+    "vm.dirty_background_ratio" = 5;
   };
 
   services.earlyoom = {
@@ -50,6 +62,12 @@
     freeMemThreshold = 5;
     freeSwapThreshold = 5;
     enableNotifications = true;
+  };
+
+  services.ananicy = {
+    enable = true;
+    package = pkgs.ananicy-cpp;
+    rulesProvider = pkgs.ananicy-rules-cachyos;
   };
 
   programs.gamemode = {
@@ -62,7 +80,6 @@
       gpu = {
         apply_gpu_optimisations = "accept-responsibility";
         gpu_device = 0;
-        nv_powermizer_mode = 1; # prefer maximum performance
       };
       cpu = {
         park_cores = "no";
@@ -70,14 +87,20 @@
       };
     };
   };
-  services.ananicy = {
+
+  services.udev.extraRules = ''
+    ACTION=="add|change", KERNEL=="event*", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
+  '';
+
+  programs.steam = {
     enable = true;
-    package = pkgs.ananicy-cpp;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = false;
+    gamescopeSession.enable = true;
+    extraCompatPackages = with pkgs; [proton-ge-bin];
   };
 
   boot.blacklistedKernelModules = ["psmouse"];
-
-  networking.hostName = "nixos";
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "26.05";
