@@ -37,6 +37,7 @@
       inherit system;
       config = {
         allowUnfree = true;
+        cudaSupport = true;
         permittedInsecurePackages = [
           "archiver-*"
           "ventoy-1.1.10"

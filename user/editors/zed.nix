@@ -77,8 +77,8 @@ in {
       default_model = {
         provider = "openrouter";
         model = "healer-alpha";
-        num_ctx = 4096;
       };
+      version = "2";
       button = true;
       dock = "right";
     };

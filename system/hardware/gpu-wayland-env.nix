@@ -146,7 +146,6 @@
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       GBM_BACKEND = "nvidia-drm";
 
-      WLR_NO_HARDWARE_CURSORS = "1";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
 
       # Force immediate buffer swaps, reduces stutter when switching windows

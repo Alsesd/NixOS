@@ -6,6 +6,7 @@
     ./system/shell/default.nix
     ./system/terminal/kitty.nix
     ./system/performance.nix
+    ./system/fixes.nix
     ./system/services/default.nix
     ./modules/default.nix
     ./test.nix
@@ -22,6 +23,8 @@
     fuse
     fuse3
     nix-output-monitor
+    htop
+    nvtopPackages.nvidia
   ];
 
   xdg.autostart.enable = true;
