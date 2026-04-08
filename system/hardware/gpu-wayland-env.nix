@@ -12,6 +12,7 @@
     enable = true;
     enable32Bit = true;
     extraPackages = with pkgs; [
+      intel-media-driver
       nvidia-vaapi-driver
       vulkan-loader
       vulkan-validation-layers
@@ -39,6 +40,12 @@
     nvidiaPersistenced = true;
 
     forceFullCompositionPipeline = false;
+
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:00:02.0";
+      nvidiaBusId = "PCI:01:00.0";
+    };
   };
 
   boot.kernelParams = [

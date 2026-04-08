@@ -22,7 +22,6 @@
     docker
     fuse
     fuse3
-    nix-output-monitor
     htop
     nvtopPackages.nvidia
   ];

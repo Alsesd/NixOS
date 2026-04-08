@@ -19,6 +19,10 @@ in {
         ip-show = "curl ifconfig.me";
 
         my-system = "cd /home/alsesd/.config/nixos";
+
+        nixos-switch = "sudo nixos-rebuild switch --flake ~/.config/nixos#myNixos";
+        nixos-test = "sudo nixos-rebuild test --flake ~/.config/nixos#myNixos";
+
         docker-pyinstaller = "docker run -v \"$(pwd):/src/\" cdrx/pyinstaller-windows \"pyinstaller --onefile\"";
         js = "just ~/.config/nixos/";
       };
