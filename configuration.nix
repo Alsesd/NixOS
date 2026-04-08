@@ -37,10 +37,13 @@
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 100;
+    memoryPercent = 50;
     priority = 100;
   };
-
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10; # less eager to swap
+    "vm.vfs_cache_pressure" = 50; # keep inode/dentry cache longer
+  };
   nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "26.05";
 }
