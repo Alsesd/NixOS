@@ -27,7 +27,7 @@
   };
 
   hardware.nvidia = {
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
 
     modesetting.enable = true;
     open = false;
@@ -47,6 +47,8 @@
       nvidiaBusId = "PCI:1:0:0";
     };
   };
+
+  hardware.nvidia-container-toolkit.enable = true;
 
   boot.kernelParams = [
     "nvidia-drm.modeset=1"

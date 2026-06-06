@@ -17,7 +17,6 @@
   environment.systemPackages = with pkgs; [
     wget
     git
-    ventoy-full
     usbutils
     docker
     fuse
@@ -32,7 +31,14 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
-  boot.blacklistedKernelModules = ["psmouse"];
+  boot.blacklistedKernelModules = ["psmouse" "rtsx_pci"];
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 524288;
+    "fs.inotify.max_user_instances" = 1024;
+  };
+
+  virtualisation.docker.enable = true;
+  users.users.alsesd.extraGroups = ["docker"];
 
   zramSwap = {
     enable = true;
