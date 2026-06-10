@@ -12,9 +12,7 @@
     easyeffects
     protonup-qt
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default
-    fzf
-    zellij
-    croc
+    gamemode
   ];
 
   programs.yazi = {
