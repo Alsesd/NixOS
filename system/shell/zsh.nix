@@ -19,6 +19,7 @@ in {
         ip-show = "curl ifconfig.me";
 
         my-system = "cd /home/alsesd/.config/nixos";
+        nixos-update = "cd /home/alsesd/.config/nixos && nix flake update && git add -A && git commit -m \"update\" && sudo nixos-rebuild boot --flake ~/.config/nixos#myNixos";
 
         nixos-switch = "sudo nixos-rebuild switch --flake ~/.config/nixos#myNixos";
         nixos-test = "sudo nixos-rebuild test --flake ~/.config/nixos#myNixos";
