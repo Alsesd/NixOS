@@ -14,12 +14,14 @@
       shell = pkgs.zsh;
       initialPassword = "changeme123";
     };
+    time.timeZone = "Europe/Kiev";
 
     # 2. HOME MANAGER CONFIGURATION (Everything hidden right here!)
     home-manager.users.${vars.username} = {
       home.username = vars.username;
       home.homeDirectory = "/home/${vars.username}";
       home.stateVersion = "26.05";
+      home.pointerCursor.enable = true;
 
       gtk = {
         enable = true;

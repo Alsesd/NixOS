@@ -13,7 +13,6 @@
 
     home-manager.users.${vars.username} = {
       home.packages = with pkgs; [
-        niri
         file-roller
 
         swayimg

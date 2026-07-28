@@ -16,14 +16,12 @@
         intel-media-driver
         nvidia-vaapi-driver
         vulkan-loader
-        vulkan-validation-layers
         vulkan-tools
         libvdpau-va-gl
         intel-media-driver
       ];
       extraPackages32 = with pkgs.pkgsi686Linux; [
         vulkan-loader
-        vulkan-validation-layers
       ];
     };
 
@@ -133,6 +131,8 @@
         qt6.qtwayland
         gtk3
         gtk4
+
+        libdisplay-info
 
         # Кастомный скрипт (из старого xdg.nix)
         (writeShellScriptBin "xdg-file-manager" ''
