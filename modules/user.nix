@@ -12,7 +12,6 @@
       description = "My User";
       extraGroups = ["networkmanager" "wheel" "video" "docker"];
       shell = pkgs.zsh;
-      initialPassword = "changeme123";
     };
     time.timeZone = "Europe/Kiev";
 
@@ -53,8 +52,6 @@
         statix
         deadnix
         zsh-nix-shell
-        direnv
-        nix-direnv
         nixd
       ];
 

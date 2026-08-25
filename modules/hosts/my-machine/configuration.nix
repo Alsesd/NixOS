@@ -32,6 +32,7 @@
       self.nixosModules.starship
       self.nixosModules.fastfetch
 
+      self.nixosModules.systemTweaks
       self.nixosModules.wallpaper
       self.nixosModules.tailscale
 
@@ -56,7 +57,6 @@
       "fs.inotify.max_user_instances" = 1024;
     };
     virtualisation.docker.enable = true;
-    users.users.alsesd.extraGroups = ["docker"];
 
     zramSwap = {
       enable = true;
