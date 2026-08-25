@@ -33,6 +33,7 @@
       self.nixosModules.fastfetch
 
       self.nixosModules.wallpaper
+      self.nixosModules.tailscale
 
       self.nixosModules.zed
       self.nixosModules.steam
