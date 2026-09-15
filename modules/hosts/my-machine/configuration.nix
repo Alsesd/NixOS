@@ -22,8 +22,6 @@
       self.nixosModules.niri
       self.nixosModules.noctalia
 
-      self.nixosModules.chaoticCachyos
-
       self.nixosModules.kitty
 
       self.nixosModules.vars
@@ -47,8 +45,6 @@
     programs.zsh.enable = true;
 
     nixpkgs.config.allowUnfree = true;
-
-    myModules.performance.chaoticCachyos.enable = true;
 
     xdg.autostart.enable = true;
     security.polkit.enable = true;
