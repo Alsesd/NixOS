@@ -9,20 +9,17 @@
       inputs.chaotic.nixosModules.default
     ];
 
-    # mkForce: overrides the plain `boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;`
-    # in configuration.nix, and the plain `hardware.nvidia.package = ...` in nvidia.nix,
-    # without a conflicting-definition eval error.
     boot.kernelPackages = lib.mkForce pkgs.linuxPackages_cachyos;
     hardware.nvidia.package = lib.mkForce pkgs.nvidia_cachyos;
 
-    services.scx.enable = true; # sched-ext, defaults to scx_rustland
+    services.scx.enable = true;
 
-    # Bootloader entry with your normal xanmod kernel + stable NVIDIA driver,
-    # so a bad CachyOS build never leaves you without a bootable system —
-    # just pick "stable-kernel" at the systemd-boot menu.
     specialisation.stable-kernel.configuration = {
-      boot.kernelPackages = lib.mkForce pkgs.linuxPackages_xanmod_latest;
-      hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.stable;
+      # mkOverride 10: stronger than mkForce (50), needed because
+      # specialisations re-inherit this same module's mkForce cachyos
+      # lines, so a plain mkForce here would collide with them.
+      boot.kernelPackages = lib.mkOverride 10 pkgs.linuxPackages_xanmod_latest;
+      hardware.nvidia.package = lib.mkOverride 10 config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
 }
