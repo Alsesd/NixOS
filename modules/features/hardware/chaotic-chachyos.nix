@@ -1,9 +1,8 @@
-{
+{inputs, ...}: {
   flake.nixosModules.chaoticCachyos = {
     config,
     pkgs,
     lib,
-    inputs,
     ...
   }: {
     imports = [
