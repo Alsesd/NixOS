@@ -11,7 +11,7 @@
         inherit system;
         config = {
           allowUnfree = true;
-          cudaSupport = true; # Uncomment if you also need CUDA support for packages
+          # cudaSupport = true; # Uncomment if you also need CUDA support for packages
         };
       };
     };
