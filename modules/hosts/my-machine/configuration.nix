@@ -51,7 +51,9 @@
     security.polkit.enable = true;
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
-    boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+
+    # boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+
     boot.blacklistedKernelModules = ["psmouse" "rtsx_pci"];
     boot.kernel.sysctl = {
       "fs.inotify.max_user_watches" = 524288;
