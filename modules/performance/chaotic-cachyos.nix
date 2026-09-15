@@ -7,24 +7,44 @@
 # Requires `chaotic.nixosModules.default` to be imported in your
 # top-level flake's module list (see instructions below) — this
 # module only wires up the options, it doesn't add the flake input.
-
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.myModules.performance.chaoticCachyos;
 
   # Map a short variant name to the matching kernel + nvidia package pair,
   # so you can never accidentally mismatch kernel ABI vs driver build.
   variants = {
-    default  = { kernel = pkgs.linuxPackages_cachyos;            nvidia = pkgs.nvidia_cachyos; };
-    lts      = { kernel = pkgs.linuxPackages_cachyos-lts;         nvidia = pkgs.nvidia_cachyos-lts; };
-    hardened = { kernel = pkgs.linuxPackages_cachyos-hardened;    nvidia = pkgs.nvidia_cachyos-hardened; };
-    server   = { kernel = pkgs.linuxPackages_cachyos-server;      nvidia = pkgs.nvidia_cachyos-server; };
+    default = {
+      kernel = pkgs.linuxPackages_cachyos;
+      nvidia = pkgs.nvidia_cachyos;
+    };
+    lts = {
+      kernel = pkgs.linuxPackages_cachyos-lts;
+      nvidia = pkgs.nvidia_cachyos-lts;
+    };
+    hardened = {
+      kernel = pkgs.linuxPackages_cachyos-hardened;
+      nvidia = pkgs.nvidia_cachyos-hardened;
+    };
+    server = {
+      kernel = pkgs.linuxPackages_cachyos-server;
+      nvidia = pkgs.nvidia_cachyos-server;
+    };
   };
 
   selected = variants.${cfg.variant};
-in
-{
+in {
+  # Restricts this module to NixOS-system evaluation only, so dendritic
+  # auto-import (import-tree / flake-parts) doesn't also apply it at the
+  # flake-parts level, where `pkgs`/`boot` don't exist — that mismatch is
+  # exactly what produced "attribute 'pkgs' missing" / "option `boot'
+  # does not exist" in your build.
+  _class = "nixos";
+
   options.myModules.performance.chaoticCachyos = {
     enable = lib.mkEnableOption "Chaotic-Nyx CachyOS kernel + scheduler";
 
