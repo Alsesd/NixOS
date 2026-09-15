@@ -22,6 +22,8 @@
       self.nixosModules.niri
       self.nixosModules.noctalia
 
+      self.nixosModules.chaoticCachyos
+
       self.nixosModules.kitty
 
       self.nixosModules.vars
