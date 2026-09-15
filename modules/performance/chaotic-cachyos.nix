@@ -43,7 +43,6 @@ in {
   # flake-parts level, where `pkgs`/`boot` don't exist — that mismatch is
   # exactly what produced "attribute 'pkgs' missing" / "option `boot'
   # does not exist" in your build.
-  _class = "nixos";
 
   options.myModules.performance.chaoticCachyos = {
     enable = lib.mkEnableOption "Chaotic-Nyx CachyOS kernel + scheduler";
