@@ -46,6 +46,8 @@
 
     nixpkgs.config.allowUnfree = true;
 
+    myModules.performance.chaoticCachyos.enable = true;
+
     xdg.autostart.enable = true;
     security.polkit.enable = true;
     boot.loader.systemd-boot.enable = true;
