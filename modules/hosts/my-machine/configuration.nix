@@ -27,6 +27,7 @@
       self.nixosModules.vars
       self.nixosModules.nvidia
       self.nixosModules.cpu
+      self.nixosModules.chaoticCachyos
 
       self.nixosModules.zsh
       self.nixosModules.starship
