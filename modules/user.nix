@@ -53,6 +53,9 @@
         deadnix
         zsh-nix-shell
         nixd
+
+        anytype
+        anydesk
       ];
 
       programs.yazi = {
