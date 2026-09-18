@@ -27,7 +27,6 @@
       self.nixosModules.vars
       self.nixosModules.nvidia
       self.nixosModules.cpu
-      self.nixosModules.chaoticCachyos
 
       self.nixosModules.zsh
       self.nixosModules.starship
@@ -52,7 +51,7 @@
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
-    # boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+    boot.kernelPackages = pkgs.linuxPackages_latest;
 
     boot.blacklistedKernelModules = ["psmouse" "rtsx_pci"];
     boot.kernel.sysctl = {

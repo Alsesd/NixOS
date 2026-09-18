@@ -6,13 +6,6 @@
   }: {
     hardware.bluetooth.enable = true;
     hardware.tuxedo-drivers.enable = true;
-    nixpkgs.overlays = [
-      (final: prev: {
-        gnugrep = prev.gnugrep.overrideAttrs (old: {
-          doCheck = false;
-        });
-      })
-    ];
     boot.extraModulePackages = [config.boot.kernelPackages.acpi_call];
     boot.kernelModules = ["msr" "tuxedo_io" "tuxedo_keyboard" "ec_sys" "acpi_call"];
     boot.extraModprobeConfig = ''

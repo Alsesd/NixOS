@@ -16,7 +16,7 @@
         intel-media-driver
         nvidia-vaapi-driver
         vulkan-loader
-        vulkan-tools
+        vulkan-tool
         libvdpau-va-gl
         intel-media-driver
       ];
@@ -26,7 +26,7 @@
     };
 
     hardware.nvidia = {
-      # package = config.boot.kernelPackages.nvidiaPackages.latest;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
 
       modesetting.enable = true;
       open = false;

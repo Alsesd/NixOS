@@ -21,8 +21,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
     # Keep your other inputs if you still use them
