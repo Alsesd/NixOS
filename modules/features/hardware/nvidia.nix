@@ -16,7 +16,7 @@
         intel-media-driver
         nvidia-vaapi-driver
         vulkan-loader
-        vulkan-tool
+        vulkan-tools
         libvdpau-va-gl
         intel-media-driver
       ];
