@@ -23,6 +23,12 @@
 
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
+    antigravity = {
+      url = "path:/home/alsesd/agy";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
+
     # Keep your other inputs if you still use them
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";

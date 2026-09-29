@@ -1,5 +1,26 @@
 {
   "nodes": {
+    "antigravity": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "import-tree": "import-tree",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790687702,
+        "narHash": "sha256-j/k/xBmxomVgiVTk+/BW8jngHQRLRNWgn3gANAXckus=",
+        "path": "/home/alsesd/agy",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/alsesd/agy",
+        "type": "path"
+      }
+    },
     "base16": {
       "inputs": {
         "fromYaml": "fromYaml"
@@ -193,6 +214,21 @@
         "type": "github"
       }
     },
+    "import-tree_2": {
+      "locked": {
+        "lastModified": 1788467110,
+        "narHash": "sha256-ljEMTXP/rH0tOvDzc9gzwww6KcHRPRnEHzd9lK48V7s=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "eb1b52eaecc57f7c136d07ae8a93e724dfecac46",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
+        "type": "github"
+      }
+    },
     "niri": {
       "inputs": {
         "niri-stable": "niri-stable",
@@ -341,9 +377,10 @@
     },
     "root": {
       "inputs": {
+        "antigravity": "antigravity",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
-        "import-tree": "import-tree",
+        "import-tree": "import-tree_2",
         "niri": "niri",
         "nixpkgs": "nixpkgs",
         "stylix": "stylix",

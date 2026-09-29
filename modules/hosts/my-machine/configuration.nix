@@ -35,6 +35,7 @@
       self.nixosModules.systemTweaks
       self.nixosModules.wallpaper
       self.nixosModules.tailscale
+      self.nixosModules.antigravity
 
       self.nixosModules.zed
       self.nixosModules.steam
