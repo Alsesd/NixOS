@@ -33,12 +33,9 @@
         discord
         qbittorrent
         vlc
-        slack
-        ayugram-desktop
         easyeffects
         protonup-qt
         inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.twilight
-        inputs.freesmlauncher.packages.${system}.freesmlauncher
         gamemode
         wget
         git
