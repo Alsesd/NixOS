@@ -54,6 +54,7 @@
         zsh-nix-shell
         nixd
 
+        antigravity-cli
         anytype
         anydesk
       ];
