@@ -2,7 +2,7 @@
 _: {
   flake.nixosModules.noctalia = {
     config,
-    pkgs,
+    inputs,
     vars,
     ...
   }: let
@@ -10,11 +10,13 @@ _: {
     fonts = config.stylix.fonts;
   in {
     home-manager.users.${vars.username} = {
-      home.packages = with pkgs; [
-        quickshell
-        noctalia-shell
+      imports = [
+        inputs.noctalia.homeModules.default
       ];
 
+      programs.noctalia = {
+        enable = true;
+      };
       xdg.configFile."noctalia/settings.json".text = builtins.toJSON {
         appLauncher = {
           customLaunchPrefix = "";
