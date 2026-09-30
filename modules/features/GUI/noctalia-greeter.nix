@@ -1,24 +1,13 @@
 {
   flake.nixosModules.noctalia-greeter = {
-    inputs,
-    pkgs,
     config,
     vars,
     ...
-  }: let
-    # Pull the package directly from the flake input (or use pkgs if provided via overlay)
-    noctaliaGreeterPkg = inputs.noctalia-greeter.packages.${pkgs.system}.default;
-  in {
-    # Import the NixOS module provided by the flake if not already imported in your flake.nix
-    imports = [
-      inputs.noctalia-greeter.nixosModules.default
-    ];
-
+  }: {
     services.displayManager.noctalia-greeter = {
       enable = true;
-      package = noctaliaGreeterPkg;
 
-      # Notice the hyphenated syntax for the flake module:
+      # Allow passwordless sync of wallpaper, palette, and displays from Noctalia Shell
       passwordless-sync-users = [vars.username];
 
       # Stylix cursor integration
@@ -41,8 +30,8 @@
     # Required for user avatar discovery
     services.accounts-daemon.enable = true;
 
-    # Greetd default command (launching directly into Niri)
-    services.greetd.settings.default_session.command = "${noctaliaGreeterPkg}/bin/noctalia-greeter --cmd niri-session";
+    # Greetd default command (launching directly into Niri via the module's resolved package)
+    services.greetd.settings.default_session.command = "${config.services.displayManager.noctalia-greeter.package}/bin/noctalia-greeter --cmd niri-session";
 
     # Expose Stylix fonts system-wide for the unprivileged greeter user
     fonts.packages = [
