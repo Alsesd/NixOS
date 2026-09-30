@@ -16,7 +16,6 @@
       # Wire cursor directly from Stylix
       cursorTheme = {
         package = config.stylix.cursor.package;
-        name = config.stylix.cursor.name;
       };
 
       settings = {
