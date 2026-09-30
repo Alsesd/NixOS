@@ -17,6 +17,7 @@
       permitCertUid = vars.username;
       extraSetFlags = [
         "--operator=${vars.username}"
+        "--ssh"
       ];
     };
 
@@ -42,7 +43,7 @@
         fi
 
         echo "Ensuring Tailscale connects..."
-        ${pkgs.tailscale}/bin/tailscale up --operator=${vars.username} --reset=false || true
+        ${pkgs.tailscale}/bin/tailscale up --operator=${vars.username} --ssh --reset=false || true
       '';
     };
   };
