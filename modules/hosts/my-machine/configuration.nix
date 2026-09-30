@@ -13,7 +13,6 @@
       self.nixosModules.user
 
       self.nixosModules.stylix
-      # self.nixosModules.greetd
       self.nixosModules.niri
       self.nixosModules.noctalia
       self.nixosModules.noctalia-greeter
@@ -41,7 +40,12 @@
       inputs.home-manager.nixosModules.home-manager
       inputs.noctalia-greeter.nixosModules.default
     ];
-    home-manager.useGlobalPkgs = true;
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      backupFileExtension = "backup";
+    };
+
     programs.zsh.enable = true;
 
     nixpkgs.config.allowUnfree = true;
@@ -71,9 +75,13 @@
       "typec.usb_typec.delay=1000" # Increase timeout for USB-C controller
     ];
     security.rtkit.enable = true;
-    networking.networkmanager.wifi = {
-      powersave = false;
-      scanRandMacAddress = false;
+
+    networking.networkmanager = {
+      enable = true;
+      wifi = {
+        powersave = false;
+        scanRandMacAddress = false;
+      };
     };
     services.udev.extraRules = ''
       # NVIDIA device nodes - fix permissions
@@ -83,7 +91,14 @@
       KERNEL=="nvidia-uvm-tools", MODE="0666"
       ACTION=="add|change", KERNEL=="event*", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
     '';
-
+    programs.nh = {
+      enable = true;
+      flake = "/home/alsesd/.config/nixos";
+      clean = {
+        enable = true;
+        extraArgs = "--keep-since 4d --keep 3";
+      };
+    };
     nix = {
       gc = {
         automatic = true;

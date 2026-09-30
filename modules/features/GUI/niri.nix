@@ -196,7 +196,7 @@ _: {
             // See the binds section below for more spawn examples.
 
             // This line starts waybar, a commonly used bar for Wayland compositors.
-            spawn-at-startup "noctalia-shell"
+            spawn-at-startup "noctalia"
             spawn-at-startup "set-wallpapers"
             spawn-at-startup "xwayland-satellite" ":0"
 
@@ -291,7 +291,7 @@ _: {
 
                 // Suggested binds for running programs: terminal, app launcher, screen locker.
                 Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
-                Mod+D hotkey-overlay-title="Run an Application: Launcher" { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
+                Mod+D hotkey-overlay-title="Run an Application: Launcher" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
 
                 // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
                 // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -314,7 +314,7 @@ _: {
 
 
                 Mod+O repeat=false { toggle-overview; }
-                Mod+B {spawn "zen-beta";}
+                Mod+B {spawn "zen-twilight";}
                 Mod+Q repeat=false { close-window; }
                 Mod+E {spawn "kitty" "-e" "yazi";}
                 Mod+Left  { focus-column-left; }
