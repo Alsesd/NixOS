@@ -41,6 +41,7 @@
       inputs.home-manager.nixosModules.home-manager
       inputs.noctalia-greeter.nixosModules.default
     ];
+    home-manager.home.useGlobalPkgs = true;
     programs.zsh.enable = true;
 
     nixpkgs.config.allowUnfree = true;
