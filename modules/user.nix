@@ -21,6 +21,7 @@
       home.homeDirectory = "/home/${vars.username}";
       home.stateVersion = "26.05";
       home.pointerCursor.enable = true;
+      home.useGlobalPkgs = true;
 
       gtk = {
         enable = true;
