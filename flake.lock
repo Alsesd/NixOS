@@ -11,14 +11,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1790688546,
-        "narHash": "sha256-fuMO26FVSMDMhMP/P8R1ChiA7sGDFYCe6rpt0k70mLo=",
-        "path": "/home/alsesd/agy",
-        "type": "path"
+        "lastModified": 1790792777,
+        "narHash": "sha256-ksir5bB1Yu6Ix+IPE4OiybYQnckSUZkJbrM/gud5wjg=",
+        "owner": "Alsesd",
+        "repo": "agydash",
+        "rev": "e9960415423d4746521e3ee91b13b14576ac5637",
+        "type": "github"
       },
       "original": {
-        "path": "/home/alsesd/agy",
-        "type": "path"
+        "owner": "Alsesd",
+        "repo": "agydash",
+        "type": "github"
       }
     },
     "base16": {

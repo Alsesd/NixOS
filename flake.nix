@@ -24,7 +24,7 @@
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
     antigravity = {
-      url = "path:/home/alsesd/agy";
+      url = "github:Alsesd/agydash";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
     };
