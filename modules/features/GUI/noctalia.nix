@@ -10,10 +10,6 @@ _: {
     fonts = config.stylix.fonts;
   in {
     home-manager.users.${vars.username} = {
-      imports = [
-        inputs.noctalia.homeModules.default
-      ];
-
       programs.noctalia = {
         enable = true;
       };
