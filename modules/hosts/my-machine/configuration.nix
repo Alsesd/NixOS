@@ -39,7 +39,7 @@
 
       inputs.stylix.nixosModules.stylix
       inputs.home-manager.nixosModules.home-manager
-      inputs.noctalia-greeter.nixosModules.default
+      # inputs.noctalia-greeter.nixosModules.default
     ];
     programs.zsh.enable = true;
 

@@ -1,27 +1,35 @@
 {
   flake.nixosModules.noctalia-greeter = {
+    inputs,
     pkgs,
     config,
     vars,
     ...
-  }: {
-    # 1. Enable Noctalia Greeter via the official displayManager service
+  }: let
+    # Pull the package directly from the flake input (or use pkgs if provided via overlay)
+    noctaliaGreeterPkg = inputs.noctalia-greeter.packages.${pkgs.system}.default;
+  in {
+    # Import the NixOS module provided by the flake if not already imported in your flake.nix
+    imports = [
+      inputs.noctalia-greeter.nixosModules.default
+    ];
+
     services.displayManager.noctalia-greeter = {
       enable = true;
+      package = noctaliaGreeterPkg;
 
-      # Enable passwordless sync from your user account (Stylix / Noctalia Shell wallpaper & colors)
-      # Note: if using the external project flake module, the option is `passwordless-sync-users`
-      passwordlessSyncUsers = [vars.username];
+      # Notice the hyphenated syntax for the flake module:
+      passwordless-sync-users = [vars.username];
 
-      # Wire cursor directly from Stylix
-      cursorTheme = {
-        package = config.stylix.cursor.package;
-      };
+      # Stylix cursor integration
+      cursorTheme.package = config.stylix.cursor.package;
 
       settings = {
-        cursor.size = config.stylix.cursor.size;
+        cursor = {
+          theme = config.stylix.cursor.name;
+          size = config.stylix.cursor.size;
+        };
 
-        # Keyboard layout configuration
         keyboard = {
           layout = "us,ua";
           options = "grp:alt_shift_toggle";
@@ -30,20 +38,18 @@
       };
     };
 
-    # 2. Accountsservice is required by Noctalia to load user profile pictures/avatars
+    # Required for user avatar discovery
     services.accounts-daemon.enable = true;
 
-    # 3. Ensure your desktop session is selectable or starts Niri
-    services.greetd.settings.default_session.command = "${pkgs.noctalia-greeter}/bin/noctalia-greeter --cmd niri-session";
+    # Greetd default command (launching directly into Niri)
+    services.greetd.settings.default_session.command = "${noctaliaGreeterPkg}/bin/noctalia-greeter --cmd niri-session";
 
-    # 4. Stylix Font Integration for the greeter
-    # Fonts must be installed in systemPackages so the 'greeter' system user can read them
-    # fonts.packages = [
-    #   config.stylix.fonts.sansSerif.package
-    #   config.stylix.fonts.monospace.package
-    # ];
+    # Expose Stylix fonts system-wide for the unprivileged greeter user
+    fonts.packages = [
+      config.stylix.fonts.sansSerif.package
+      config.stylix.fonts.monospace.package
+    ];
 
-    # 5. Security & Polkit
     security.polkit.enable = true;
   };
 }
