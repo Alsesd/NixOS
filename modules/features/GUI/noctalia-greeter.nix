@@ -3,10 +3,8 @@
     pkgs,
     config,
     vars,
-    inputs,
     ...
   }: {
-    imports = [inputs.noctalia-greeter.nixosModules.default];
     # 1. Enable Noctalia Greeter via the official displayManager service
     services.displayManager.noctalia-greeter = {
       enable = true;

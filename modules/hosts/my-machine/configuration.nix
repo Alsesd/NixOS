@@ -35,9 +35,11 @@
 
       self.nixosModules.zed
       self.nixosModules.steam
+      self.nixosModules.antigravity
 
       inputs.stylix.nixosModules.stylix
       inputs.home-manager.nixosModules.home-manager
+      inputs.noctalia-greeter.nixosModules.default
     ];
     programs.zsh.enable = true;
 
