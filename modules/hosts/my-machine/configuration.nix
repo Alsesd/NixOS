@@ -16,6 +16,7 @@
       self.nixosModules.greetd
       self.nixosModules.niri
       self.nixosModules.noctalia
+      self.nixosModules.noctalia-greeter
 
       self.nixosModules.kitty
 
@@ -30,14 +31,13 @@
       self.nixosModules.systemTweaks
       self.nixosModules.wallpaper
       self.nixosModules.tailscale
-      self.nixosModules.antigravity
+      self.nixosModules.agydash
 
       self.nixosModules.zed
       self.nixosModules.steam
 
       inputs.stylix.nixosModules.stylix
       inputs.home-manager.nixosModules.home-manager
-      inputs.noctalia-greeter.nixosModules.default
     ];
     programs.zsh.enable = true;
 

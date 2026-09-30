@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.nixosModules.antigravity = {
+  flake.nixosModules.agydash = {
     pkgs,
     vars ? {username = "alsesd";},
     ...
