@@ -31,7 +31,7 @@
     services.accounts-daemon.enable = true;
 
     # Greetd default command (launching directly into Niri via the module's resolved package)
-    services.greetd.settings.default_session.command = "${config.services.displayManager.noctalia-greeter.package}/bin/noctalia-greeter --cmd niri-session";
+    # services.greetd.settings.default_session.command = "${config.services.displayManager.noctalia-greeter.package}/bin/noctalia-greeter --cmd niri-session";
 
     # Expose Stylix fonts system-wide for the unprivileged greeter user
     fonts.packages = [
