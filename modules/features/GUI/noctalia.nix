@@ -1,5 +1,5 @@
 # modules/features/noctalia.nix
-{inputs, ...}: {
+_: {
   flake.nixosModules.noctalia = {
     config,
     pkgs,

@@ -26,7 +26,6 @@
     antigravity = {
       url = "github:Alsesd/agydash";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
     };
 
     # Keep your other inputs if you still use them

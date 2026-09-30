@@ -54,6 +54,8 @@
         antigravity-cli
         anytype
         anydesk
+
+        nh
       ];
 
       programs.yazi = {

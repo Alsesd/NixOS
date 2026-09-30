@@ -1,8 +1,7 @@
-{ inputs, ... }: {
+{inputs, ...}: {
   flake.nixosModules.antigravity = {
     pkgs,
-    lib,
-    vars ? { username = "alsesd"; },
+    vars ? {username = "alsesd";},
     ...
   }: let
     certDir = "/var/lib/tailscale-certs";
@@ -16,7 +15,7 @@
 
     # Declarative directory provisioning for Tailscale certs with nginx read access
     systemd.tmpfiles.rules = [
-      "d /var/lib/tailscale-certs 0770 alsesd nginx -"
+      "d ${certDir} 0770 ${vars.username} nginx -"
     ];
 
     # Dashboard service running strictly on 127.0.0.1:8765
@@ -31,10 +30,10 @@
     # Systemd service for Tailscale TLS certificate automated provisioning and renewal
     systemd.services.tailscale-cert-provision = {
       description = "Automated Tailscale TLS certificate provisioning and renewal";
-      after = [ "network-online.target" "tailscaled.service" ];
-      wants = [ "network-online.target" "tailscaled.service" ];
-      before = [ "nginx.service" ];
-      wantedBy = [ "multi-user.target" ];
+      after = ["network-online.target" "tailscaled.service"];
+      wants = ["network-online.target" "tailscaled.service"];
+      before = ["nginx.service"];
+      wantedBy = ["multi-user.target"];
 
       serviceConfig = {
         Type = "oneshot";
@@ -44,7 +43,7 @@
       script = ''
         mkdir -p ${certDir}
         chmod 770 ${certDir}
-        chown alsesd:nginx ${certDir} || true
+        chown ${vars.username}:nginx ${certDir} || true
 
         # Ensure a valid certificate exists so Nginx syntax checks and service start cleanly
         if [ ! -f "${certFile}" ] || [ ! -f "${keyFile}" ]; then
@@ -52,13 +51,13 @@
             -keyout "${keyFile}" -out "${certFile}" \
             -subj "/CN=${domain}" 2>/dev/null || true
           chmod 660 ${certFile} ${keyFile} || true
-          chown alsesd:nginx ${certFile} ${keyFile} || true
+          chown ${vars.username}:nginx ${certFile} ${keyFile} || true
         fi
 
         # Provision/renew official Tailscale TLS certificate
         if ${pkgs.tailscale}/bin/tailscale cert --cert-file "${certFile}" --key-file "${keyFile}" "${domain}"; then
           chmod 660 ${certFile} ${keyFile}
-          chown alsesd:nginx ${certFile} ${keyFile}
+          chown ${vars.username}:nginx ${certFile} ${keyFile}
           if ${pkgs.systemd}/bin/systemctl is-active --quiet nginx; then
             ${pkgs.systemd}/bin/systemctl reload nginx || true
           fi
@@ -70,7 +69,7 @@
 
     systemd.timers.tailscale-cert-provision = {
       description = "Daily renewal timer for Tailscale TLS certificate";
-      wantedBy = [ "timers.target" ];
+      wantedBy = ["timers.target"];
       timerConfig = {
         OnCalendar = "daily";
         Persistent = true;
@@ -88,12 +87,15 @@
         sslCertificate = certFile;
         sslCertificateKey = keyFile;
 
-        locations."/agydash" = {
-          proxyPass = "http://127.0.0.1:8765";
+        # Direct /agydash without trailing slash to /agydash/
+        locations."= /agydash" = {
+          return = "301 /agydash/";
+        };
+
+        locations."/agydash/" = {
+          proxyPass = "http://127.0.0.1:8765/";
           proxyWebsockets = true;
           extraConfig = ''
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -103,11 +105,11 @@
         };
 
         locations."/" = {
-          return = "302 /agydash";
+          return = "302 /agydash/";
         };
       };
     };
 
-    networking.firewall.allowedTCPPorts = [ 80 443 ];
+    networking.firewall.allowedTCPPorts = [80 443];
   };
 }

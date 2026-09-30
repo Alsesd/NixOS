@@ -1,12 +1,10 @@
 {
   self,
   inputs,
-  pkgs,
   ...
 }: {
   flake.nixosModules.myMachineConfiguration = {
     pkgs,
-    lib,
     ...
   }: {
     _module.args = {

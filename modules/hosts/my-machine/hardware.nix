@@ -1,12 +1,7 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+_: {
   flake.nixosModules.myMachineHardware = {
     config,
     lib,
-    pkgs,
     modulesPath,
     ...
   }: {

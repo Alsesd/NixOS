@@ -1,5 +1,5 @@
 {
-  flake.nixosModules.vars = {...}: {
+  flake.nixosModules.vars = _: {
     _module.args.vars = {
       username = "alsesd";
       # Using a string here is safer to prevent build errors if the file is missing

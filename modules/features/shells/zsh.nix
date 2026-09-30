@@ -1,12 +1,9 @@
 {
   flake.nixosModules.zsh = {
-    config,
     pkgs,
     vars,
     ...
-  }: let
-    colors = config.lib.stylix.colors;
-  in {
+  }: {
     home-manager.users.${vars.username} = {
       programs.zsh = {
         enable = true;

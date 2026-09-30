@@ -1,7 +1,6 @@
 {
   flake.nixosModules.tailscale = {
     pkgs,
-    lib,
     vars ? { username = "alsesd"; },
     ...
   }: {

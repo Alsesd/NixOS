@@ -1,7 +1,5 @@
 {
   flake.nixosModules.systemTweaks = {
-    config,
-    pkgs,
     vars,
     ...
   }: {
