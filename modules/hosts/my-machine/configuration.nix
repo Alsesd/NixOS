@@ -13,7 +13,7 @@
       self.nixosModules.user
 
       self.nixosModules.stylix
-      self.nixosModules.greetd
+      # self.nixosModules.greetd
       self.nixosModules.niri
       self.nixosModules.noctalia
       self.nixosModules.noctalia-greeter
