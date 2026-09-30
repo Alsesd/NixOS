@@ -8,7 +8,7 @@
       home.packages = with pkgs; [
         antigravity-cli
       ];
-      programs.antigravity = {
+      programs.antigravity-cli = {
         enable = true;
         permissions = {
           allow = [];
