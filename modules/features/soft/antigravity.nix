@@ -16,7 +16,7 @@
           deny = [];
         };
         skills = [];
-        mcpServers = [];
+        mcpServers = {};
       };
     };
   };
