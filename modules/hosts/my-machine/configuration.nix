@@ -131,6 +131,7 @@
 
     services.upower.enable = true;
     services.blueman.enable = true;
+    services.speechd.enable = false;
     nix.settings.experimental-features = ["nix-command" "flakes"];
     system.stateVersion = "26.05";
   };
