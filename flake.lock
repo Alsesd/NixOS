@@ -90,6 +90,26 @@
         "type": "github"
       }
     },
+    "blip": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790637908,
+        "narHash": "sha256-3zfuQ/4wIthcuqeM8q2OB2GX/YQHF6AdAMzjWrN1YI4=",
+        "owner": "blip-net",
+        "repo": "nix",
+        "rev": "a2c6c382f03e44bd61af5a8757f83fc54b9beda4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "blip-net",
+        "repo": "nix",
+        "type": "github"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -452,6 +472,7 @@
     "root": {
       "inputs": {
         "antigravity": "antigravity",
+        "blip": "blip",
         "flake-parts": "flake-parts_2",
         "home-manager": "home-manager",
         "import-tree": "import-tree_2",

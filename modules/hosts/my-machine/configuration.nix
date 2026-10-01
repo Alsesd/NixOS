@@ -35,6 +35,7 @@
       self.nixosModules.zed
       self.nixosModules.steam
       self.nixosModules.antigravity
+      self.nixosModules.blip
 
       inputs.stylix.nixosModules.stylix
       inputs.home-manager.nixosModules.home-manager
