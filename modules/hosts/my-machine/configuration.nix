@@ -53,7 +53,7 @@
     };
 
     programs.zsh.enable = true;
-programs.mosh.enable = true;
+    programs.mosh.enable = true;
     nixpkgs.config.allowUnfree = true;
 
     xdg.autostart.enable = true;

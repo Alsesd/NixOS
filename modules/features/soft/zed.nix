@@ -38,7 +38,7 @@
 
         base_keymap = "VSCode";
 
-        auto_update = false;
+        auto_update = true;
         auto_install_extensions = {};
 
         tab_bar = {
@@ -73,17 +73,6 @@
             title = true;
           };
           working_directory = "current_project_directory";
-        };
-
-        assistant = {
-          enabled = true;
-          default_model = {
-            provider = "openrouter";
-            model = "healer-alpha";
-          };
-          version = "2";
-          button = true;
-          dock = "right";
         };
 
         node = {
@@ -167,10 +156,6 @@
           button = false;
         };
 
-        notification_panel = {
-          button = true;
-          dock = "right";
-        };
 
         preview_tabs = {
           enabled = true;

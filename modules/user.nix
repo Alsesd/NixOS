@@ -52,6 +52,8 @@
 
             nh
             antigravity-cli
+            antigravity-ide
+            nodejs_26
           ];
         };
 
