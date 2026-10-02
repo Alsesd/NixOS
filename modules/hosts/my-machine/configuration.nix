@@ -38,6 +38,7 @@
       self.nixosModules.audio
       self.nixosModules.mosh
 
+      self.nixosModules.antigravity
       self.nixosModules.zed
       self.nixosModules.steam
       self.nixosModules.blip
@@ -52,8 +53,6 @@
       backupFileExtension = "backup";
     };
 
-    programs.zsh.enable = true;
-    programs.mosh.enable = true;
     nixpkgs.config.allowUnfree = true;
 
     xdg.autostart.enable = true;
@@ -105,13 +104,13 @@
       speechd.enable = false;
     };
 
-    programs.nh = {
-      enable = true;
-      flake = "/home/${vars.username}/.config/nixos";
-      clean = {
+    programs = {
+      nh = {
         enable = true;
         extraArgs = "--keep-since 4d --keep 3";
       };
+      zsh.enable = true;
+      mosh.enable = true;
     };
 
     nix = {
