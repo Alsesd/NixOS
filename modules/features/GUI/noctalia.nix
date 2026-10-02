@@ -1,14 +1,9 @@
 # modules/features/noctalia.nix
 _: {
   flake.nixosModules.noctalia = {
-    config,
-    inputs,
     vars,
     ...
-  }: let
-    colors = config.lib.stylix.colors;
-    fonts = config.stylix.fonts;
-  in {
+  }: {
     home-manager.users.${vars.username} = {
       programs.noctalia = {
         enable = true;

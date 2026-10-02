@@ -4,14 +4,19 @@
     config,
     ...
   }: {
-    hardware.bluetooth.enable = true;
-    hardware.tuxedo-drivers.enable = true;
-    boot.extraModulePackages = [config.boot.kernelPackages.acpi_call];
-    boot.kernelModules = ["msr" "tuxedo_io" "tuxedo_keyboard" "ec_sys" "acpi_call"];
-    boot.extraModprobeConfig = ''
-      options ec_sys write_support=1
-    '';
-    hardware.cpu.intel.updateMicrocode = true;
+    hardware = {
+      bluetooth.enable = true;
+      tuxedo-drivers.enable = true;
+      cpu.intel.updateMicrocode = true;
+    };
+
+    boot = {
+      extraModulePackages = [config.boot.kernelPackages.acpi_call];
+      kernelModules = ["msr" "tuxedo_io" "tuxedo_keyboard" "ec_sys" "acpi_call"];
+      extraModprobeConfig = ''
+        options ec_sys write_support=1
+      '';
+    };
     # ============================================================================
     # UNDERVOLT
     # ============================================================================

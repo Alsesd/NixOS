@@ -39,6 +39,9 @@
       config.stylix.fonts.monospace.package
     ];
 
-    security.polkit.enable = true;
+    security = {
+      polkit.enable = true;
+      pam.services.greetd.enableGnomeKeyring = true;
+    };
   };
 }

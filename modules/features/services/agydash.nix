@@ -14,9 +14,61 @@
     ];
 
     # Declarative directory provisioning for Tailscale certs with nginx read access
-    systemd.tmpfiles.rules = [
-      "d ${certDir} 0770 ${vars.username} nginx -"
-    ];
+    systemd = {
+      tmpfiles.rules = [
+        "d ${certDir} 0770 ${vars.username} nginx -"
+      ];
+
+      # Systemd service for Tailscale TLS certificate automated provisioning and renewal
+      services.tailscale-cert-provision = {
+        description = "Automated Tailscale TLS certificate provisioning and renewal";
+        after = ["network-online.target" "tailscaled.service"];
+        wants = ["network-online.target" "tailscaled.service"];
+        before = ["nginx.service"];
+        wantedBy = ["multi-user.target"];
+
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+        };
+
+        script = ''
+          mkdir -p ${certDir}
+          chmod 770 ${certDir}
+          chown ${vars.username}:nginx ${certDir} || true
+
+          # Ensure a valid certificate exists so Nginx syntax checks and service start cleanly
+          if [ ! -f "${certFile}" ] || [ ! -f "${keyFile}" ]; then
+            ${pkgs.openssl}/bin/openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+              -keyout "${keyFile}" -out "${certFile}" \
+              -subj "/CN=${domain}" 2>/dev/null || true
+            chmod 660 ${certFile} ${keyFile} || true
+            chown ${vars.username}:nginx ${certFile} ${keyFile} || true
+          fi
+
+          # Provision/renew official Tailscale TLS certificate
+          if ${pkgs.tailscale}/bin/tailscale cert --cert-file "${certFile}" --key-file "${keyFile}" "${domain}"; then
+            chmod 660 ${certFile} ${keyFile}
+            chown ${vars.username}:nginx ${certFile} ${keyFile}
+            if ${pkgs.systemd}/bin/systemctl is-active --quiet nginx; then
+              ${pkgs.systemd}/bin/systemctl reload nginx || true
+            fi
+          else
+            echo "Notice: tailscale cert could not be fetched from control plane yet. Active cert in ${certDir} is preserved."
+          fi
+        '';
+      };
+
+      timers.tailscale-cert-provision = {
+        description = "Daily renewal timer for Tailscale TLS certificate";
+        wantedBy = ["timers.target"];
+        timerConfig = {
+          OnCalendar = "daily";
+          Persistent = true;
+          RandomizedDelaySec = "1h";
+        };
+      };
+    };
 
     # Dashboard service running strictly on 127.0.0.1:8765
     services.antigravity-dashboard = {
@@ -25,56 +77,6 @@
       port = 8765;
       user = vars.username;
       openFirewall = false;
-    };
-
-    # Systemd service for Tailscale TLS certificate automated provisioning and renewal
-    systemd.services.tailscale-cert-provision = {
-      description = "Automated Tailscale TLS certificate provisioning and renewal";
-      after = ["network-online.target" "tailscaled.service"];
-      wants = ["network-online.target" "tailscaled.service"];
-      before = ["nginx.service"];
-      wantedBy = ["multi-user.target"];
-
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-      };
-
-      script = ''
-        mkdir -p ${certDir}
-        chmod 770 ${certDir}
-        chown ${vars.username}:nginx ${certDir} || true
-
-        # Ensure a valid certificate exists so Nginx syntax checks and service start cleanly
-        if [ ! -f "${certFile}" ] || [ ! -f "${keyFile}" ]; then
-          ${pkgs.openssl}/bin/openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-            -keyout "${keyFile}" -out "${certFile}" \
-            -subj "/CN=${domain}" 2>/dev/null || true
-          chmod 660 ${certFile} ${keyFile} || true
-          chown ${vars.username}:nginx ${certFile} ${keyFile} || true
-        fi
-
-        # Provision/renew official Tailscale TLS certificate
-        if ${pkgs.tailscale}/bin/tailscale cert --cert-file "${certFile}" --key-file "${keyFile}" "${domain}"; then
-          chmod 660 ${certFile} ${keyFile}
-          chown ${vars.username}:nginx ${certFile} ${keyFile}
-          if ${pkgs.systemd}/bin/systemctl is-active --quiet nginx; then
-            ${pkgs.systemd}/bin/systemctl reload nginx || true
-          fi
-        else
-          echo "Notice: tailscale cert could not be fetched from control plane yet. Active cert in ${certDir} is preserved."
-        fi
-      '';
-    };
-
-    systemd.timers.tailscale-cert-provision = {
-      description = "Daily renewal timer for Tailscale TLS certificate";
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnCalendar = "daily";
-        Persistent = true;
-        RandomizedDelaySec = "1h";
-      };
     };
 
     # Declarative Nginx reverse proxy
@@ -87,25 +89,27 @@
         sslCertificate = certFile;
         sslCertificateKey = keyFile;
 
-        # Direct /agydash without trailing slash to /agydash/
-        locations."= /agydash" = {
-          return = "301 /agydash/";
-        };
+        locations = {
+          # Direct /agydash without trailing slash to /agydash/
+          "= /agydash" = {
+            return = "301 /agydash/";
+          };
 
-        locations."/agydash/" = {
-          proxyPass = "http://127.0.0.1:8765/";
-          proxyWebsockets = true;
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_read_timeout 86400s;
-            proxy_send_timeout 86400s;
-          '';
-        };
+          "/agydash/" = {
+            proxyPass = "http://127.0.0.1:8765/";
+            proxyWebsockets = true;
+            extraConfig = ''
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_read_timeout 86400s;
+              proxy_send_timeout 86400s;
+            '';
+          };
 
-        locations."/" = {
-          return = "302 /agydash/";
+          "/" = {
+            return = "302 /agydash/";
+          };
         };
       };
     };

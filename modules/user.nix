@@ -20,10 +20,40 @@
       useGlobalPkgs = true;
 
       users.${vars.username} = {
-        home.username = vars.username;
-        home.homeDirectory = "/home/${vars.username}";
-        home.stateVersion = "26.05";
-        home.pointerCursor.enable = true;
+        home = {
+          inherit (vars) username;
+          homeDirectory = "/home/${vars.username}";
+          stateVersion = "26.05";
+          pointerCursor.enable = true;
+
+          packages = with pkgs; [
+            discord
+            qbittorrent
+            vlc
+            protonup-qt
+            inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.twilight
+            gamemode
+            wget
+            git
+            usbutils
+            docker
+            fuse
+            fuse3
+            htop
+            nvtopPackages.nvidia
+            alejandra
+            statix
+            deadnix
+            zsh-nix-shell
+            nixd
+
+            anytype
+            anydesk
+
+            nh
+            antigravity-cli
+          ];
+        };
 
         gtk = {
           enable = true;
@@ -31,34 +61,6 @@
             gtk-application-prefer-dark-theme = 1;
           };
         };
-
-        home.packages = with pkgs; [
-          discord
-          qbittorrent
-          vlc
-          easyeffects
-          protonup-qt
-          inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.twilight
-          gamemode
-          wget
-          git
-          usbutils
-          docker
-          fuse
-          fuse3
-          htop
-          nvtopPackages.nvidia
-          alejandra
-          statix
-          deadnix
-          zsh-nix-shell
-          nixd
-
-          anytype
-          anydesk
-
-          nh
-        ];
 
         programs.yazi = {
           enable = true;

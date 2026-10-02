@@ -68,6 +68,7 @@ _: {
            output "DP-3" {
                 mode "1920x1080@180.001"
                 position x=1920 y=0
+                variable-refresh-rate on-demand=true
             }
             output "eDP-1" {
                 mode "1920x1080@60.030"
@@ -199,6 +200,8 @@ _: {
             spawn-at-startup "noctalia"
             spawn-at-startup "set-wallpapers"
             spawn-at-startup "xwayland-satellite" ":0"
+            spawn-at-startup "jamesdsp" "-t"
+            spawn-sh-at-startup "sleep 1 && noisetorch -i"
 
             // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
             // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -249,12 +252,22 @@ _: {
             }
 
             window-rule {
-            match app-id=r#"^steam_app_.*$"#
-            open-fullscreen true
+                match app-id=r#"^steam_app_.*$"#
+                match app-id=r#"^gamescope.*$"#
+                open-fullscreen true
+                variable-refresh-rate true
             }
 
             window-rule {
             open-floating false
+            }
+
+            window-rule {
+                match app-id="jamesdsp"
+                match app-id="noisetorch"
+                match app-id="org.pulseaudio.pavucontrol"
+                match app-id="com.saivert.pwvucontrol"
+                open-floating true
             }
 
             // Example: block out two password managers from screen capture.

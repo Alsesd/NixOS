@@ -3,7 +3,11 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.myMachineConfiguration = {pkgs, ...}: {
+  flake.nixosModules.myMachineConfiguration = {
+    pkgs,
+    vars,
+    ...
+  }: {
     _module.args = {
       inherit inputs self;
     };
@@ -31,10 +35,10 @@
       self.nixosModules.wallpaper
       self.nixosModules.tailscale
       self.nixosModules.agydash
+      self.nixosModules.audio
 
       self.nixosModules.zed
       self.nixosModules.steam
-      self.nixosModules.antigravity
       self.nixosModules.blip
 
       inputs.stylix.nixosModules.stylix
@@ -53,16 +57,23 @@
 
     xdg.autostart.enable = true;
     security.polkit.enable = true;
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+    security.rtkit.enable = true;
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot = {
+      loader = {
+        systemd-boot.enable = true;
+        efi.canTouchEfiVariables = true;
+      };
 
-    boot.blacklistedKernelModules = ["psmouse" "rtsx_pci"];
-    boot.kernel.sysctl = {
-      "fs.inotify.max_user_watches" = 524288;
-      "fs.inotify.max_user_instances" = 1024;
+      kernelPackages = pkgs.linuxPackages_latest;
+
+      blacklistedKernelModules = ["psmouse" "rtsx_pci" "i2c_nvidia_gpu" "ucsi_ccg"];
+      kernel.sysctl = {
+        "fs.inotify.max_user_watches" = 524288;
+        "fs.inotify.max_user_instances" = 1024;
+      };
     };
+
     virtualisation.docker.enable = true;
 
     zramSwap = {
@@ -71,47 +82,44 @@
       memoryPercent = 50;
       priority = 100;
     };
-    boot.kernelModules = ["typec"];
-    boot.kernelParams = [
-      "typec.usb_typec.delay=1000" # Increase timeout for USB-C controller
-    ];
-    security.rtkit.enable = true;
 
-    networking.networkmanager = {
-      enable = true;
-      wifi = {
-        powersave = false;
-        scanRandMacAddress = false;
+    networking = {
+      hostName = "nixos";
+      networkmanager = {
+        enable = true;
+        wifi = {
+          powersave = false;
+          scanRandMacAddress = false;
+        };
       };
     };
-    services.udev.extraRules = ''
-      # NVIDIA device nodes - fix permissions
-      KERNEL=="nvidia[0-9]*", MODE="0666"
-      KERNEL=="nvidiactl", MODE="0666"
-      KERNEL=="nvidia-uvm", MODE="0666"
-      KERNEL=="nvidia-uvm-tools", MODE="0666"
-      ACTION=="add|change", KERNEL=="event*", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
-    '';
+
+    services = {
+      udev.extraRules = ''
+        ACTION=="add|change", KERNEL=="event*", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
+      '';
+      acpid.enable = true;
+      upower.enable = true;
+      blueman.enable = true;
+      speechd.enable = false;
+    };
+
     programs.nh = {
       enable = true;
-      flake = "/home/alsesd/.config/nixos";
+      flake = "/home/${vars.username}/.config/nixos";
       clean = {
         enable = true;
         extraArgs = "--keep-since 4d --keep 3";
       };
     };
+
     nix = {
-      gc = {
-        automatic = true;
-        persistent = true;
-        dates = "weekly";
-        options = "--delete-generations +5";
-      };
       optimise = {
         automatic = true;
         dates = "daily";
       };
       settings = {
+        experimental-features = ["nix-command" "flakes"];
         fallback = true;
         download-buffer-size = 134217728;
         auto-optimise-store = true;
@@ -127,12 +135,6 @@
         ];
       };
     };
-    services.acpid.enable = true;
-
-    services.upower.enable = true;
-    services.blueman.enable = true;
-    services.speechd.enable = false;
-    nix.settings.experimental-features = ["nix-command" "flakes"];
     system.stateVersion = "26.05";
   };
 }
