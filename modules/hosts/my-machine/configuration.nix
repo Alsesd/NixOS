@@ -53,6 +53,8 @@
       backupFileExtension = "backup";
     };
 
+    programs.zsh.enable = true;
+    programs.mosh.enable = true;
     nixpkgs.config.allowUnfree = true;
 
     xdg.autostart.enable = true;
@@ -104,13 +106,13 @@
       speechd.enable = false;
     };
 
-    programs = {
-      nh = {
+    programs.nh = {
+      enable = true;
+      flake = "/home/${vars.username}/.config/nixos";
+      clean = {
         enable = true;
         extraArgs = "--keep-since 4d --keep 3";
       };
-      zsh.enable = true;
-      mosh.enable = true;
     };
 
     nix = {

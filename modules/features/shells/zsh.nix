@@ -17,10 +17,7 @@
           ip-show = "curl ifconfig.me";
 
           my-system = "cd /home/alsesd/.config/nixos";
-          nixos-update = "cd /home/alsesd/.config/nixos && nix flake update && git add -A && git commit -m \"update\" && sudo nixos-rebuild boot --flake ~/.config/nixos#nixos";
-
-          nixos-switch = "sudo nixos-rebuild switch --flake ~/.config/nixos#nixos";
-          nixos-test = "sudo nixos-rebuild test --flake ~/.config/nixos#nixos";
+          nixos-update = "cd /home/alsesd/.config/nixos && nix flake update && git add -A && git commit -m \"update\" && nh os boot";
 
           docker-pyinstaller = "docker run -v \"$(pwd):/src/\" cdrx/pyinstaller-windows \"pyinstaller --onefile\"";
           js = "just ~/.config/nixos/";

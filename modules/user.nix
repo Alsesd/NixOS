@@ -51,9 +51,6 @@
             anydesk
 
             nh
-            antigravity-cli
-            antigravity-ide
-            google-chrome
             nodejs_26
           ];
         };
