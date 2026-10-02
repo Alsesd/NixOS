@@ -36,6 +36,7 @@
       self.nixosModules.tailscale
       self.nixosModules.agydash
       self.nixosModules.audio
+      self.nixosModules.mosh
 
       self.nixosModules.zed
       self.nixosModules.steam
@@ -52,7 +53,7 @@
     };
 
     programs.zsh.enable = true;
-
+programs.mosh.enable = true;
     nixpkgs.config.allowUnfree = true;
 
     xdg.autostart.enable = true;
