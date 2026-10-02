@@ -46,6 +46,7 @@
             deadnix
             zsh-nix-shell
             nixd
+            nil
 
             anytype
             anydesk
