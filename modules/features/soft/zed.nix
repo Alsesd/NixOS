@@ -13,28 +13,60 @@
         zed-editor
       ];
 
-      xdg.configFile."zed/settings.json".text = builtins.toJSON {
-        telemetry = {
-          diagnostics = false;
-          metrics = false;
-        };
+      xdg.configFile."zed/settings.json" = {
+        force = true;
+        text = builtins.toJSON {
+          context_servers = {
+            mcp-server-memory = {
+              enabled = true;
+              remote = false;
+              settings = {
+                memory_file_path = "";
+              };
+            };
+            browser-tools-context-server = {
+              enabled = true;
+              remote = false;
+              settings = {};
+            };
+            mcp-server-github = {
+              enabled = true;
+              remote = false;
+              settings = {};
+            };
+          };
 
-        features = {
-          copilot = false;
-        };
+          agent_servers = {
+            antigravity-acp = {
+              type = "registry";
+            };
+          };
 
-        vim_mode = false;
-        ui_font_size = fonts.sizes.applications;
-        buffer_font_size = fonts.sizes.applications;
+          document_folding_ranges = "on";
+          semantic_tokens = "combined";
+          cli_default_open_behavior = "new_window";
 
-        ui_font_family = fonts.sansSerif.name;
-        buffer_font_family = fonts.monospace.name;
+          telemetry = {
+            diagnostics = false;
+            metrics = false;
+          };
 
-        theme = {
-          mode = "dark";
-          light = "One Light";
-          dark = "Gruvbox Dark Hard";
-        };
+          features = {
+            copilot = false;
+          };
+
+          vim_mode = false;
+          ui_font_size = fonts.sizes.applications;
+          buffer_font_size = fonts.sizes.applications;
+
+          ui_font_family = fonts.sansSerif.name;
+          buffer_font_family = fonts.monospace.name;
+
+          theme = {
+            mode = "dark";
+            light = "One Light";
+            dark = "Gruvbox Dark Hard";
+          };
 
         base_keymap = "VSCode";
 
@@ -100,6 +132,8 @@
 
         languages = {
           Nix = {
+            format_on_save = "on";
+            hard_tabs = true;
             language_servers = ["nixd"];
             formatter = {
               external = {
@@ -190,8 +224,11 @@
           disabled_globs = [".env"];
         };
       };
+    };
 
-      xdg.configFile."zed/themes/gruvbox-stylix.json".text = builtins.toJSON {
+      xdg.configFile."zed/themes/gruvbox-stylix.json" = {
+        force = true;
+        text = builtins.toJSON {
         "$schema" = "https://zed.dev/schema/themes/v0.1.0.json";
         name = "Gruvbox Stylix";
         author = "Stylix";
@@ -391,6 +428,7 @@
           }
         ];
       };
+    };
     };
   };
 }

@@ -608,16 +608,19 @@ _: {
       #   mTertiary = "#${colors.base0D}";
       # };
 
-      xdg.configFile."noctalia/plugins.json".text = builtins.toJSON {
-        sources = [
-          {
-            enabled = true;
-            name = "Official Noctalia Plugins";
-            url = "https://github.com/noctalia-dev/noctalia-plugins";
-          }
-        ];
-        states = {};
-        version = 1;
+      xdg.configFile."noctalia/plugins.json" = {
+        force = true;
+        text = builtins.toJSON {
+          sources = [
+            {
+              enabled = true;
+              name = "Official Noctalia Plugins";
+              url = "https://github.com/noctalia-dev/noctalia-plugins";
+            }
+          ];
+          states = {};
+          version = 1;
+        };
       };
     };
   };
