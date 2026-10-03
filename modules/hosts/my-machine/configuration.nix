@@ -49,39 +49,20 @@
         inputs.home-manager.nixosModules.home-manager
         inputs.noctalia-greeter.nixosModules.default
       ];
+
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
         backupFileExtension = "backup";
       };
 
-      programs.zsh.enable = true;
       programs.mosh.enable = true;
       nixpkgs.config.allowUnfree = true;
 
-      xdg.autostart.enable = true;
       security.polkit.enable = true;
       security.rtkit.enable = true;
 
-      boot = {
-        loader = {
-          systemd-boot.enable = true;
-          efi.canTouchEfiVariables = true;
-        };
-
-        kernelPackages = pkgs.linuxPackages_latest;
-
-        blacklistedKernelModules = [
-          "psmouse"
-          "rtsx_pci"
-          "i2c_nvidia_gpu"
-          "ucsi_ccg"
-        ];
-        kernel.sysctl = {
-          "fs.inotify.max_user_watches" = 524288;
-          "fs.inotify.max_user_instances" = 1024;
-        };
-      };
+      boot.kernelPackages = pkgs.linuxPackages_latest;
 
       virtualisation.docker.enable = true;
 
@@ -147,6 +128,6 @@
           ];
         };
       };
-      system.stateVersion = "26.05";
+      system.stateVersion = "26.11";
     };
 }
