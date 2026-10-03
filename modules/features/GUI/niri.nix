@@ -5,10 +5,55 @@ _: {
     ...
   }: {
     programs.niri.enable = true;
+    programs.xwayland.enable = true;
     services.displayManager.sessionPackages = [pkgs.niri];
-    environment.systemPackages = with pkgs; [
-      xwayland-satellite
-    ];
+
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+      ];
+      config = {
+        common.default = [ "gtk" ];
+        niri = {
+          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+          "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+          "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        };
+      };
+    };
+
+    environment = {
+      systemPackages = with pkgs; [
+        xwayland-satellite
+        wayland-utils
+        wayland-protocols
+        wev
+        xdg-utils
+        xdg-user-dirs
+
+        qt5.qtwayland
+        qt6.qtwayland
+        gtk3
+        gtk4
+
+        libdisplay-info
+      ];
+
+      sessionVariables = {
+        # --- General Wayland ---
+        NIXOS_OZONE_WL = "1";
+        ELECTRON_OZONE_PLATFORM_HINT = "auto";
+        MOZ_ENABLE_WAYLAND = "1";
+        QT_QPA_PLATFORM = "wayland;xcb";
+        CLUTTER_BACKEND = "wayland";
+        WLR_RENDERER = "vulkan";
+
+        # --- Desktop Identity ---
+        XDG_CURRENT_DESKTOP = "niri";
+        XDG_SESSION_TYPE = "wayland";
+      };
+    };
 
     home-manager.users.${vars.username} = {
       home.packages = with pkgs; [

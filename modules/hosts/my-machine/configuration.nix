@@ -44,6 +44,7 @@
         self.nixosModules.zed
         self.nixosModules.steam
         self.nixosModules.blip
+        self.nixosModules.thunar
 
         inputs.stylix.nixosModules.stylix
         inputs.home-manager.nixosModules.home-manager
