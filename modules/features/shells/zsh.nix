@@ -1,53 +1,48 @@
 {
-  flake.nixosModules.zsh =
-    {
-      pkgs,
-      vars,
-      ...
-    }:
-    {
+  flake.nixosModules.zsh = {
+    pkgs,
+    vars,
+    ...
+  }: {
+    home-manager.users.${vars.username} = {
+      programs.zsh = {
+        enable = true;
+        autocd = true;
+        enableCompletion = true;
+        autosuggestion.enable = true;
+        syntaxHighlighting.enable = true;
 
-      programs.zsh.enable = true;
+        shellAliases = {
+          list-nixos-generations = "nixos-rebuild list-generations";
+          ip-show = "curl ifconfig.me";
 
-      home-manager.users.${vars.username} = {
-        programs.zsh = {
+          my-system = "cd /home/alsesd/.config/nixos";
+          nixos-update = "cd /home/alsesd/.config/nixos && nix flake update && git add -A && git commit -m \"update\" && nh os boot";
+
+          docker-pyinstaller = "docker run -v \"$(pwd):/src/\" cdrx/pyinstaller-windows \"pyinstaller --onefile\"";
+          js = "just ~/.config/nixos/";
+        };
+
+        oh-my-zsh = {
           enable = true;
-          autocd = true;
-          enableCompletion = true;
-          autosuggestion.enable = true;
-          syntaxHighlighting.enable = true;
+          plugins = [
+            "git"
+            "sudo"
+            "command-not-found"
+          ];
+        };
+        initContent = ''
+          # 1. Load the theme from Nix Store
+          source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
 
-          shellAliases = {
-            list-nixos-generations = "nixos-rebuild list-generations";
-            ip-show = "curl ifconfig.me";
-
-            my-system = "cd /home/alsesd/.config/nixos";
-            nixos-update = "cd /home/alsesd/.config/nixos && nix flake update && git add -A && git commit -m \"update\" && nh os boot";
-
-            docker-pyinstaller = "docker run -v \"$(pwd):/src/\" cdrx/pyinstaller-windows \"pyinstaller --onefile\"";
-            js = "just ~/.config/nixos/";
-          };
-
-          oh-my-zsh = {
-            enable = true;
-            plugins = [
-              "git"
-              "sudo"
-              "command-not-found"
-            ];
-          };
-          initContent = ''
-            # 1. Load the theme from Nix Store
-            source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-
-            # 2. Load your config file (created by wizard)
-            [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-          '';
-          history = {
-            size = 10000;
-            path = "$HOME/.local/share/zsh/history";
-          };
+          # 2. Load your config file (created by wizard)
+          [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+        '';
+        history = {
+          size = 10000;
+          path = "$HOME/.local/share/zsh/history";
         };
       };
     };
+  };
 }

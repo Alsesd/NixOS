@@ -1,99 +1,48 @@
 _: {
-  flake.nixosModules.myMachineHardware =
-    {
-      config,
-      lib,
-      modulesPath,
-      ...
-    }:
-    {
-      imports = [
-        (modulesPath + "/installer/scan/not-detected.nix")
-      ];
+  flake.nixosModules.myMachineHardware = {
+    config,
+    lib,
+    modulesPath,
+    ...
+  }: {
+    imports = [
+      (modulesPath + "/installer/scan/not-detected.nix")
+    ];
 
-      boot = {
-        initrd = {
-          availableKernelModules = [
-            "xhci_pci"
-            "ahci"
-            "nvme"
-            "usbhid"
-            "usb_storage"
-            "sd_mod"
-            "rtsx_pci_sdmmc"
-          ];
-        };
-        kernelModules = [
-          "kvm-intel"
-          #cpu
-          "msr"
-          "tuxedo_io"
-          "tuxedo_keyboard"
-          "ec_sys"
-          "acpi_call"
-          #nvidia
-          "nvidia-drm.modeset=1"
-          "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-          "pcie_aspm=off"
-          "intel_pstate=active"
-        ];
-
-        blacklistedKernelModules = [
-          "psmouse"
-          "rtsx_pci"
-          "i2c_nvidia_gpu"
-          "ucsi_ccg"
-        ];
-
-        extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
-
-        extraModprobeConfig = ''
-          options ec_sys write_support=1
-        '';
-
-        loader = {
-          systemd-boot.enable = true;
-          efi.canTouchEfiVariables = true;
-        };
-
-        kernel.sysctl = {
-          "fs.inotify.max_user_watches" = 524288;
-          "fs.inotify.max_user_instances" = 1024;
-        };
-
+    boot = {
+      initrd = {
+        availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+        kernelModules = [];
       };
-
-      fileSystems."/" = {
-        device = "/dev/disk/by-uuid/7481e774-3700-450c-a10d-a05c9b03b17d";
-        fsType = "btrfs";
-        options = [
-          "subvol=@"
-          "noatime"
-        ];
-      };
-
-      fileSystems."/boot" = {
-        device = "/dev/disk/by-uuid/36A9-4EE3";
-        fsType = "vfat";
-        options = [
-          "fmask=0077"
-          "dmask=0077"
-        ];
-      };
-
-      # swapDevices = [
-      # {device = "/dev/disk/by-uuid/3a1491c5-600b-4e96-9158-66246e780aab";}
-      # ];
-
-      # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-      # (the default) this is the recommended approach. When using systemd-networkd it's
-      # still possible to use this option, but it's recommended to use it in conjunction
-      # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-      # networking.useDHCP = lib.mkDefault true;
-      # networking.interfaces.enp8s0f1.useDHCP = lib.mkDefault true;
-      # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
-
-      nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-      hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      kernelModules = ["kvm-intel"];
+      extraModulePackages = [];
     };
+
+    fileSystems."/" = {
+      device = "/dev/disk/by-uuid/7481e774-3700-450c-a10d-a05c9b03b17d";
+      fsType = "btrfs";
+      options = ["subvol=@" "noatime"];
+    };
+
+    fileSystems."/boot" = {
+      device = "/dev/disk/by-uuid/36A9-4EE3";
+      fsType = "vfat";
+      options = ["fmask=0077" "dmask=0077"];
+    };
+
+    # swapDevices = [
+    # {device = "/dev/disk/by-uuid/3a1491c5-600b-4e96-9158-66246e780aab";}
+    # ];
+
+    # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+    # (the default) this is the recommended approach. When using systemd-networkd it's
+    # still possible to use this option, but it's recommended to use it in conjunction
+    # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+    # networking.useDHCP = lib.mkDefault true;
+    # networking.interfaces.enp8s0f1.useDHCP = lib.mkDefault true;
+    # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
+
+    nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+    hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  };
 }
