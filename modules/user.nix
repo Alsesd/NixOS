@@ -25,6 +25,8 @@
       # 2. HOME MANAGER CONFIGURATION (Everything hidden right here!)
       home-manager = {
         useGlobalPkgs = true;
+        useUserPackages = true;
+        backupFileExtension = "backup";
 
         users.${vars.username} = {
           home = {

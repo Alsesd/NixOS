@@ -50,19 +50,7 @@
         inputs.home-manager.nixosModules.home-manager
         inputs.noctalia-greeter.nixosModules.default
       ];
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        backupFileExtension = "backup";
-      };
-
-      programs.zsh.enable = true;
-      programs.mosh.enable = true;
       nixpkgs.config.allowUnfree = true;
-
-      xdg.autostart.enable = true;
-      security.polkit.enable = true;
-      security.rtkit.enable = true;
 
       boot = {
         loader = {

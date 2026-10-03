@@ -4,6 +4,8 @@
     vars,
     ...
   }: {
+    programs.zsh.enable = true;
+
     home-manager.users.${vars.username} = {
       programs.zsh = {
         enable = true;
@@ -16,8 +18,8 @@
           list-nixos-generations = "nixos-rebuild list-generations";
           ip-show = "curl ifconfig.me";
 
-          my-system = "cd /home/alsesd/.config/nixos";
-          nixos-update = "cd /home/alsesd/.config/nixos && nix flake update && git add -A && git commit -m \"update\" && nh os boot";
+          my-system = "cd /home/${vars.username}/.config/nixos";
+          nixos-update = "cd /home/${vars.username}/.config/nixos && nix flake update && git add -A && git commit -m \"update\" && nh os boot";
 
           docker-pyinstaller = "docker run -v \"$(pwd):/src/\" cdrx/pyinstaller-windows \"pyinstaller --onefile\"";
           js = "just ~/.config/nixos/";

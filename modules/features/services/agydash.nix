@@ -1,7 +1,7 @@
 {inputs, ...}: {
   flake.nixosModules.agydash = {
     pkgs,
-    vars ? {username = "alsesd";},
+    vars,
     ...
   }: let
     certDir = "/var/lib/tailscale-certs";

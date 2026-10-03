@@ -6,6 +6,7 @@ _: {
   }: {
     programs.niri.enable = true;
     programs.xwayland.enable = true;
+    xdg.autostart.enable = true;
     services.displayManager.sessionPackages = [pkgs.niri];
 
     xdg.portal = {

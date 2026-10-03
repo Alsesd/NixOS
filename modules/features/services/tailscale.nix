@@ -1,7 +1,7 @@
 {
   flake.nixosModules.tailscale = {
     pkgs,
-    vars ? { username = "alsesd"; },
+    vars,
     ...
   }: {
     environment.systemPackages = [
