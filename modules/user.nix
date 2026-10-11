@@ -1,89 +1,88 @@
 # modules/user.nix
 {
-  flake.nixosModules.user =
-    {
-      pkgs,
-      vars,
-      inputs,
-      ...
-    }:
-    {
-      # 1. SYSTEM USER CREATION
-      users.users.${vars.username} = {
-        isNormalUser = true;
-        description = "My User";
-        extraGroups = [
-          "networkmanager"
-          "wheel"
-          "video"
-          "docker"
-        ];
-        shell = pkgs.zsh;
-      };
-      time.timeZone = "Europe/Kiev";
+  flake.nixosModules.user = {
+    pkgs,
+    vars,
+    inputs,
+    ...
+  }: {
+    # 1. SYSTEM USER CREATION
+    users.users.${vars.username} = {
+      isNormalUser = true;
+      description = "My User";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "video"
+        "docker"
+      ];
+      shell = pkgs.zsh;
+    };
+    time.timeZone = "Europe/Kiev";
 
-      # 2. HOME MANAGER CONFIGURATION (Everything hidden right here!)
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        backupFileExtension = "backup";
+    # 2. HOME MANAGER CONFIGURATION (Everything hidden right here!)
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      backupFileExtension = "backup";
 
-        users.${vars.username} = {
-          home = {
-            inherit (vars) username;
-            homeDirectory = "/home/${vars.username}";
-            stateVersion = "26.05";
-            pointerCursor.enable = true;
+      users.${vars.username} = {
+        home = {
+          inherit (vars) username;
+          homeDirectory = "/home/${vars.username}";
+          stateVersion = "26.05";
+          pointerCursor.enable = true;
 
-            packages = with pkgs; [
-              discord
-              qbittorrent
-              vlc
-              protonup-qt
-              inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.twilight
-              gamemode
-              wget
-              git
-              usbutils
-              docker
-              fuse
-              fuse3
-              htop
-              nvtopPackages.nvidia
-              alejandra
-              statix
-              deadnix
-              zsh-nix-shell
-              nixd
-              nil
+          packages = with pkgs; [
+            discord
+            qbittorrent
+            vlc
+            protonup-qt
+            inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.twilight
+            gamemode
+            wget
+            git
+            usbutils
+            docker
+            fuse
+            fuse3
+            htop
+            nvtopPackages.nvidia
+            alejandra
+            statix
+            deadnix
+            zsh-nix-shell
+            nix-your-shell
+            nixd
+            nil
 
-              anytype
-              anydesk
-              antigravity-ide
-              nh
-              nodejs_26
-            ];
+            anytype
+            anydesk
+            antigravity-ide
+            nh
+            nodejs_26
+          ];
+        };
+
+        gtk = {
+          enable = true;
+          gtk4.extraConfig = {
+            gtk-application-prefer-dark-theme = 1;
           };
+        };
 
-          gtk = {
-            enable = true;
-            gtk4.extraConfig = {
-              gtk-application-prefer-dark-theme = 1;
-            };
-          };
-
-          programs.yazi = {
-            enable = true;
-            shellWrapperName = "y";
-            enableZshIntegration = true;
-            settings = {
-              manager = {
-                show_hidden = true;
-                sort_by = "mtime";
-              };
+        programs.yazi = {
+          enable = true;
+          shellWrapperName = "y";
+          enableZshIntegration = true;
+          settings = {
+            manager = {
+              show_hidden = true;
+              sort_by = "mtime";
             };
           };
         };
       };
     };
+  };
 }

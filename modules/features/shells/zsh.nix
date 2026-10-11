@@ -35,6 +35,8 @@
         };
         initContent = ''
           # 1. Load the theme from Nix Store
+          nix-your-shell zsh | source /dev/stdin
+
           source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
 
           # 2. Load your config file (created by wizard)
