@@ -48,6 +48,16 @@
       url = "github:blip-net/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ajazz-clock-sync = {
+      url = "path:/home/alsesd/myNixos/ajazz-clock-sync";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    ajazz-control-center = {
+      url = "path:/home/alsesd/myNixos/ajazz-control-center";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }
