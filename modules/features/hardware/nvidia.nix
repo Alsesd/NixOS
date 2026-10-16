@@ -2,13 +2,14 @@
   flake.nixosModules.nvidia = {
     config,
     pkgs,
+    vars,
     ...
   }: {
     # ============================================================================
     # HARDWARE & GRAPHICS (NVIDIA)
     # ============================================================================
     services = {
-      xserver.videoDrivers = ["nvidia"];
+      xserver.videoDrivers = [vars.videoDriver];
       udev.extraRules = ''
         # NVIDIA device nodes - fix permissions
         KERNEL=="nvidia[0-9]*", MODE="0666"
@@ -24,7 +25,6 @@
         enable32Bit = true;
         extraPackages = with pkgs; [
           intel-media-driver
-          nvidia-vaapi-driver
           vulkan-loader
           vulkan-tools
           libvdpau-va-gl
@@ -35,7 +35,7 @@
       };
 
       nvidia = {
-        package = config.boot.kernelPackages.nvidiaPackages.latest;
+        package = config.boot.kernelPackages.nvidiaPackages.${vars.nvidiaDriver};
 
         modesetting.enable = true;
         open = false;
@@ -64,9 +64,7 @@
     # ============================================================================
     environment.sessionVariables = {
       # --- NVIDIA Specifics ---
-      LIBVA_DRIVER_NAME = "nvidia";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-      GBM_BACKEND = "nvidia-drm";
 
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
 
@@ -76,7 +74,6 @@
       __GL_MaxFramesAllowed = "1";
       NVD_BACKEND = "direct";
       __GL_SYNC_TO_VBLANK = "0"; # don't wait for vblank on every frame
-      KWIN_DRM_USE_EGL_STREAMS = "0"; # not kwin but good practice
 
       # --- VRR (Adaptive Sync / G-Sync) ---
       __GL_VRR_ALLOWED = "1";

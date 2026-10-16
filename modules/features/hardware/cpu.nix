@@ -10,6 +10,8 @@
       cpu.intel.updateMicrocode = true;
     };
 
+    services.blueman.enable = true;
+
     boot = {
       extraModulePackages = [config.boot.kernelPackages.acpi_call];
       kernelModules = ["msr" "tuxedo_io" "tuxedo_keyboard" "ec_sys" "acpi_call"];

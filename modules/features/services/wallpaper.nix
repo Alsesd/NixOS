@@ -1,5 +1,9 @@
 {
-  flake.nixosModules.wallpaper = {pkgs, ...}: let
+  flake.nixosModules.wallpaper = {
+    pkgs,
+    vars,
+    ...
+  }: let
     set-wallpapers = pkgs.writeShellScriptBin "set-wallpapers" ''
       #!/usr/bin/env bash
       set -euo pipefail
@@ -9,7 +13,7 @@
       sleep 0.5
 
       # Wallpaper path
-      WALLPAPER="$HOME/Pictures/NixWallBin.png"
+      WALLPAPER="${vars.wallpaper}"
 
       # Start single swaybg instance for all outputs
       ${pkgs.swaybg}/bin/swaybg -i "$WALLPAPER" -m fill &

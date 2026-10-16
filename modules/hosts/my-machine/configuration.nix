@@ -3,10 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.myMachineConfiguration = {
-    pkgs,
-    ...
-  }: {
+  flake.nixosModules.myMachineConfiguration = {pkgs, ...}: {
     _module.args = {
       inherit inputs self;
     };
@@ -29,10 +26,9 @@
       # modules/features/hardware/
       cpu
       nvidia
-      my-ajclock
-      my-ajcontrol
 
       # modules/features/GUI/
+      gtk
       niri
       noctalia
       noctalia-greeter
@@ -40,6 +36,7 @@
 
       # modules/features/services/
       audio
+      docker
       mosh
       system-tweaks
       tailscale
@@ -47,14 +44,14 @@
 
       # modules/features/shells/
       fastfetch
-      starship
-      zsh
+      fish
 
       # modules/features/soft/
       blip
       kitty
       steam
       thunar
+      yazi
       zed
 
       # inputs
@@ -65,7 +62,11 @@
 
     nixpkgs.config.allowUnfree = true;
 
-    virtualisation.docker.enable = true;
+    services = {
+      udev.extraRules = ''
+        ACTION=="add|change", KERNEL=="event*", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
+      '';
+    };
 
     networking = {
       hostName = "nixos";
@@ -76,16 +77,6 @@
           scanRandMacAddress = false;
         };
       };
-    };
-
-    services = {
-      udev.extraRules = ''
-        ACTION=="add|change", KERNEL=="event*", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
-      '';
-      acpid.enable = true;
-      upower.enable = true;
-      blueman.enable = true;
-      speechd.enable = false;
     };
 
     system.stateVersion = "26.05";

@@ -1,28 +1,33 @@
 {
   flake.nixosModules.system-tweaks = {vars, ...}: {
-    services.earlyoom = {
-      enable = true;
-      freeMemThreshold = 5;
-      freeSwapThreshold = 5;
-      enableNotifications = true;
-      extraArgs = [
-        "--prefer"
-        "(chrome|firefox|electron|steam|java|python|node|rustc)"
-        "--avoid"
-        "(systemd|ssh|greetd|niri|pipewire|wireplumber)"
-      ];
-    };
+    services = {
+      earlyoom = {
+        enable = true;
+        freeMemThreshold = 5;
+        freeSwapThreshold = 5;
+        enableNotifications = true;
+        extraArgs = [
+          "--prefer"
+          "(chrome|firefox|electron|steam|java|python|node|rustc)"
+          "--avoid"
+          "(systemd|ssh|greetd|niri|pipewire|wireplumber)"
+        ];
+      };
 
-    services.fstrim = {
-      enable = true;
-      interval = "weekly";
+      fstrim = {
+        enable = true;
+        interval = "weekly";
+      };
+
+      acpid.enable = true;
+      upower.enable = true;
     };
 
     home-manager.users.${vars.username} = {
       programs.direnv = {
         enable = true;
         nix-direnv.enable = true;
-        enableZshIntegration = true;
+        enableFishIntegration = true;
         config = {
           global = {
             warn_timeout = "30s";

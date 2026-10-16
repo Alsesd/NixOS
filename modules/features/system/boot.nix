@@ -1,12 +1,16 @@
 _: {
-  flake.nixosModules.boot = {pkgs, ...}: {
+  flake.nixosModules.boot = {
+    pkgs,
+    vars,
+    ...
+  }: {
     boot = {
       loader = {
         systemd-boot.enable = true;
         efi.canTouchEfiVariables = true;
       };
 
-      kernelPackages = pkgs.linuxPackages_latest;
+      kernelPackages = pkgs."linuxPackages_${vars.kernel}";
 
       blacklistedKernelModules = [
         "psmouse"

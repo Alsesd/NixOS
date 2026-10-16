@@ -7,11 +7,28 @@
   }: let
     colors = config.lib.stylix.colors;
     fonts = config.stylix.fonts;
+
+    zedWrapped = pkgs.symlinkJoin {
+      name = "zed-editor";
+      paths = [pkgs.zed-editor];
+      nativeBuildInputs = [pkgs.makeWrapper];
+      postBuild = ''
+        wrapProgram $out/bin/zeditor \
+          --prefix PATH : ${pkgs.lib.makeBinPath [
+          pkgs.nixd
+          pkgs.pyright
+          pkgs.rust-analyzer
+          pkgs.alejandra
+          pkgs.black
+          pkgs.nodejs_22
+        ]}
+        ln -sf $out/bin/zeditor $out/bin/zed
+        ln -sf $out/bin/zeditor $out/bin/zed-editor
+      '';
+    };
   in {
     home-manager.users.${vars.username} = {
-      home.packages = with pkgs; [
-        zed-editor
-      ];
+      home.packages = [zedWrapped];
 
       xdg.configFile."zed/settings.json" = {
         force = true;
@@ -97,7 +114,7 @@
 
           terminal = {
             shell = {
-              program = "zsh";
+              program = "fish";
             };
             font_family = fonts.monospace.name;
             font_size = fonts.sizes.terminal;

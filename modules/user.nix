@@ -14,13 +14,12 @@
         "networkmanager"
         "wheel"
         "video"
-        "docker"
       ];
-      shell = pkgs.zsh;
+      shell = pkgs.fish;
     };
     time.timeZone = "Europe/Kiev";
 
-    # 2. HOME MANAGER CONFIGURATION (Everything hidden right here!)
+    # 2. HOME MANAGER CONFIGURATION
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
@@ -28,10 +27,8 @@
 
       users.${vars.username} = {
         home = {
-          inherit (vars) username;
+          inherit (vars) username stateVersion;
           homeDirectory = "/home/${vars.username}";
-          stateVersion = "26.05";
-          pointerCursor.enable = true;
 
           packages = with pkgs; [
             discord
@@ -43,7 +40,6 @@
             wget
             git
             usbutils
-            docker
             fuse
             fuse3
             htop
@@ -54,25 +50,6 @@
             antigravity-ide
             nodejs_26
           ];
-        };
-
-        gtk = {
-          enable = true;
-          gtk4.extraConfig = {
-            gtk-application-prefer-dark-theme = 1;
-          };
-        };
-
-        programs.yazi = {
-          enable = true;
-          shellWrapperName = "y";
-          enableZshIntegration = true;
-          settings = {
-            manager = {
-              show_hidden = true;
-              sort_by = "mtime";
-            };
-          };
         };
       };
     };

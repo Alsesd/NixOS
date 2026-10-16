@@ -1,10 +1,5 @@
-{
-  flake.nixosModules.mosh = {pkgs, ...}: {
-    programs.mosh = {
-      enable = true;
-      package = pkgs.mosh.overrideAttrs (old: {
-        NIX_CFLAGS_COMPILE = toString (old.NIX_CFLAGS_COMPILE or "") + " -std=c++20";
-      });
-    };
+_: {
+  flake.nixosModules.mosh = {
+    programs.mosh.enable = true;
   };
 }

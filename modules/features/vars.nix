@@ -1,9 +1,20 @@
-{
+_: {
   flake.nixosModules.vars = _: {
     _module.args.vars = {
       username = "alsesd";
-      # Using a string here is safer to prevent build errors if the file is missing
       wallpaper = "/home/alsesd/Pictures/NixWallBin.png";
+
+      # System Defaults
+      terminal = "kitty";
+      editor = "zed";
+      browser = "zen";
+      fileManager = "thunar";
+
+      # System & Kernel Parameters
+      stateVersion = "26.05";
+      kernel = "latest"; # e.g. "latest", "6_12", "xanmod_latest"
+      videoDriver = "nvidia";
+      nvidiaDriver = "latest"; # e.g. "latest", "production", "beta"
     };
   };
 }

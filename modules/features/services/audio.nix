@@ -47,5 +47,7 @@
       rnnoise-plugin
       deepfilternet
     ];
+
+    services.speechd.enable = false;
   };
 }

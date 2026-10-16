@@ -1,6 +1,6 @@
 {
-  flake.nixosModules.python = {pkgs, ...}: {
-    python = pkgs.mkShell {
+  perSystem = {pkgs, ...}: {
+    devShells.python = pkgs.mkShell {
       buildInputs = [
         (pkgs.python312.withPackages (ps:
           with ps; [

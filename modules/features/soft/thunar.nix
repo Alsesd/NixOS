@@ -1,5 +1,9 @@
 {
-  flake.nixosModules.thunar = {pkgs, ...}: {
+  flake.nixosModules.thunar = {
+    pkgs,
+    vars,
+    ...
+  }: {
     # ============================================================================
     # FILE MANAGER & SERVICES
     # ============================================================================
@@ -34,8 +38,8 @@
       ];
 
       sessionVariables = {
-        DEFAULT_FILE_MANAGER = "thunar";
-        FILE_MANAGER = "thunar";
+        DEFAULT_FILE_MANAGER = vars.fileManager;
+        FILE_MANAGER = vars.fileManager;
       };
     };
   };

@@ -113,12 +113,13 @@ _: {
 
            output "DP-3" {
                 mode "1920x1080@180.001"
-                position x=1920 y=0
+                position x=0 y=0
+                focus-at-startup
                 variable-refresh-rate on-demand=true
             }
             output "eDP-1" {
                 mode "1920x1080@60.030"
-                position x=0 y=0
+                position x=-1920 y=0
             }
 
 

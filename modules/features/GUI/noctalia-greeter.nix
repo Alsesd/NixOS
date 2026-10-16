@@ -11,12 +11,11 @@
       passwordless-sync-users = [vars.username];
 
       # Stylix cursor integration
-      cursorTheme.package = config.stylix.cursor.package;
-
       settings = {
         cursor = {
           theme = config.stylix.cursor.name;
           size = config.stylix.cursor.size;
+          path = "${config.stylix.cursor.package}/share/icons/${config.stylix.cursor.name}";
         };
 
         keyboard = {
