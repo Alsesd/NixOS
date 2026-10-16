@@ -48,18 +48,10 @@
             fuse3
             htop
             nvtopPackages.nvidia
-            alejandra
-            statix
-            deadnix
-            zsh-nix-shell
-            nix-your-shell
-            nixd
-            nil
 
             anytype
             anydesk
             antigravity-ide
-            nh
             nodejs_26
           ];
         };

@@ -1,8 +1,5 @@
 {
-  flake.nixosModules.systemTweaks = {
-    vars,
-    ...
-  }: {
+  flake.nixosModules.system-tweaks = {vars, ...}: {
     services.earlyoom = {
       enable = true;
       freeMemThreshold = 5;

@@ -15,11 +15,11 @@ _: {
         xdg-desktop-portal-wlr
       ];
       config = {
-        common.default = [ "gtk" ];
+        common.default = ["gtk"];
         niri = {
-          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-          "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-          "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+          "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
+          "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
+          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
         };
       };
     };
@@ -294,6 +294,8 @@ _: {
                 match app-id=r#"^zen.*$"#
                 match app-id="dev.zed.Zed"
                 match app-id="kitty"
+                match app-id="my-ajcontrol"
+                match app-id="antigravity-ide"
                 open-maximized true
             }
 
@@ -551,8 +553,8 @@ _: {
                 // Mod+Space       { switch-layout "next"; }
                 // Mod+Shift+Space { switch-layout "prev"; }
 
-                Print { screenshot; }
-                Ctrl+Print { screenshot-screen; }
+                Mod+Ctrl+S { screenshot; }
+                Mod+Shift+S { screenshot-screen; }
                 Alt+Print { screenshot-window; }
 
                 Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }

@@ -30,9 +30,12 @@ _: {
       options = ["fmask=0077" "dmask=0077"];
     };
 
-    # swapDevices = [
-    # {device = "/dev/disk/by-uuid/3a1491c5-600b-4e96-9158-66246e780aab";}
-    # ];
+    zramSwap = {
+      enable = true;
+      algorithm = "zstd";
+      memoryPercent = 50;
+      priority = 100;
+    };
 
     # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
     # (the default) this is the recommended approach. When using systemd-networkd it's

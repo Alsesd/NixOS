@@ -23,9 +23,9 @@
     # Automatically ensure Tailscale launches and connects on system start
     systemd.services.tailscale-autoconnect = {
       description = "Automatic connection to Tailscale on boot";
-      after = [ "network-online.target" "tailscaled.service" ];
-      wants = [ "network-online.target" "tailscaled.service" ];
-      wantedBy = [ "multi-user.target" ];
+      after = ["network-online.target" "tailscaled.service"];
+      wants = ["network-online.target" "tailscaled.service"];
+      wantedBy = ["multi-user.target"];
 
       serviceConfig = {
         Type = "oneshot";

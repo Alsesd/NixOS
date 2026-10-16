@@ -1,4 +1,3 @@
-
 {
   flake.nixosModules.kitty = {vars, ...}: {
     home-manager.users.${vars.username} = {

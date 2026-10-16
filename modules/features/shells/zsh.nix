@@ -7,6 +7,11 @@
     programs.zsh.enable = true;
 
     home-manager.users.${vars.username} = {
+      home.packages = with pkgs; [
+        zsh-nix-shell
+        nix-your-shell
+      ];
+
       programs.zsh = {
         enable = true;
         autocd = true;

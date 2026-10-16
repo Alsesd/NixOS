@@ -59,13 +59,6 @@
       nvidia-container-toolkit.enable = true;
     };
 
-    boot.kernelParams = [
-      "nvidia-drm.modeset=1"
-      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-      "pcie_aspm=off"
-      "intel_pstate=active"
-    ];
-
     # ============================================================================
     # ENVIRONMENT & VARIABLES (NVIDIA SPECIFIC)
     # ============================================================================

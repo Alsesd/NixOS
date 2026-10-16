@@ -5,78 +5,67 @@
 }: {
   flake.nixosModules.myMachineConfiguration = {
     pkgs,
-    vars,
     ...
   }: {
     _module.args = {
       inherit inputs self;
     };
 
-    imports = [
-      self.nixosModules.myMachineHardware
-      self.nixosModules.user
+    imports = with self.nixosModules; [
+      # modules/
+      user
 
-      self.nixosModules.stylix
-      self.nixosModules.niri
-      self.nixosModules.noctalia
-      self.nixosModules.noctalia-greeter
+      # modules/hosts/my-machine/
+      myMachineHardware
 
-      self.nixosModules.kitty
+      # modules/features/
+      vars
 
-      self.nixosModules.vars
-      self.nixosModules.nvidia
-      self.nixosModules.cpu
+      # modules/features/system/
+      boot
+      nix
+      nh
 
-      self.nixosModules.zsh
-      self.nixosModules.starship
-      self.nixosModules.fastfetch
+      # modules/features/hardware/
+      cpu
+      nvidia
+      my-ajclock
+      my-ajcontrol
 
-      self.nixosModules.systemTweaks
-      self.nixosModules.wallpaper
-      self.nixosModules.tailscale
-      self.nixosModules.audio
-      self.nixosModules.mosh
+      # modules/features/GUI/
+      niri
+      noctalia
+      noctalia-greeter
+      stylix
 
-      self.nixosModules.zed
-      self.nixosModules.steam
-      self.nixosModules.blip
-      self.nixosModules.thunar
-      self.nixosModules.ajazz
+      # modules/features/services/
+      audio
+      mosh
+      system-tweaks
+      tailscale
+      wallpaper
 
+      # modules/features/shells/
+      fastfetch
+      starship
+      zsh
+
+      # modules/features/soft/
+      blip
+      kitty
+      steam
+      thunar
+      zed
+
+      # inputs
       inputs.stylix.nixosModules.stylix
       inputs.home-manager.nixosModules.home-manager
       inputs.noctalia-greeter.nixosModules.default
     ];
+
     nixpkgs.config.allowUnfree = true;
 
-    boot = {
-      loader = {
-        systemd-boot.enable = true;
-        efi.canTouchEfiVariables = true;
-      };
-
-      kernelPackages = pkgs.linuxPackages_latest;
-
-      blacklistedKernelModules = [
-        "psmouse"
-        "rtsx_pci"
-        "i2c_nvidia_gpu"
-        "ucsi_ccg"
-      ];
-      kernel.sysctl = {
-        "fs.inotify.max_user_watches" = 524288;
-        "fs.inotify.max_user_instances" = 1024;
-      };
-    };
-
     virtualisation.docker.enable = true;
-
-    zramSwap = {
-      enable = true;
-      algorithm = "zstd";
-      memoryPercent = 50;
-      priority = 100;
-    };
 
     networking = {
       hostName = "nixos";
@@ -99,40 +88,6 @@
       speechd.enable = false;
     };
 
-    programs.nh = {
-      enable = true;
-      flake = "/home/${vars.username}/.config/nixos";
-      clean = {
-        enable = true;
-        extraArgs = "--keep-since 4d --keep 3";
-      };
-    };
-
-    nix = {
-      optimise = {
-        automatic = true;
-        dates = "daily";
-      };
-      settings = {
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-        fallback = true;
-        download-buffer-size = 134217728;
-        auto-optimise-store = true;
-        substituters = [
-          "https://cache.nixos.org/"
-          "https://nix-community.cachix.org"
-          "https://cache.nixos-cuda.org" # <-- Replaced old cachix URL here
-        ];
-        trusted-public-keys = [
-          "cache.nixos-org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M=" # <-- Updated key
-        ];
-      };
-    };
     system.stateVersion = "26.05";
   };
 }

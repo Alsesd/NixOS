@@ -16,15 +16,14 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
-
-    antigravity = {
-      url = "github:Alsesd/agydash";
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -33,8 +32,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia";
+    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+
+    antigravity = {
+      url = "github:Alsesd/agydash";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -48,16 +49,6 @@
       url = "github:blip-net/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    ajazz-clock-sync = {
-      url = "path:/home/alsesd/myNixos/ajazz-clock-sync";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    ajazz-control-center = {
-      url = "path:/home/alsesd/myNixos/ajazz-control-center";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
 }

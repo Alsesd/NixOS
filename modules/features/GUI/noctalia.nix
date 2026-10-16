@@ -1,9 +1,6 @@
 # modules/features/noctalia.nix
 _: {
-  flake.nixosModules.noctalia = {
-    vars,
-    ...
-  }: {
+  flake.nixosModules.noctalia = {vars, ...}: {
     home-manager.users.${vars.username} = {
       programs.noctalia = {
         enable = true;

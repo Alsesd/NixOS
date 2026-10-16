@@ -1,8 +1,5 @@
 {
-  flake.nixosModules.audio = {
-    pkgs,
-    ...
-  }: {
+  flake.nixosModules.audio = {pkgs, ...}: {
     # 1. PipeWire infrastructure & low-latency sound server
     services.pipewire = {
       enable = true;
