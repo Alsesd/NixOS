@@ -295,7 +295,6 @@ _: {
                 match app-id=r#"^zen.*$"#
                 match app-id="dev.zed.Zed"
                 match app-id="kitty"
-                match app-id="my-ajcontrol"
                 match app-id="antigravity-ide"
                 open-maximized true
             }

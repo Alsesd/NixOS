@@ -3,11 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.myMachineConfiguration = {
-    pkgs,
-    vars,
-    ...
-  }: {
+  flake.nixosModules.myMachineConfiguration = {pkgs, ...}: {
     _module.args = {
       inherit inputs self;
     };
@@ -20,7 +16,7 @@
       myMachineHardware
 
       # modules/features/
-      self.nixosModules.vars
+      vars
 
       # modules/features/system/
       boot
@@ -30,8 +26,6 @@
       # modules/features/hardware/
       cpu
       nvidia
-      qmk
-      my-ajclock
 
       # modules/features/GUI/
       gtk
@@ -70,13 +64,6 @@
 
     services = {
       udev.extraRules = ''
-        # Ajazz dock / IoT device screen
-        KERNEL=="hidraw*", ATTRS{idVendor}=="3837", ATTRS{idProduct}=="4018", MODE="0666", TAG+="uaccess"
-        SUBSYSTEM=="usb", ATTRS{idVendor}=="3837", ATTRS{idProduct}=="4018", MODE="0666", TAG+="uaccess"
-
-        # AJAZZ 2.4G 8K mouse & receiver
-        KERNEL=="hidraw*", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", MODE="0666", TAG+="uaccess"
-        SUBSYSTEM=="usb", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", MODE="0666", TAG+="uaccess"
         ACTION=="add|change", KERNEL=="event*", ATTRS{idVendor}=="3151", ATTRS{idProduct}=="5007", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
       '';
     };
@@ -91,7 +78,5 @@
         };
       };
     };
-
-    system.stateVersion = vars.stateVersion;
   };
 }
