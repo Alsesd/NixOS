@@ -14,6 +14,8 @@
         "networkmanager"
         "wheel"
         "video"
+        "input"
+        "plugdev"
       ];
       shell = pkgs.fish;
     };

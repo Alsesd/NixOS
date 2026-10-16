@@ -11,7 +11,7 @@ _: {
       fileManager = "thunar";
 
       # System & Kernel Parameters
-      stateVersion = "26.05";
+      stateVersion = "26.11";
       kernel = "latest"; # e.g. "latest", "6_12", "xanmod_latest"
       videoDriver = "nvidia";
       nvidiaDriver = "latest"; # e.g. "latest", "production", "beta"
