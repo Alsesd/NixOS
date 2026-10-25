@@ -6,7 +6,7 @@
   }: {
     hardware = {
       bluetooth.enable = true;
-      tuxedo-drivers.enable = true;
+      tuxedo-drivers.enable = false;
       cpu.intel.updateMicrocode = true;
     };
 

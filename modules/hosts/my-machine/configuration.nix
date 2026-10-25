@@ -48,6 +48,7 @@
 
       # modules/features/soft/
       blip
+      creamlinux
       kitty
       steam
       thunar
