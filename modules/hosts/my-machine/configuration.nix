@@ -43,12 +43,14 @@
       wallpaper
 
       # modules/features/shells/
+      animated-fetch
       fastfetch
       fish
 
       # modules/features/soft/
       blip
       creamlinux
+      helix
       kitty
       steam
       thunar
