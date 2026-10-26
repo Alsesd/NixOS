@@ -13,8 +13,8 @@
     services.blueman.enable = true;
 
     boot = {
-      extraModulePackages = [config.boot.kernelPackages.acpi_call];
-      kernelModules = ["msr" "tuxedo_io" "tuxedo_keyboard" "ec_sys" "acpi_call"];
+      # extraModulePackages = [config.boot.kernelPackages.acpi_call];
+      kernelModules = ["msr" "tuxedo_io" "tuxedo_keyboard" "ec_sys"];
       extraModprobeConfig = ''
         options ec_sys write_support=1
       '';

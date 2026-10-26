@@ -49,7 +49,7 @@
 
             anytype
             anydesk
-            antigravity-ide
+            antigravity-cli
             nodejs_26
           ];
         };

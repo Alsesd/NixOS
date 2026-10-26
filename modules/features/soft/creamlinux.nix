@@ -1,7 +1,12 @@
 # modules/nixos/creamlinux.nix
-{inputs, ...}: {
+{...}: {
   flake.nixosModules.creamlinux = {pkgs, ...}: let
-    unwrapped = import inputs.creamlinux-installer {inherit pkgs;};
+    unwrapped = import (pkgs.fetchFromGitHub {
+      owner = "Novattz";
+      repo = "creamlinux-installer";
+      rev = "main"; # replace with commit hash to pin
+      hash = "sha256-E8oJ073yhtFiCMVuixPvQbdYJNSTxu7ICTGMuq+jce8="; # paste hash from rebuild error
+    }) {inherit pkgs;};
 
     creamlinux = pkgs.symlinkJoin {
       name = "creamlinux-installer";

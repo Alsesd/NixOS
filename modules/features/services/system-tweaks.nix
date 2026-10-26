@@ -18,9 +18,6 @@
         enable = true;
         interval = "weekly";
       };
-
-      acpid.enable = true;
-      upower.enable = true;
     };
 
     home-manager.users.${vars.username} = {
