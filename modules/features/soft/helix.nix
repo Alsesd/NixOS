@@ -10,8 +10,6 @@
         defaultEditor = false;
 
         settings = {
-          theme = "default";
-
           editor = {
             line-number = "relative";
             cursorline = true;
@@ -167,19 +165,48 @@
       programs.git = {
         enable = true;
 
-        extraConfig = {
-          fetch.prune = true;
-          init.defaultBranch = "main";
-          pull.rebase = true;
-          core.editor = "hx";
-        };
+        settings = {
+          user.name = "Alsesd";
+          user.mail = "mr.alsesd@gmail.com";
 
-        aliases = {
-          st = "status -sb";
-          lg = "log --oneline --graph --decorate -20";
-          br = "branch -vv";
-          unstage = "restore --staged";
-          last = "log -1 HEAD --stat";
+          init.defaultBranch = "main";
+
+          # Keep local history tidy.
+          fetch.prune = true;
+          fetch.pruneTags = false;
+          pull.rebase = true;
+          push.autoSetupRemote = true;
+          push.followTags = true;
+
+          # Better diffs and conflict handling.
+          core.editor = "hx";
+          merge.conflictStyle = "zdiff3";
+          diff.algorithm = "histogram";
+          rerere.enabled = true;
+
+          # Safer defaults.
+          help.autocorrect = 0;
+          advice.detachedHead = true;
+
+          # Useful aliases for everyday work.
+          alias = {
+            st = "status -sb";
+            lg = "log --oneline --graph --decorate -20";
+            graph = "log --all --oneline --graph --decorate";
+            br = "branch -vv";
+            branches = "branch --sort=-committerdate";
+            co = "switch";
+            cb = "switch -c";
+            unstage = "restore --staged";
+            undo = "restore";
+            last = "log -1 HEAD --stat";
+            changed = "diff --stat";
+            staged = "diff --cached";
+            amend = "commit --amend";
+            wip = "status --short";
+            gone = "branch -vv --no-abbrev";
+            sync = "!git fetch --prune && git status -sb";
+          };
         };
       };
 

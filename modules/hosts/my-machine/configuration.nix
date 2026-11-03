@@ -43,7 +43,7 @@
       wallpaper
 
       # modules/features/shells/
-      animated-fetch
+      # animated-fetch
       fastfetch
       fish
 

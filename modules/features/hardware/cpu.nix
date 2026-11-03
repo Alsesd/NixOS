@@ -6,15 +6,13 @@
   }: {
     hardware = {
       bluetooth.enable = true;
-      tuxedo-drivers.enable = false;
       cpu.intel.updateMicrocode = true;
     };
 
     services.blueman.enable = true;
 
     boot = {
-      # extraModulePackages = [config.boot.kernelPackages.acpi_call];
-      kernelModules = ["msr" "tuxedo_io" "tuxedo_keyboard" "ec_sys"];
+      kernelModules = ["msr" "ec_sys"];
       extraModprobeConfig = ''
         options ec_sys write_support=1
       '';
